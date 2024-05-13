@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: EduAI
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: ${application.datasource.url}
+    username: ${application.datasource.username}
+    password: ${application.datasource.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+  profiles:
+    active: dev
