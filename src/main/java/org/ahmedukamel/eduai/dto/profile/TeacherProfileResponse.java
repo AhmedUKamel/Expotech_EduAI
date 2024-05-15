@@ -5,7 +5,7 @@ import org.ahmedukamel.eduai.model.enumeration.Nationality;
 
 import java.time.LocalDate;
 
-public record StudentProfileResponse(
+public record TeacherProfileResponse(
         String username,
 
         String email,
@@ -24,10 +24,16 @@ public record StudentProfileResponse(
 
         Integer regionId,
 
+        String number,
+
         String firstName,
 
         String lastName,
 
-        String about
+        String about,
+
+        String phoneNumber,
+
+        String qualification
 ) {
 }

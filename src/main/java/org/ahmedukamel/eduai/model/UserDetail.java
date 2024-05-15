@@ -1,10 +1,7 @@
 package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.ahmedukamel.eduai.model.embeddable.Name;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 
@@ -12,6 +9,9 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "USER_DETAILS")
 @IdClass(value = UserDetail.UserDetailId.class)

@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityFilterChainConfiguration {
-    final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,7 +34,7 @@ public class SecurityFilterChainConfiguration {
                 .sessionManagement(new SessionManagementCustomizer())
                 .exceptionHandling(new ExceptionHandlingCustomizer())
 
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }

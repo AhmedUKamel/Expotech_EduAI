@@ -2,7 +2,7 @@ package org.ahmedukamel.eduai.controller.auth;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import org.ahmedukamel.eduai.dto.auth.StudentRegistrationRequest;
+import org.ahmedukamel.eduai.dto.auth.*;
 import org.ahmedukamel.eduai.service.auth.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +22,12 @@ public class AuthController {
     public ResponseEntity<?> registerStudent(@Valid @RequestBody StudentRegistrationRequest request) {
         return ResponseEntity.created(URI.create("/api/v1/auth/student-registration"))
                 .body(service.registerStudent(request));
+    }
+
+    @PostMapping(value = "teacher-registration")
+    public ResponseEntity<?> registerTeacher(@Valid @RequestBody TeacherRegistrationRequest request) {
+        return ResponseEntity.created(URI.create("/api/v1/auth/teacher-registration"))
+                .body(service.registerTeacher(request));
     }
 
     @PostMapping(value = "login")

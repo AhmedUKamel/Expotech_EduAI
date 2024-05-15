@@ -12,8 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Table(name = "STUDENTS", uniqueConstraints = {
-        @UniqueConstraint(name = "STUDENT_NID_UNIQUE_CONSTRAINT", columnNames = "nid"),
-        @UniqueConstraint(name = "STUDENT_BIRTH_DATE_UNIQUE_CONSTRAINT", columnNames = "birth_date")
+        @UniqueConstraint(name = "STUDENT_NID_UNIQUE_CONSTRAINT", columnNames = "nid")
 })
 public class Student {
     @Id

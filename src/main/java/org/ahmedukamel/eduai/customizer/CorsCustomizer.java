@@ -25,12 +25,13 @@ public class CorsCustomizer implements Customizer<CorsConfigurer<HttpSecurity>> 
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
         corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
-        corsConfiguration.setAllowedMethods(
-                ALLOWED_METHODS
-                        .stream()
-                        .map(HttpMethod::name)
-                        .toList());
-        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setExposedHeaders(Collections.singletonList("*"));
+        corsConfiguration.setAllowedMethods(Collections.singletonList("*"));
+//        corsConfiguration.setAllowedMethods(
+//                ALLOWED_METHODS
+//                        .stream()
+//                        .map(HttpMethod::name)
+//                        .toList());
 
         UrlBasedCorsConfigurationSource corsConfigurationSource =
                 new UrlBasedCorsConfigurationSource();

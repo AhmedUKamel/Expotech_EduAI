@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.ahmedukamel.eduai.annotation.ExistRegion;
-import org.ahmedukamel.eduai.annotation.StudentUniqueNid;
+import org.ahmedukamel.eduai.annotation.TeacherUniqueNid;
 import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
 import org.ahmedukamel.eduai.enumeration.UserUniqueConstraint;
@@ -14,7 +14,7 @@ import org.ahmedukamel.eduai.model.enumeration.Nationality;
 
 import java.time.LocalDate;
 
-public record StudentRegistrationRequest(
+public record TeacherRegistrationRequest(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,
@@ -29,7 +29,7 @@ public record StudentRegistrationRequest(
         String password,
 
         @NotBlank
-        @StudentUniqueNid
+        @TeacherUniqueNid
         String nid,
 
         @NotNull
@@ -44,6 +44,9 @@ public record StudentRegistrationRequest(
 
         @NotNull
         LocalDate birthDate,
+
+        @NotBlank
+        String number,
 
         @NotBlank
         String firstName_en,
@@ -70,6 +73,15 @@ public record StudentRegistrationRequest(
         String about_ar,
 
         @NotBlank
-        String about_fr
+        String about_fr,
+
+        @NotBlank
+        String qualification_en,
+
+        @NotBlank
+        String qualification_ar,
+
+        @NotBlank
+        String qualification_fr
 ) implements UserRegistrationRequest {
 }
