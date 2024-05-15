@@ -2,16 +2,17 @@ package org.ahmedukamel.eduai.service.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
+import org.ahmedukamel.eduai.dto.auth.ParentRegistrationRequest;
 import org.ahmedukamel.eduai.dto.auth.StudentRegistrationRequest;
 import org.ahmedukamel.eduai.dto.auth.TeacherRegistrationRequest;
+import org.ahmedukamel.eduai.dto.profile.ParentProfileResponse;
 import org.ahmedukamel.eduai.dto.profile.StudentProfileResponse;
 import org.ahmedukamel.eduai.dto.profile.TeacherProfileResponse;
+import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.StudentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
-import org.ahmedukamel.eduai.model.AccessToken;
-import org.ahmedukamel.eduai.model.Student;
-import org.ahmedukamel.eduai.model.Teacher;
-import org.ahmedukamel.eduai.model.User;
+import org.ahmedukamel.eduai.model.*;
+import org.ahmedukamel.eduai.saver.auth.ParentSaver;
 import org.ahmedukamel.eduai.saver.auth.StudentSaver;
 import org.ahmedukamel.eduai.saver.auth.TeacherSaver;
 import org.ahmedukamel.eduai.service.access_token.AccessTokenService;
@@ -28,10 +29,12 @@ import java.util.Objects;
 public class AuthService implements IAuthService {
     private final StudentProfileResponseMapper studentProfileResponseMapper;
     private final TeacherProfileResponseMapper teacherProfileResponseMapper;
+    private final ParentProfileResponseMapper parentProfileResponseMapper;
     private final AuthenticationManager authenticationManager;
     private final AccessTokenService accessTokenService;
-    private final TeacherSaver teacherSaver;
     private final StudentSaver studentSaver;
+    private final TeacherSaver teacherSaver;
+    private final ParentSaver parentSaver;
 
     @Override
     public Object registerStudent(Object object) {
@@ -46,7 +49,13 @@ public class AuthService implements IAuthService {
 
     @Override
     public Object registerParent(Object object) {
-        return null;
+        ParentRegistrationRequest request = (ParentRegistrationRequest) object;
+        Parent savedParent = parentSaver.apply(request);
+
+        ParentProfileResponse response = parentProfileResponseMapper.apply(savedParent);
+        String message = "Successful parent registration, check mail inbox for activation email.";
+
+        return new ApiResponse(true, message, response);
     }
 
     @Override

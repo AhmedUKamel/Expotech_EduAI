@@ -10,7 +10,6 @@ import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.model.enumeration.Role;
 import org.ahmedukamel.eduai.repository.TeacherRepository;
-import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -26,7 +25,6 @@ public class TeacherSaver implements Function<TeacherRegistrationRequest, Teache
     @Override
     public Teacher apply(TeacherRegistrationRequest request) {
         PhoneNumber phoneNumber = phoneNumberMapper.apply(request.number());
-        DatabaseService.unique(teacherRepository::existsByPhoneNumber, phoneNumber, Teacher.class);
 
         User savedUser = userSaver.apply(request, Role.TEACHER);
 

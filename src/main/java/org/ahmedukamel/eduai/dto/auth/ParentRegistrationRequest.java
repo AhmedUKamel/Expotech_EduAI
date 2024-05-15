@@ -15,7 +15,7 @@ import org.ahmedukamel.eduai.model.enumeration.Nationality;
 
 import java.time.LocalDate;
 
-public record TeacherRegistrationRequest(
+public record ParentRegistrationRequest(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,
@@ -43,11 +43,8 @@ public record TeacherRegistrationRequest(
         @ExistRegion
         Integer regionId,
 
-        @NotNull
-        LocalDate birthDate,
-
         @NotBlank
-        @UniquePhone(entity = UniquePhoneConstraint.TEACHER)
+        @UniquePhone(entity = UniquePhoneConstraint.PARENT)
         String number,
 
         @NotBlank
@@ -78,12 +75,12 @@ public record TeacherRegistrationRequest(
         String about_fr,
 
         @NotBlank
-        String qualification_en,
+        String occupation_en,
 
         @NotBlank
-        String qualification_ar,
+        String occupation_ar,
 
         @NotBlank
-        String qualification_fr
+        String occupation_fr
 ) implements UserRegistrationRequest {
 }

@@ -24,6 +24,12 @@ public class AuthController {
                 .body(service.registerStudent(request));
     }
 
+    @PostMapping(value = "parent-registration")
+    public ResponseEntity<?> registerParent(@Valid @RequestBody ParentRegistrationRequest request) {
+        return ResponseEntity.created(URI.create("/api/v1/auth/parent-registration"))
+                .body(service.registerParent(request));
+    }
+
     @PostMapping(value = "teacher-registration")
     public ResponseEntity<?> registerTeacher(@Valid @RequestBody TeacherRegistrationRequest request) {
         return ResponseEntity.created(URI.create("/api/v1/auth/teacher-registration"))
