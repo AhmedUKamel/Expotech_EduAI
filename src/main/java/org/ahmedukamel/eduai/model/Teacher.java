@@ -15,16 +15,12 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Table(name = "TEACHERS", uniqueConstraints = {
-        @UniqueConstraint(name = "TEACHER_NID_UNIQUE_CONSTRAINT", columnNames = "nid"),
         @UniqueConstraint(name = "TEACHER_PHONE_NUMBER_UNIQUE_CONSTRAINT", columnNames = {"code", "number"})
 })
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, updatable = false)
-    private String nid;
 
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false, updatable = false)

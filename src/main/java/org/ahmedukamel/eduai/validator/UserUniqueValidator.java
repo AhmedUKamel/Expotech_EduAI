@@ -25,6 +25,7 @@ public class UserUniqueValidator implements ConstraintValidator<UserUnique, Stri
                switch (uniqueConstraint) {
                    case EMAIL -> !repository.existsByEmailIgnoreCase(value.strip());
                    case USERNAME -> !repository.existsByUsernameIgnoreCase(value.strip());
+                   case NID -> !repository.existsByNid(value);
                };
     }
 }

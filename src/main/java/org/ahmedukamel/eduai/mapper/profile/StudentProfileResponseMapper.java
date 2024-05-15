@@ -20,7 +20,7 @@ public class StudentProfileResponseMapper extends UserProfileResponseMapper
                 student.getUser().getEmail(),
                 student.getUser().getPicture(),
                 StringUtils.hasLength(student.getUser().getPicture()),
-                student.getNid(),
+                student.getUser().getNid(),
                 student.getUser().getGender(),
                 student.getUser().getNationality(),
                 student.getBirthDate(),

@@ -3,14 +3,14 @@ package org.ahmedukamel.eduai.dto.auth;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
 
-import java.time.LocalDate;
-
 public interface UserRegistrationRequest {
     String username();
 
     String email();
 
     String password();
+
+    String nid();
 
     Gender gender();
 

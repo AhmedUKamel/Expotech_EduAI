@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.ahmedukamel.eduai.annotation.ExistRegion;
-import org.ahmedukamel.eduai.annotation.TeacherUniqueNid;
 import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
 import org.ahmedukamel.eduai.enumeration.UserUniqueConstraint;
@@ -29,7 +28,7 @@ public record TeacherRegistrationRequest(
         String password,
 
         @NotBlank
-        @TeacherUniqueNid
+        @UserUnique(constraint = UserUniqueConstraint.NID)
         String nid,
 
         @NotNull

@@ -24,6 +24,7 @@ import java.util.Set;
 @Table(name = "USERS", uniqueConstraints = {
         @UniqueConstraint(name = "USER_USERNAME_UNIQUE_CONSTRAINT", columnNames = "username"),
         @UniqueConstraint(name = "USER_EMAIL_UNIQUE_CONSTRAINT", columnNames = "email"),
+        @UniqueConstraint(name = "USER_NATIONAL_ID_UNIQUE_CONSTRAINT", columnNames = "nid"),
         @UniqueConstraint(name = "USER_PICTURE_UNIQUE_CONSTRAINT", columnNames = "picture")
 })
 public class User implements UserDetails {
@@ -39,6 +40,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false, updatable = false)
+    private String nid;
 
     private String picture;
 

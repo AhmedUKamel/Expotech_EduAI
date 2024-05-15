@@ -11,16 +11,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "STUDENTS", uniqueConstraints = {
-        @UniqueConstraint(name = "STUDENT_NID_UNIQUE_CONSTRAINT", columnNames = "nid")
-})
+@Table(name = "STUDENTS")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, updatable = false)
-    private String nid;
 
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false, updatable = false)

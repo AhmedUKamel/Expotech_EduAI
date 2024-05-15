@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.auth.StudentRegistrationRequest;
 import org.ahmedukamel.eduai.model.Student;
 import org.ahmedukamel.eduai.model.User;
+import org.ahmedukamel.eduai.model.enumeration.Role;
 import org.ahmedukamel.eduai.repository.StudentRepository;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +18,10 @@ public class StudentSaver implements Function<StudentRegistrationRequest, Studen
 
     @Override
     public Student apply(StudentRegistrationRequest request) {
-        User savedUser = userSaver.apply(request);
+        User savedUser = userSaver.apply(request, Role.STUDENT);
 
         Student student = Student
                 .builder()
-                .nid(request.nid())
                 .birthDate(request.birthDate())
                 .user(savedUser)
                 .build();

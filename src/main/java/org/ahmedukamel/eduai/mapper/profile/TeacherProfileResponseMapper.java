@@ -24,7 +24,7 @@ public class TeacherProfileResponseMapper extends UserProfileResponseMapper
                 teacher.getUser().getEmail(),
                 teacher.getUser().getPicture(),
                 StringUtils.hasLength(teacher.getUser().getPicture()),
-                teacher.getNid(),
+                teacher.getUser().getNid(),
                 teacher.getUser().getGender(),
                 teacher.getUser().getNationality(),
                 teacher.getBirthDate(),

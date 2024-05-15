@@ -15,17 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 @Component
 @RequiredArgsConstructor
-public class UserSaver implements Function<UserRegistrationRequest, User> {
+public class UserSaver implements BiFunction<UserRegistrationRequest, Role, User> {
     private final RegionRepository regionRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Override
-    public User apply(UserRegistrationRequest request) {
+    public User apply(UserRegistrationRequest request, Role role) {
         Region region = DatabaseService.get(regionRepository::findById, request.regionId(), Region.class);
         String password = passwordEncoder.encode(request.password());
 
@@ -35,7 +35,8 @@ public class UserSaver implements Function<UserRegistrationRequest, User> {
                 .email(request.email().strip().toLowerCase())
                 .password(password)
                 .gender(request.gender())
-                .role(Role.STUDENT)
+                .role(role)
+                .nid(request.nid())
                 .nationality(request.nationality())
                 .region(region)
                 .enabled(true) // Temporary TODO: Send Activation Email
