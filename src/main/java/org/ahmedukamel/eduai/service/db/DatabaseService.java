@@ -4,6 +4,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Optional;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -16,5 +17,11 @@ public class DatabaseService {
     public static <T> void unique(Predicate<T> predicate, T value, Class<?> theClass) {
         if (predicate.test(value))
             throw new EntityExistsException("Entity %s with identifier %s already exists!".formatted(theClass.getSimpleName(), value));
+    }
+
+    public static <T, U> void unique(BiPredicate<T, U> predicate, T value1, U value2, Class<?> theClass) {
+        if (predicate.test(value1, value2))
+            throw new EntityExistsException("Entity %s with identifier %s and %s already exists!"
+                    .formatted(theClass.getSimpleName(), value1, value2));
     }
 }

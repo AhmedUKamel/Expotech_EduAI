@@ -14,11 +14,20 @@ import java.util.function.Function;
 @Component
 @RequiredArgsConstructor
 public class ClassSaver implements Function<CreateClassRequest, Class> {
-    private final ClassRepository classRepository;
     private final SchoolRepository schoolRepository;
+    private final ClassRepository classRepository;
 
     @Override
     public Class apply(CreateClassRequest request) {
+        DatabaseService.unique(classRepository::existsBySchool_IdAndGroupIgnoreCase,
+                request.schoolId(), request.group().strip(), Class.class);
+
+        DatabaseService.unique(classRepository::existsBySchool_IdAndNameIgnoreCase,
+                request.schoolId(), request.name().strip(), Class.class);
+
+        DatabaseService.unique(classRepository::existsBySchool_IdAndNumberIgnoreCase,
+                request.schoolId(), request.number().strip(), Class.class);
+
         Class theClass = new Class();
 
         theClass.setName(request.name().strip());
