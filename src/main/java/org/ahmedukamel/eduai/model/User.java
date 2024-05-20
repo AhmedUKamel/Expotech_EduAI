@@ -10,10 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -72,9 +69,6 @@ public class User implements UserDetails {
     @JoinColumn(nullable = false)
     private Region region;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<UserDetail> details = new HashSet<>();
-
     @OneToOne(mappedBy = "user")
     private Student student;
 
@@ -92,4 +86,10 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<UserDetail> details = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Collection<Section> sections = new ArrayList<>();
 }
