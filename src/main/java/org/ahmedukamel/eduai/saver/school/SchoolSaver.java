@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.school.CreateSchoolRequest;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.repository.SchoolRepository;
+import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
@@ -15,6 +16,10 @@ public class SchoolSaver implements Function<CreateSchoolRequest, School> {
 
     @Override
     public School apply(CreateSchoolRequest request) {
+        DatabaseService.unique(repository::existsByCodeIgnoreCase, request.code().strip(), School.class);
+
+        DatabaseService.unique(repository::existsByNameIgnoreCase, request.name().strip(), School.class);
+
         School school = new School();
 
         school.setName(request.name().strip());

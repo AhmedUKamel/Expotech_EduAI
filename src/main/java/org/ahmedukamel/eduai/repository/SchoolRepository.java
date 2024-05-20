@@ -18,4 +18,8 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
             OFFSET :offset""")
     List<School> selectSchoolsWithPagination(@Param(value = "limit") long limit,
                                              @Param(value = "offset") long offset);
+
+    boolean existsByNameIgnoreCase(String name);
+
+    boolean existsByCodeIgnoreCase(String code);
 }
