@@ -1,5 +1,6 @@
 package org.ahmedukamel.eduai.service.school;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.dto.school.CreateSchoolRequest;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class SchoolManagementService implements ISchoolManagementService {
     private final SchoolResponseMapper schoolResponseMapper;
