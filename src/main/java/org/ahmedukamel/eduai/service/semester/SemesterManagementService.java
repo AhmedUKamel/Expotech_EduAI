@@ -55,7 +55,7 @@ public class SemesterManagementService implements ISemesterManagementService {
 
         String message = "Semester deleted successfully.";
 
-        return new ApiResponse(true, message, semester);
+        return new ApiResponse(true, message, "");
     }
 
     @Override
