@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ahmedukamel.eduai.model.enumeration.SemesterName;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,8 +22,9 @@ public class Semester {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private String name;
+    private SemesterName name;
 
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false)
@@ -31,6 +33,9 @@ public class Semester {
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false)
     private LocalDate end;
+
+    @Column(nullable = false)
+    private Integer year;
 
     @OneToMany(mappedBy = "semester")
     private Collection<Exam> exams = new ArrayList<>();

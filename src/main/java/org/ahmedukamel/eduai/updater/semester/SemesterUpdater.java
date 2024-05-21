@@ -15,7 +15,7 @@ public class SemesterUpdater implements BiFunction<Semester, SemesterRequest, Se
 
     @Override
     public Semester apply(Semester semester, SemesterRequest request) {
-        semester.setName(request.name().strip());
+        semester.setName(request.name());
         semester.setStart(request.start());
         semester.setEnd(request.end());
 

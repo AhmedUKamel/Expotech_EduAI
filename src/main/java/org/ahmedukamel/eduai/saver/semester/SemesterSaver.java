@@ -17,7 +17,7 @@ public class SemesterSaver implements Function<SemesterRequest, Semester> {
     public Semester apply(SemesterRequest request) {
         Semester semester = new Semester();
 
-        semester.setName(request.name().strip());
+        semester.setName(request.name());
         semester.setStart(request.start());
         semester.setEnd(request.end());
 
