@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -29,4 +31,7 @@ public class Semester {
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false)
     private LocalDate end;
+
+    @OneToMany(mappedBy = "semester")
+    private Collection<Exam> exams = new ArrayList<>();
 }

@@ -58,4 +58,7 @@ public class School {
 
     @OneToMany(mappedBy = "school")
     private Collection<Class> classes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "school")
+    private Collection<Exam> exams = new ArrayList<>();
 }

@@ -92,4 +92,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private Collection<Section> sections = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private Collection<Exam> exams = new ArrayList<>();
 }
