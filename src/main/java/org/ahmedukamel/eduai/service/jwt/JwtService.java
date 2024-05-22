@@ -21,7 +21,7 @@ public class JwtService {
 
     public String generateToken(User user) {
         Map<String, Object> claims = Map.of(
-                JwtConstants.REGISTRATION_CLAIM, user.getRegistration().toString(),
+                JwtConstants.REGISTRATION_CLAIM, user.getCreatedAt().toString(),
                 JwtConstants.ROLE_CLAIM, user.getRole().name(),
                 JwtConstants.EMAIL_CLAIM, user.getEmail()
         );

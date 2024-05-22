@@ -19,4 +19,14 @@ public class EnumerationController {
     public ResponseEntity<?> getNationalities() {
         return ResponseEntity.ok().body(service.getNationalities());
     }
+
+    @GetMapping(value = "religion")
+    public ResponseEntity<?> getReligions() {
+        return ResponseEntity.ok().body(service.getReligions());
+    }
+
+    @GetMapping(value = "gender")
+    public ResponseEntity<?> getGenders() {
+        return ResponseEntity.ok().body(service.getGenders());
+    }
 }

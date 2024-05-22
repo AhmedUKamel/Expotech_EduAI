@@ -37,8 +37,10 @@ public class UserSaver implements BiFunction<UserRegistrationRequest, Role, User
                 .gender(request.gender())
                 .role(role)
                 .nid(request.nid())
+                .birthDate(request.birthDate())
                 .nationality(request.nationality())
                 .region(region)
+                .religion(request.religion())
                 .enabled(true) // Temporary TODO: Send Activation Email
                 .accountNonLocked(true)
                 .build();

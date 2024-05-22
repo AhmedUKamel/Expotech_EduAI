@@ -2,6 +2,9 @@ package org.ahmedukamel.eduai.dto.auth;
 
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
+import org.ahmedukamel.eduai.model.enumeration.Religion;
+
+import java.time.LocalDate;
 
 public interface UserRegistrationRequest {
     String username();
@@ -35,4 +38,8 @@ public interface UserRegistrationRequest {
     String about_ar();
 
     String about_fr();
+
+    LocalDate birthDate();
+
+    Religion religion();
 }

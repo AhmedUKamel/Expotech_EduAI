@@ -30,7 +30,6 @@ public class TeacherSaver implements Function<TeacherRegistrationRequest, Teache
 
         Teacher teacher = Teacher
                 .builder()
-                .birthDate(request.birthDate())
                 .phoneNumber(phoneNumber)
                 .user(savedUser)
                 .build();

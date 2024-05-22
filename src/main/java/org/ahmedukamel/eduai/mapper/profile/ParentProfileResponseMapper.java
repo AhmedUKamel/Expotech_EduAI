@@ -4,6 +4,7 @@ import org.ahmedukamel.eduai.dto.profile.ParentProfileResponse;
 import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.model.ParentDetail;
 import org.ahmedukamel.eduai.model.UserDetail;
+import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -14,6 +15,11 @@ import java.util.function.Predicate;
 @Component
 public class ParentProfileResponseMapper extends UserProfileResponseMapper
         implements Function<Parent, ParentProfileResponse> {
+
+    public ParentProfileResponseMapper(MessageSource messageSource) {
+        super(messageSource);
+    }
+
     @Override
     public ParentProfileResponse apply(Parent parent) {
         UserDetail userDetail = super.getDetails(parent.getUser());
@@ -25,9 +31,11 @@ public class ParentProfileResponseMapper extends UserProfileResponseMapper
                 parent.getUser().getPicture(),
                 StringUtils.hasLength(parent.getUser().getPicture()),
                 parent.getUser().getNid(),
-                parent.getUser().getGender(),
-                parent.getUser().getNationality(),
+                super.getGender(parent.getUser()),
+                super.getNationality(parent.getUser()),
+                super.getReligion(parent.getUser()),
                 parent.getUser().getRegion().getId(),
+                parent.getUser().getBirthDate(),
                 parent.getPhoneNumber().toString(),
                 userDetail.getName().getFirst(),
                 userDetail.getName().getLast(),

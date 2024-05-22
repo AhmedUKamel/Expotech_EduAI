@@ -22,10 +22,6 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(value = TemporalType.DATE)
-    @Column(nullable = false, updatable = false)
-    private LocalDate birthDate;
-
     @Embedded
     @AttributeOverrides(value = {
             @AttributeOverride(name = "countryCode", column = @Column(name = "code", nullable = false)),

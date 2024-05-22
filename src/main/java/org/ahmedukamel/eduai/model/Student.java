@@ -17,10 +17,6 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(value = TemporalType.DATE)
-    @Column(nullable = false, updatable = false)
-    private LocalDate birthDate;
-
     @OneToOne
     @JoinColumn(nullable = false, updatable = false)
     private User user;

@@ -12,6 +12,7 @@ import org.ahmedukamel.eduai.enumeration.UniquePhoneConstraint;
 import org.ahmedukamel.eduai.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
+import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
@@ -34,6 +35,9 @@ public record ParentRegistrationRequest(
         String nid,
 
         @NotNull
+        Religion religion,
+
+        @NotNull
         Gender gender,
 
         @NotNull
@@ -42,6 +46,9 @@ public record ParentRegistrationRequest(
         @NotNull
         @ExistRegion
         Integer regionId,
+
+        @NotNull
+        LocalDate birthDate,
 
         @NotBlank
         @UniquePhone(entity = UniquePhoneConstraint.PARENT)

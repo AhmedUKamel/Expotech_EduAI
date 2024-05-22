@@ -10,6 +10,7 @@ import org.ahmedukamel.eduai.constant.RegexConstants;
 import org.ahmedukamel.eduai.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
+import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
@@ -30,6 +31,9 @@ public record StudentRegistrationRequest(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.NID)
         String nid,
+
+        @NotNull
+        Religion religion,
 
         @NotNull
         Gender gender,

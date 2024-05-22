@@ -1,8 +1,5 @@
 package org.ahmedukamel.eduai.dto.profile;
 
-import org.ahmedukamel.eduai.model.enumeration.Gender;
-import org.ahmedukamel.eduai.model.enumeration.Nationality;
-
 import java.time.LocalDate;
 
 public record StudentProfileResponse(
@@ -16,9 +13,11 @@ public record StudentProfileResponse(
 
         String nid,
 
-        Gender gender,
+        String gender,
 
-        Nationality nationality,
+        String nationality,
+
+        String religion,
 
         LocalDate birthDate,
 

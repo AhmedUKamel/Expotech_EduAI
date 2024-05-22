@@ -22,7 +22,6 @@ public class StudentSaver implements Function<StudentRegistrationRequest, Studen
 
         Student student = Student
                 .builder()
-                .birthDate(request.birthDate())
                 .user(savedUser)
                 .build();
 
