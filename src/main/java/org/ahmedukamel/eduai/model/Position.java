@@ -15,8 +15,8 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "DEPARTMENTS")
-public class Department {
+@Table(name = "POSITIONS")
+public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -31,11 +31,8 @@ public class Department {
 
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
-    private School school;
+    private Department department;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Collection<DepartmentDetails> details = new ArrayList<>();
-
-    @OneToMany(mappedBy = "department", orphanRemoval = true)
-    private Collection<Position> positions = new ArrayList<>();
+    @OneToMany(mappedBy = "position", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    public Collection<PositionDetails> details = new ArrayList<>();
 }
