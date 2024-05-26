@@ -14,8 +14,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
             SELECT u
             FROM User u
             WHERE LOWER(u.username) LIKE LOWER(:username)
-            OR LOWER(u.email) LIKE LOWER(:username)""")
-    Optional<User> loadByUsernameOrEmail(@Param("username") String username);
+            OR LOWER(u.email) LIKE LOWER(:username)
+            OR u.nid LIKE :username""")
+    Optional<User> loadByUsernameOrEmailOrNid(@Param("username") String username);
 
     boolean existsByEmailIgnoreCase(String email);
 

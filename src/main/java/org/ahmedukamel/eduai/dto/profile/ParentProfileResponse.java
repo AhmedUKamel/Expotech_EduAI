@@ -15,6 +15,8 @@ public record ParentProfileResponse(
 
         String gender,
 
+        String role,
+
         String nationality,
 
         String religion,

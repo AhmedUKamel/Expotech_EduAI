@@ -43,4 +43,10 @@ public abstract class UserProfileResponseMapper {
                 MessageSourceConstants.ENUMERATION_RELIGION.formatted(user.getReligion()),
                 null, LocaleContextHolder.getLocale());
     }
+
+    public String getRole(User user) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_ROLE.formatted(user.getRole()),
+                null, LocaleContextHolder.getLocale());
+    }
 }

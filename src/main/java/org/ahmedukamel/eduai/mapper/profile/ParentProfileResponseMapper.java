@@ -32,6 +32,7 @@ public class ParentProfileResponseMapper extends UserProfileResponseMapper
                 StringUtils.hasLength(parent.getUser().getPicture()),
                 parent.getUser().getNid(),
                 super.getGender(parent.getUser()),
+                super.getRole(parent.getUser()),
                 super.getNationality(parent.getUser()),
                 super.getReligion(parent.getUser()),
                 parent.getUser().getRegion().getId(),

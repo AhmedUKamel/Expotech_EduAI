@@ -28,6 +28,7 @@ public class StudentProfileResponseMapper extends UserProfileResponseMapper
                 StringUtils.hasLength(student.getUser().getPicture()),
                 student.getUser().getNid(),
                 super.getGender(student.getUser()),
+                super.getRole(student.getUser()),
                 super.getNationality(student.getUser()),
                 super.getReligion(student.getUser()),
                 student.getUser().getBirthDate(),

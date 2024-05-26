@@ -84,9 +84,6 @@ public class User implements UserDetails {
     @JoinColumn(nullable = false)
     private Region region;
 
-    @OneToOne(mappedBy = "user")
-    private Student student;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(this.role);
@@ -101,6 +98,18 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
+    @OneToOne(mappedBy = "user")
+    private Employee employee;
+
+    @OneToOne(mappedBy = "user")
+    private Teacher teacher;
+
+    @OneToOne(mappedBy = "user")
+    private Student student;
+
+    @OneToOne(mappedBy = "user")
+    private Parent parent;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<UserDetail> details = new HashSet<>();

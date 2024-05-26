@@ -36,6 +36,12 @@ public class AuthController {
                 .body(service.registerTeacher(request));
     }
 
+    @PostMapping(value = "employee-registration")
+    public ResponseEntity<?> registerEmployee(@Valid @RequestBody EmployeeRegistrationRequest request) {
+        return ResponseEntity.created(URI.create("/api/v1/auth/employee-registration"))
+                .body(service.registerEmployee(request));
+    }
+
     @PostMapping(value = "login")
     public ResponseEntity<?> loginUser(@NotBlank @RequestParam(value = "username") String username,
                                        @NotBlank @RequestParam(value = "password") String password) {

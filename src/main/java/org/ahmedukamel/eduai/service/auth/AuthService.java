@@ -2,16 +2,20 @@ package org.ahmedukamel.eduai.service.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
+import org.ahmedukamel.eduai.dto.auth.EmployeeRegistrationRequest;
 import org.ahmedukamel.eduai.dto.auth.ParentRegistrationRequest;
 import org.ahmedukamel.eduai.dto.auth.StudentRegistrationRequest;
 import org.ahmedukamel.eduai.dto.auth.TeacherRegistrationRequest;
+import org.ahmedukamel.eduai.dto.profile.EmployeeProfileResponse;
 import org.ahmedukamel.eduai.dto.profile.ParentProfileResponse;
 import org.ahmedukamel.eduai.dto.profile.StudentProfileResponse;
 import org.ahmedukamel.eduai.dto.profile.TeacherProfileResponse;
+import org.ahmedukamel.eduai.mapper.profile.EmployeeProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.StudentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.*;
+import org.ahmedukamel.eduai.saver.auth.EmployeeSaver;
 import org.ahmedukamel.eduai.saver.auth.ParentSaver;
 import org.ahmedukamel.eduai.saver.auth.StudentSaver;
 import org.ahmedukamel.eduai.saver.auth.TeacherSaver;
@@ -27,11 +31,13 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
+    private final EmployeeProfileResponseMapper employeeProfileResponseMapper;
     private final StudentProfileResponseMapper studentProfileResponseMapper;
     private final TeacherProfileResponseMapper teacherProfileResponseMapper;
     private final ParentProfileResponseMapper parentProfileResponseMapper;
     private final AuthenticationManager authenticationManager;
     private final AccessTokenService accessTokenService;
+    private final EmployeeSaver employeeSaver;
     private final StudentSaver studentSaver;
     private final TeacherSaver teacherSaver;
     private final ParentSaver parentSaver;
@@ -71,7 +77,13 @@ public class AuthService implements IAuthService {
 
     @Override
     public Object registerEmployee(Object object) {
-        return null;
+        EmployeeRegistrationRequest request = (EmployeeRegistrationRequest) object;
+        Employee employee = employeeSaver.apply(request);
+
+        EmployeeProfileResponse response = employeeProfileResponseMapper.apply(employee);
+        String message = "Successful employee registration, check mail inbox for activation email.";
+
+        return new ApiResponse(true, message, response);
     }
 
     @Override

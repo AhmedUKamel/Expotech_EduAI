@@ -2,7 +2,7 @@ package org.ahmedukamel.eduai.dto.profile;
 
 import java.time.LocalDate;
 
-public record TeacherProfileResponse(
+public record EmployeeProfileResponse(
         String username,
 
         String email,
@@ -35,6 +35,10 @@ public record TeacherProfileResponse(
 
         String phoneNumber,
 
-        String qualification
+        Double salary,
+
+        LocalDate hireDate,
+
+        Integer positionId
 ) {
 }

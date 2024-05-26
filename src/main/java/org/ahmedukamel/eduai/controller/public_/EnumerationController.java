@@ -1,4 +1,4 @@
-package org.ahmedukamel.eduai.controller.auth.public_;
+package org.ahmedukamel.eduai.controller.public_;
 
 import org.ahmedukamel.eduai.service.public_.*;
 import org.springframework.http.ResponseEntity;

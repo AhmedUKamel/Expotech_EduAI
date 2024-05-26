@@ -15,6 +15,8 @@ public record StudentProfileResponse(
 
         String gender,
 
+        String role,
+
         String nationality,
 
         String religion,
