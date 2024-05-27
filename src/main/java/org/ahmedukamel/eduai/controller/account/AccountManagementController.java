@@ -1,8 +1,7 @@
 package org.ahmedukamel.eduai.controller.account;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import org.ahmedukamel.eduai.constant.RegexConstants;
+import jakarta.validation.Valid;
+import org.ahmedukamel.eduai.dto.account.ChangePasswordRequest;
 import org.ahmedukamel.eduai.service.account.AccountManagementService;
 import org.ahmedukamel.eduai.service.account.IAccountManagementService;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +22,7 @@ public class AccountManagementController {
     }
 
     @PostMapping(value = "change-password")
-    private ResponseEntity<?> changePassword(@NotBlank @RequestParam(value = "password") String password,
-                                             @Pattern(regexp = RegexConstants.PASSWORD) @NotBlank @RequestParam(value = "newPassword") String newPassword) {
-        return ResponseEntity.accepted().body(service.changePassword(password, newPassword));
+    private ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        return ResponseEntity.accepted().body(service.changePassword(request.password(), request.newPassword()));
     }
 }
