@@ -26,6 +26,7 @@ public class TeacherProfileResponseMapper extends UserProfileResponseMapper
         TeacherDetail teacherDetail = this.getDetails(teacher);
 
         return new TeacherProfileResponse(
+                teacher.getId(),
                 teacher.getUser().getUsername(),
                 teacher.getUser().getEmail(),
                 teacher.getUser().getPicture(),

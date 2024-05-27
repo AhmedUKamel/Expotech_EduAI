@@ -22,6 +22,7 @@ public class StudentProfileResponseMapper extends UserProfileResponseMapper
         UserDetail userDetail = super.getDetails(student.getUser());
 
         return new StudentProfileResponse(
+                student.getId(),
                 student.getUser().getUsername(),
                 student.getUser().getEmail(),
                 student.getUser().getPicture(),

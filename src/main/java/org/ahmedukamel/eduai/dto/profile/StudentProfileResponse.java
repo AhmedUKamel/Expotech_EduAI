@@ -3,6 +3,8 @@ package org.ahmedukamel.eduai.dto.profile;
 import java.time.LocalDate;
 
 public record StudentProfileResponse(
+        Long id,
+
         String username,
 
         String email,

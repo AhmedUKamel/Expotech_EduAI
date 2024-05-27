@@ -25,6 +25,7 @@ public class EmployeeProfileResponseMapper extends UserProfileResponseMapper
         Integer positionId = Objects.isNull(employee.getPosition()) ? null : employee.getPosition().getId();
 
         return new EmployeeProfileResponse(
+                employee.getId(),
                 employee.getUser().getUsername(),
                 employee.getUser().getEmail(),
                 employee.getUser().getPicture(),
