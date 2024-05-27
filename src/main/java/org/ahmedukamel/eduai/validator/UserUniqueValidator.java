@@ -4,7 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.annotation.UserUnique;
-import org.ahmedukamel.eduai.enumeration.UserUniqueConstraint;
+import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.repository.UserRepository;
 
 import java.util.Objects;

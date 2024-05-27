@@ -29,4 +29,39 @@ public class EnumerationController {
     public ResponseEntity<?> getGenders() {
         return ResponseEntity.ok().body(service.getGenders());
     }
+
+    @GetMapping(value = "lab-type")
+    public ResponseEntity<?> getLabTypes() {
+        return ResponseEntity.ok().body(service.getLabTypes());
+    }
+
+    @GetMapping(value = "office-type")
+    public ResponseEntity<?> getOfficeTypes() {
+        return ResponseEntity.ok().body(service.getOfficeTypes());
+    }
+
+    @GetMapping(value = "room-category")
+    public ResponseEntity<?> getRoomCategories() {
+        return ResponseEntity.ok().body(service.getRoomCategories());
+    }
+
+    @GetMapping(value = "room-status")
+    public ResponseEntity<?> getRoomStatuses() {
+        return ResponseEntity.ok().body(service.getRoomStatuses());
+    }
+
+    @GetMapping(value = "room-type")
+    public ResponseEntity<?> getRoomTypes() {
+        return ResponseEntity.ok().body(service.getRoomTypes());
+    }
+
+    @GetMapping(value = "study-level")
+    public ResponseEntity<?> getStudyLevels() {
+        return ResponseEntity.ok().body(service.getStudyLevels());
+    }
+
+    @GetMapping(value = "study-stage")
+    public ResponseEntity<?> getStudyStages() {
+        return ResponseEntity.ok().body(service.getStudyStages());
+    }
 }

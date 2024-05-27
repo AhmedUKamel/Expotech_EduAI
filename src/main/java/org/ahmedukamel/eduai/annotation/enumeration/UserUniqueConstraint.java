@@ -1,4 +1,4 @@
-package org.ahmedukamel.eduai.enumeration;
+package org.ahmedukamel.eduai.annotation.enumeration;
 
 public enum UserUniqueConstraint {
     USERNAME, EMAIL, NID

@@ -2,7 +2,7 @@ package org.ahmedukamel.eduai.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import org.ahmedukamel.eduai.enumeration.UserUniqueConstraint;
+import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.validator.UserUniqueValidator;
 
 import java.lang.annotation.ElementType;
