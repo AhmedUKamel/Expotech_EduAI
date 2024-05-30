@@ -5,6 +5,7 @@ import lombok.*;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,4 +36,7 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<TeacherDetail> details = new HashSet<>();
+
+    @OneToMany(mappedBy = "teacher")
+    private Collection<Interaction> interactions;
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,4 +36,7 @@ public class Parent {
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ParentDetail> details = new HashSet<>();
+
+    @OneToMany(mappedBy = "parent")
+    private Collection<Interaction> interactions;
 }

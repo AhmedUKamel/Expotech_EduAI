@@ -27,4 +27,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private Collection<ExamResult> examResults;
+
+    @OneToMany(mappedBy = "student")
+    private Collection<Interaction> interactions;
 }
