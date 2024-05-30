@@ -2,7 +2,9 @@ package org.ahmedukamel.eduai.dto.section;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.ahmedukamel.eduai.annotation.ExistUser;
+import org.ahmedukamel.eduai.annotation.ExistStudent;
+
+import java.util.Collection;
 
 public record CreateSectionRequest(
         @NotBlank
@@ -11,14 +13,11 @@ public record CreateSectionRequest(
         @NotBlank
         String number,
 
-        @NotBlank
-        String roomNumber,
+        @NotNull
+        Long classroomId,
 
         @NotNull
-        Integer classId,
-
-        @NotNull
-        @ExistUser
-        Long userId
+        @ExistStudent
+        Collection<Long> studentsId
 ) {
 }

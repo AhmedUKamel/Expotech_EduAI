@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -25,9 +26,6 @@ public class Section {
     @Column(nullable = false)
     private String number;
 
-    @Column(nullable = false)
-    private String roomNumber;
-
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -38,9 +36,11 @@ public class Section {
 
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
-    private Class theClass;
+    private Classroom classroom;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private User user;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "SECTION_STUDENTS",
+            joinColumns = @JoinColumn(nullable = false),
+            inverseJoinColumns = @JoinColumn(nullable = false))
+    private Collection<Student> students;
 }

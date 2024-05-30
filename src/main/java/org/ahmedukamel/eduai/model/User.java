@@ -115,8 +115,5 @@ public class User implements UserDetails {
     private Set<UserDetail> details = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Collection<Section> sections = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
     private Collection<Exam> exams = new ArrayList<>();
 }

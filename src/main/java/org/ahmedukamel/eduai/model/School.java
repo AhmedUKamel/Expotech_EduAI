@@ -10,8 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -55,9 +53,6 @@ public class School {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "school")
-    private Collection<Class> classes = new ArrayList<>();
 
     @OneToMany(mappedBy = "school")
     private Collection<Exam> exams = new ArrayList<>();

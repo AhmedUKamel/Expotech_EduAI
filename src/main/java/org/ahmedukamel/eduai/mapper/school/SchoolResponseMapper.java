@@ -19,8 +19,7 @@ public class SchoolResponseMapper implements Function<School, SchoolResponse> {
                 school.getCode(),
                 school.getTheme(),
                 school.getCreatedAt(),
-                school.getUpdatedAt(),
-                school.getClasses().size()
+                school.getUpdatedAt()
         );
     }
 }

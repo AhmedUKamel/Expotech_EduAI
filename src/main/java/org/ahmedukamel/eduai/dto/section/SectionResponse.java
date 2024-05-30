@@ -1,6 +1,7 @@
 package org.ahmedukamel.eduai.dto.section;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 public record SectionResponse(
         Integer id,
@@ -9,14 +10,12 @@ public record SectionResponse(
 
         String number,
 
-        String roomNumber,
-
         LocalDateTime createdAt,
 
         LocalDateTime updatedAt,
 
-        Integer classId,
+        Long classroomId,
 
-        Long userId
+        Collection<Long> studentsId
 ) {
 }

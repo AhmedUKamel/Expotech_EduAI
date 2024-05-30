@@ -3,7 +3,8 @@ package org.ahmedukamel.eduai.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -20,4 +21,7 @@ public class Student {
     @OneToOne
     @JoinColumn(nullable = false, updatable = false)
     private User user;
+
+    @ManyToMany(mappedBy = "students")
+    private Collection<Section> sections = new ArrayList<>();
 }

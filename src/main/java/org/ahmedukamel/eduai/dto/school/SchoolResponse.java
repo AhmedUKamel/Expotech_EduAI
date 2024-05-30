@@ -22,8 +22,6 @@ public record SchoolResponse(
 
         LocalDateTime createdAt,
 
-        LocalDateTime updatedAt,
-
-        int classesCount
+        LocalDateTime updatedAt
 ) {
 }
