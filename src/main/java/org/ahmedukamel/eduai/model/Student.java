@@ -24,4 +24,7 @@ public class Student {
 
     @ManyToMany(mappedBy = "students")
     private Collection<Section> sections = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student")
+    private Collection<ExamResult> examResults;
 }

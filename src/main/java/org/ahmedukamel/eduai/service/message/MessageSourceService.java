@@ -53,4 +53,10 @@ public class MessageSourceService {
                 MessageSourceConstants.ENUMERATION_STUDY_STAGE.formatted(studyStage),
                 null, LocaleContextHolder.getLocale());
     }
+
+    public String getExamResultStatus(ExamResultStatus examResultStatus) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_EXAM_RESULT_STATUS.formatted(examResultStatus),
+                null, LocaleContextHolder.getLocale());
+    }
 }

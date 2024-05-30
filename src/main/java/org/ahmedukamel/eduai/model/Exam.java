@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Getter
 @Setter
@@ -59,4 +60,7 @@ public class Exam {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Semester semester;
+
+    @OneToMany(mappedBy = "exam")
+    private Collection<ExamResult> examResults;
 }

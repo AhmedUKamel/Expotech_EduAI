@@ -12,4 +12,5 @@ public interface MessageSourceConstants {
     String ENUMERATION_ROOM_TYPE = "enumeration.RoomType.%s";
     String ENUMERATION_STUDY_LEVEL = "enumeration.StudyLevel.%s";
     String ENUMERATION_STUDY_STAGE = "enumeration.StudyStage.%s";
+    String ENUMERATION_EXAM_RESULT_STATUS = "enumeration.ExamResultStatus.%s";
 }
