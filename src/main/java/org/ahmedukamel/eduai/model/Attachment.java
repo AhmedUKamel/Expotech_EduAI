@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.ahmedukamel.eduai.model.enumeration.AttachmentFormat;
 import org.ahmedukamel.eduai.model.enumeration.AttachmentType;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -33,6 +35,10 @@ public class Attachment {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, updatable = false)
     private AttachmentFormat format;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime uploadDate;
 
     @JsonIgnore
     @ManyToOne
