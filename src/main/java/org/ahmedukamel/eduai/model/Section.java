@@ -38,9 +38,6 @@ public class Section {
     @JoinColumn(nullable = false, updatable = false)
     private Classroom classroom;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "SECTION_STUDENTS",
-            joinColumns = @JoinColumn(nullable = false),
-            inverseJoinColumns = @JoinColumn(nullable = false))
+    @OneToMany(mappedBy = "section", fetch = FetchType.EAGER)
     private Collection<Student> students;
 }

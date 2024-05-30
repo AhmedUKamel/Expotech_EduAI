@@ -3,7 +3,6 @@ package org.ahmedukamel.eduai.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
@@ -22,8 +21,8 @@ public class Student {
     @JoinColumn(nullable = false, updatable = false)
     private User user;
 
-    @ManyToMany(mappedBy = "students")
-    private Collection<Section> sections = new ArrayList<>();
+    @ManyToOne
+    private Section section;
 
     @OneToMany(mappedBy = "student")
     private Collection<ExamResult> examResults;
