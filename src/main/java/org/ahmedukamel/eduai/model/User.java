@@ -119,4 +119,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private Collection<Attachment> attachments;
+
+    @OneToMany(mappedBy = "user")
+    private Collection<Notice> notices;
 }
