@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -62,4 +63,7 @@ public class School {
 
     @OneToMany(mappedBy = "school")
     private Collection<Notice> notices;
+
+    @OneToMany(mappedBy = "school")
+    private Set<StudentActivity> studentActivities;
 }
