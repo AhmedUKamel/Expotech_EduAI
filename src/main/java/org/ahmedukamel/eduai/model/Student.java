@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,4 +30,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private Collection<Interaction> interactions;
+
+    @OneToMany(mappedBy = "student")
+    private Set<Attendance> attendances;
 }

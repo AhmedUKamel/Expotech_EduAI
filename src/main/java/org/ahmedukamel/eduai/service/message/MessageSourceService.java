@@ -59,4 +59,10 @@ public class MessageSourceService {
                 MessageSourceConstants.ENUMERATION_EXAM_RESULT_STATUS.formatted(examResultStatus),
                 null, LocaleContextHolder.getLocale());
     }
+
+    public String getAttendanceStatus(AttendanceStatus attendanceStatus) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_ATTENDANCE_STATUS.formatted(attendanceStatus),
+                null, LocaleContextHolder.getLocale());
+    }
 }

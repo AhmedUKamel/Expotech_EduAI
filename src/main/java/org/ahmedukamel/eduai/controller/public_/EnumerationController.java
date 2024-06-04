@@ -64,4 +64,9 @@ public class EnumerationController {
     public ResponseEntity<?> getStudyStages() {
         return ResponseEntity.ok().body(service.getStudyStages());
     }
+
+    @GetMapping(value = "attendance-status")
+    public ResponseEntity<?> getAttendanceStatus() {
+        return ResponseEntity.ok().body(service.getAttendanceStatus());
+    }
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.constant.MessageSourceConstants;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.model.enumeration.*;
+import org.ahmedukamel.eduai.service.message.MessageSourceService;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EnumerationService implements IEnumerationService {
+    private final MessageSourceService messageSourceService;
     private final MessageSource messageSource;
 
     @Override
@@ -154,6 +156,15 @@ public class EnumerationService implements IEnumerationService {
         Map<String, String> response = Arrays.stream(StudyStage.values())
                 .collect(Collectors.toMap(StudyStage::name, function));
         String message = "Successful get all room statuses.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object getAttendanceStatus() {
+        Map<String, String> response = Arrays.stream(AttendanceStatus.values())
+                .collect(Collectors.toMap(AttendanceStatus::name, messageSourceService::getAttendanceStatus));
+        String message = "Successful get all attend status.";
 
         return new ApiResponse(true, message, response);
     }

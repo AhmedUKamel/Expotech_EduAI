@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,4 +41,7 @@ public class Section {
 
     @OneToMany(mappedBy = "section", fetch = FetchType.EAGER)
     private Collection<Student> students;
+
+    @OneToMany(mappedBy = "section")
+    private Set<Attendance> attendances;
 }

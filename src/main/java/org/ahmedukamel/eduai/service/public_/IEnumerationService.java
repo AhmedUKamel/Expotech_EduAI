@@ -20,4 +20,6 @@ public interface IEnumerationService {
     Object getStudyLevels();
 
     Object getStudyStages();
+
+    Object getAttendanceStatus();
 }
