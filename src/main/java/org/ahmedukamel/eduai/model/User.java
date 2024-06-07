@@ -122,4 +122,7 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private Collection<Notice> notices;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserNotification> userNotifications;
 }
