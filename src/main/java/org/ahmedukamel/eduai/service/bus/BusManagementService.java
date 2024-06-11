@@ -1,0 +1,86 @@
+package org.ahmedukamel.eduai.service.bus;
+
+import lombok.RequiredArgsConstructor;
+import org.ahmedukamel.eduai.dto.api.ApiResponse;
+import org.ahmedukamel.eduai.dto.bus.BusResponse;
+import org.ahmedukamel.eduai.dto.bus.CreateBusRequest;
+import org.ahmedukamel.eduai.dto.bus.UpdateBusRequest;
+import org.ahmedukamel.eduai.mapper.bus.BusResponseMapper;
+import org.ahmedukamel.eduai.model.Bus;
+import org.ahmedukamel.eduai.repository.BusRepository;
+import org.ahmedukamel.eduai.saver.bus.BusSaver;
+import org.ahmedukamel.eduai.service.db.DatabaseService;
+import org.ahmedukamel.eduai.updater.bus.BusUpdater;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class BusManagementService implements IBusManagementService {
+    private final BusResponseMapper busResponseMapper;
+    private final BusRepository busRepository;
+    private final BusUpdater busUpdater;
+    private final BusSaver busSaver;
+
+    @Override
+    public Object createBus(Object object) {
+        CreateBusRequest request = (CreateBusRequest) object;
+
+        Bus savedBus = busSaver.apply(request);
+
+        BusResponse response = busResponseMapper.apply(savedBus);
+        String message = "Bus created successfully.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object updateBus(Long id, Object object) {
+        Bus Bus = DatabaseService.get(busRepository::findById, id, Bus.class);
+        UpdateBusRequest request = (UpdateBusRequest) object;
+
+        Bus updatedBus = busUpdater.apply(Bus, request);
+
+        BusResponse response = busResponseMapper.apply(updatedBus);
+        String message = "Bus updated successfully.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object deleteBus(Long id) {
+        Bus Bus = DatabaseService.get(busRepository::findById, id, Bus.class);
+
+        busRepository.delete(Bus);
+
+        String message = "Bus deleted successfully.";
+
+        return new ApiResponse(true, message, "");
+    }
+
+    @Override
+    public Object getBus(Long id) {
+        Bus Bus = DatabaseService.get(busRepository::findById, id, Bus.class);
+
+        BusResponse response = busResponseMapper.apply(Bus);
+        String message = "Bus retrieved successfully.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object getAllBuses(Integer schoolId, long pageSize, long pageNumber) {
+        List<Bus> Buss = busRepository
+                .selectBusesBySchoolIdWithPagination(schoolId, pageSize, pageSize * (pageNumber - 1));
+
+        List<BusResponse> response = Buss
+                .stream()
+                .map(busResponseMapper)
+                .toList();
+        String message = "Buses retrieved successfully.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+}
