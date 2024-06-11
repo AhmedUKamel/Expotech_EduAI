@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

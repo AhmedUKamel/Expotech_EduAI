@@ -3,6 +3,7 @@ package org.ahmedukamel.eduai.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.ahmedukamel.eduai.util.address.INameLocalization;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.Set;
         @UniqueConstraint(name = "CITY_ARABIC_NAME_UNIQUE_CONSTRAINT", columnNames = "name_ar"),
         @UniqueConstraint(name = "CITY_FRENCH_NAME_UNIQUE_CONSTRAINT", columnNames = "name_fr")
 })
-public class City {
+public class City implements INameLocalization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
