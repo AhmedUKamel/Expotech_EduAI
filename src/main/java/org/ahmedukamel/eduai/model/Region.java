@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.ahmedukamel.eduai.model.embeddable.Location;
+import org.ahmedukamel.eduai.util.address.INameLocalization;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import org.ahmedukamel.eduai.model.embeddable.Location;
         @UniqueConstraint(name = "REGION_FRENCH_NAME_UNIQUE_CONSTRAINT", columnNames = "name_fr"),
         @UniqueConstraint(name = "REGION_LOCATION_UNIQUE_CONSTRAINT", columnNames = {"latitude", "longitude"})
 })
-public class Region {
+public class Region implements INameLocalization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

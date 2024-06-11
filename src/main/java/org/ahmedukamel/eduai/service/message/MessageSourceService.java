@@ -65,4 +65,16 @@ public class MessageSourceService {
                 MessageSourceConstants.ENUMERATION_ATTENDANCE_STATUS.formatted(attendanceStatus),
                 null, LocaleContextHolder.getLocale());
     }
+
+    public String getGender(Gender gender) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_GENDER.formatted(gender),
+                null, LocaleContextHolder.getLocale());
+    }
+
+    public String getReligion(Religion religion) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_RELIGION.formatted(religion),
+                null, LocaleContextHolder.getLocale());
+    }
 }
