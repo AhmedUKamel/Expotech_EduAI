@@ -33,4 +33,7 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private Set<Attendance> attendances;
+
+    @OneToMany(mappedBy = "student")
+    private Collection<ParentStudentAssociation> parentAssociations;
 }

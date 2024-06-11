@@ -39,4 +39,7 @@ public class Parent {
 
     @OneToMany(mappedBy = "parent")
     private Collection<Interaction> interactions;
+
+    @OneToMany(mappedBy = "parent")
+    private Collection<ParentStudentAssociation> studentAssociations;
 }
