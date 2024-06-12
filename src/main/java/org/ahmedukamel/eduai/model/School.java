@@ -66,4 +66,7 @@ public class School {
 
     @OneToMany(mappedBy = "school")
     private Set<StudentActivity> studentActivities;
+
+    @OneToMany(mappedBy = "school")
+    private Set<Bus> buses;
 }

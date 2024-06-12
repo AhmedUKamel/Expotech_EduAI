@@ -28,7 +28,7 @@ public class BusManagementController {
 
     @PutMapping(value = "{busId}")
     public ResponseEntity<?> updateBus(@Min(value = 1) @PathVariable(value = "busId") Long id,
-                                        @Valid @RequestBody UpdateBusRequest request) {
+                                       @Valid @RequestBody UpdateBusRequest request) {
         return ResponseEntity.accepted().body(service.updateBus(id, request));
     }
 
@@ -43,10 +43,10 @@ public class BusManagementController {
     }
 
     @GetMapping(value = "all")
-    public ResponseEntity<?> getAllBuses(@RequestParam(value = "schoolId") Integer schoolId,
-            @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") long pageSize,
-                                        @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") long pageNumber) {
+    public ResponseEntity<?> getAllBuses(
+            @Min(value = 1) @RequestParam(value = "schoolId") Integer schoolId,
+            @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
+            @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
         return ResponseEntity.ok().body(service.getAllBuses(schoolId, pageSize, pageNumber));
     }
-
 }

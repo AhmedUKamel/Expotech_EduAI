@@ -1,6 +1,8 @@
 package org.ahmedukamel.eduai.repository;
 
 import org.ahmedukamel.eduai.model.Bus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +23,5 @@ public interface BusRepository extends JpaRepository<Bus, Long> {
             OFFSET :offset""")
     List<Bus> selectBusesBySchoolIdWithPagination(@Param("schoolId") Integer schoolId, @Param("limit") long limit, @Param("offset") long offset);
 
+    Page<Bus> findAllBySchoolId(Integer schoolId, Pageable pageable);
 }

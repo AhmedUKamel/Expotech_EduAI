@@ -9,6 +9,5 @@ public interface IBusManagementService {
 
     Object getBus(Long id);
 
-    Object getAllBuses(Integer schoolId, long pageSize, long pageNumber);
-
+    Object getAllBuses(Integer schoolId, int pageSize, int pageNumber);
 }

@@ -11,9 +11,10 @@ import org.ahmedukamel.eduai.repository.BusRepository;
 import org.ahmedukamel.eduai.saver.bus.BusSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.updater.bus.BusUpdater;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -70,17 +71,14 @@ public class BusManagementService implements IBusManagementService {
     }
 
     @Override
-    public Object getAllBuses(Integer schoolId, long pageSize, long pageNumber) {
-        List<Bus> Buss = busRepository
-                .selectBusesBySchoolIdWithPagination(schoolId, pageSize, pageSize * (pageNumber - 1));
+    public Object getAllBuses(Integer schoolId, int pageSize, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
 
-        List<BusResponse> response = Buss
-                .stream()
-                .map(busResponseMapper)
-                .toList();
+        Page<Bus> buses = busRepository.findAllBySchoolId(schoolId, pageable);
+
+        Page<BusResponse> response = buses.map(busResponseMapper);
         String message = "Buses retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }
-
 }
