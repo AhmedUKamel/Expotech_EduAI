@@ -1,6 +1,7 @@
 package org.ahmedukamel.eduai.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.ahmedukamel.eduai.handler.UserNotFoundException;
 import org.ahmedukamel.eduai.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,5 +20,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         "User with username or email or nid %s not found."
                                 .formatted(username)
                 ));
+    }
+    public UserDetails getUserById(Integer userId) throws UsernameNotFoundException {
+        return repository.findById(Long.valueOf(userId)).orElseThrow(()-> new UserNotFoundException("User Not Found with that id :"+ userId));
     }
 }
