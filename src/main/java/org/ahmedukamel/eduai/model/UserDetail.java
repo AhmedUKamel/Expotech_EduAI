@@ -1,11 +1,13 @@
 package org.ahmedukamel.eduai.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.ahmedukamel.eduai.model.embeddable.Name;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,4 +44,7 @@ public class UserDetail {
         private User user;
         private Language language;
     }
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<TransactionHistory> transaction;
 }
