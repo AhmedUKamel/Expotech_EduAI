@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ahmedukamel.eduai.model.enumeration.AbsenceReason;
 import org.ahmedukamel.eduai.model.enumeration.AttendanceStatus;
 
 import java.time.LocalDate;
@@ -28,6 +29,10 @@ public class Attendance {
     @JoinColumn(name = "section_id", nullable = false, updatable = false)
     private Section section;
 
+    @ManyToOne
+    @JoinColumn(name = "lesson_id", nullable = false, updatable = false)
+    private Lesson lesson;
+
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false, updatable = false)
     private LocalDate date;
@@ -35,4 +40,8 @@ public class Attendance {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, updatable = false)
     private AttendanceStatus status;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false, updatable = false)
+    private AbsenceReason absenceReason;
 }

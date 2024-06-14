@@ -1,5 +1,6 @@
 package org.ahmedukamel.eduai.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,4 +37,9 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private Collection<ParentStudentAssociation> parentAssociations;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    @JsonIgnore
+    private Grade grade;
 }
