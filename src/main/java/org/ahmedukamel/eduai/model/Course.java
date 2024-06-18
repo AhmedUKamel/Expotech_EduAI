@@ -15,7 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name ="COURSES")
+@Table(name ="COURSES", uniqueConstraints = {
+        @UniqueConstraint(name = "COURSE_UNIQUE_CONSTRAINT", columnNames = {"name", "grade_id"})
+})
 public class Course {
 
     @Id
@@ -44,5 +46,8 @@ public class Course {
     @OneToMany
     @JoinColumn(nullable = false, updatable = false)
     private List<Exam> exams;
+
+    @ManyToOne
+    private Grade grade;
 
 }
