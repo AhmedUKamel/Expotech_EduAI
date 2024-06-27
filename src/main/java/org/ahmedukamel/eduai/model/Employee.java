@@ -3,8 +3,11 @@ package org.ahmedukamel.eduai.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeRole;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -39,4 +42,13 @@ public class Employee {
     @OneToOne
     @JoinColumn(nullable = false, updatable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, updatable = false)
+    private School school;
+
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = EmployeeRole.class)
+    @CollectionTable(name = "EMPLOYEE_ROLES")
+    @Enumerated(value = EnumType.STRING)
+    private Set<EmployeeRole> roles = new HashSet<>();
 }

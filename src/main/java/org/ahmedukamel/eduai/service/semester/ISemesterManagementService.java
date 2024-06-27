@@ -9,5 +9,5 @@ public interface ISemesterManagementService {
 
     Object getSemester(Integer id);
 
-    Object getAllSemesters(long pageSize, long pageNumber);
+    Object getAllSemesters(int pageSize, int pageNumber);
 }

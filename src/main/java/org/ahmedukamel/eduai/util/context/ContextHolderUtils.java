@@ -1,5 +1,6 @@
 package org.ahmedukamel.eduai.util.context;
 
+import org.ahmedukamel.eduai.model.Employee;
 import org.ahmedukamel.eduai.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,5 +23,13 @@ public class ContextHolderUtils {
             return user;
         }
         throw new IllegalStateException();
+    }
+
+    public static Employee getEmployee() {
+        User user = getUser();
+        if (Objects.isNull(user.getEmployee())) {
+            throw new IllegalArgumentException("User is not employee");
+        }
+        return user.getEmployee();
     }
 }

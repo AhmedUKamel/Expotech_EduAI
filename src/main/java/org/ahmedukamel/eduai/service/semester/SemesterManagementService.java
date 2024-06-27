@@ -2,17 +2,22 @@ package org.ahmedukamel.eduai.service.semester;
 
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
-import org.ahmedukamel.eduai.dto.semester.SemesterRequest;
+import org.ahmedukamel.eduai.dto.semester.CreateSemesterRequest;
 import org.ahmedukamel.eduai.dto.semester.SemesterResponse;
+import org.ahmedukamel.eduai.dto.semester.UpdateSemesterRequest;
 import org.ahmedukamel.eduai.mapper.semester.SemesterResponseMapper;
+import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.Semester;
 import org.ahmedukamel.eduai.repository.SemesterRepository;
 import org.ahmedukamel.eduai.saver.semester.SemesterSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.updater.semester.SemesterUpdater;
+import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +29,10 @@ public class SemesterManagementService implements ISemesterManagementService {
 
     @Override
     public Object createSemester(Object object) {
-        SemesterRequest request = (SemesterRequest) object;
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        CreateSemesterRequest request = (CreateSemesterRequest) object;
 
-        Semester savedSemester = semesterSaver.apply(request);
+        Semester savedSemester = semesterSaver.apply(request, school);
 
         SemesterResponse response = semesterResponseMapper.apply(savedSemester);
         String message = "Semester created successfully.";
@@ -36,8 +42,9 @@ public class SemesterManagementService implements ISemesterManagementService {
 
     @Override
     public Object updateSemester(Integer id, Object object) {
-        Semester semester = DatabaseService.get(semesterRepository::findById, id, Semester.class);
-        SemesterRequest request = (SemesterRequest) object;
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Semester semester = DatabaseService.get(semesterRepository::findByIdAndSchool, id, school, Semester.class);
+        UpdateSemesterRequest request = (UpdateSemesterRequest) object;
 
         Semester updatedSemester = semesterUpdater.apply(semester, request);
 
@@ -49,9 +56,14 @@ public class SemesterManagementService implements ISemesterManagementService {
 
     @Override
     public Object deleteSemester(Integer id) {
-        Semester semester = DatabaseService.get(semesterRepository::findById, id, Semester.class);
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Semester semester = DatabaseService.get(semesterRepository::findByIdAndSchool, id, school, Semester.class);
 
-        semesterRepository.delete(semester);
+        try {
+            semesterRepository.delete(semester);
+        } catch (ConstraintViolationException exception) {
+            throw new RuntimeException("This semester cannot be deleted because it is associated with other records.", exception);
+        }
 
         String message = "Semester deleted successfully.";
 
@@ -60,7 +72,8 @@ public class SemesterManagementService implements ISemesterManagementService {
 
     @Override
     public Object getSemester(Integer id) {
-        Semester semester = DatabaseService.get(semesterRepository::findById, id, Semester.class);
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Semester semester = DatabaseService.get(semesterRepository::findByIdAndSchool, id, school, Semester.class);
 
         SemesterResponse response = semesterResponseMapper.apply(semester);
         String message = "Semester retrieved successfully.";
@@ -69,15 +82,14 @@ public class SemesterManagementService implements ISemesterManagementService {
     }
 
     @Override
-    public Object getAllSemesters(long pageSize, long pageNumber) {
-        List<Semester> semesters = semesterRepository
-                .selectSemestersWithPagination(pageSize, pageSize * (pageNumber - 1));
+    public Object getAllSemesters(int pageSize, int pageNumber) {
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
 
-        List<SemesterResponse> response = semesters
-                .stream()
-                .map(semesterResponseMapper)
-                .toList();
-        String message = "Semester retrieved successfully.";
+        Page<Semester> semesters = semesterRepository.findAllBySchool(school, pageable);
+
+        Page<SemesterResponse> response = semesters.map(semesterResponseMapper);
+        String message = "All semesters retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }

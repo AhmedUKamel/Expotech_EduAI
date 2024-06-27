@@ -6,14 +6,14 @@ import org.ahmedukamel.eduai.model.enumeration.SemesterName;
 
 import java.time.LocalDate;
 
-public record SemesterRequest(
+public record CreateSemesterRequest(
         @NotBlank
         SemesterName name,
 
         @NotNull
-        LocalDate start,
+        LocalDate startDate,
 
         @NotNull
-        LocalDate end
+        LocalDate endDate
 ) {
 }

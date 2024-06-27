@@ -13,8 +13,8 @@ public class SemesterResponseMapper implements Function<Semester, SemesterRespon
         return new SemesterResponse(
                 semester.getId(),
                 semester.getName(),
-                semester.getStart(),
-                semester.getEnd()
+                semester.getStartDate(),
+                semester.getEndDate()
         );
     }
 }

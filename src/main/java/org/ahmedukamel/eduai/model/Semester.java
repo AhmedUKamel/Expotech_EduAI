@@ -3,10 +3,11 @@ package org.ahmedukamel.eduai.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.ahmedukamel.eduai.model.enumeration.SemesterName;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,9 +15,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "SEMESTERS", uniqueConstraints = {
-        @UniqueConstraint(name = "SEMESTER_NAME_UNIQUE_CONSTRAINT", columnNames = "name")
-})
+@Table(name = "SEMESTERS")
 public class Semester {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +27,21 @@ public class Semester {
 
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false)
-    private LocalDate start;
+    private LocalDate startDate;
 
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false)
-    private LocalDate end;
+    private LocalDate endDate;
 
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime creationDate;
+
+    @UpdateTimestamp
     @Column(nullable = false)
-    private Integer year;
+    private LocalDateTime updateDate;
 
-    @OneToMany(mappedBy = "semester")
-    private Collection<Exam> exams = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(nullable = false, updatable = false)
+    private School school;
 }
