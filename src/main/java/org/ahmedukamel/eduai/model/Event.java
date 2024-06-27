@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ahmedukamel.eduai.model.enumeration.AttachmentFormat;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -42,6 +43,22 @@ public class Event {
     @JoinColumn(nullable = false, updatable = false)
     private User creator;
 
+    @Column(nullable = false, updatable = false)
+    private String filename;
+
+    @Column(nullable = false, updatable = false)
+    private String fileExtension;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false, updatable = false)
+    private AttachmentFormat fileFormat;
+
+    @Transient
+    private boolean active;
+    public boolean getActive(){
+        return (eventStartDate.isBefore(LocalDateTime.now()) && eventEndDate.isAfter(LocalDateTime.now()));
+    }
+
     @ManyToMany
     @JoinTable(
             name = "event_organizers",
@@ -49,6 +66,6 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "organizer_id"))
     private Set<User> organizers;
 
-    @OneToMany(mappedBy = "eventDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<EventDetail> details;
 }

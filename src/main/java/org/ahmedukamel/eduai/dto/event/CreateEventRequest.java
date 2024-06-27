@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.ahmedukamel.eduai.annotation.ExistSchool;
 import org.ahmedukamel.eduai.annotation.ExistUser;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +15,7 @@ public record CreateEventRequest(
 
         @NotNull
         @ExistUser
-        Integer creatorId,
+        Long creatorId,
 
         @NotNull
         LocalDateTime startDate,
@@ -38,6 +39,9 @@ public record CreateEventRequest(
         String title_fr,
 
         @NotBlank
-        String description_fr
+        String description_fr,
+
+        @NotBlank
+        MultipartFile file
 ) {
 }

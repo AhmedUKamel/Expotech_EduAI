@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ahmedukamel.eduai.model.enumeration.AttachmentFormat;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 
 import java.io.Serializable;
@@ -32,14 +33,6 @@ public class EventDetail {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false)
-    private String filePath;
-
-    @Transient
-    private boolean active;
-    public boolean getActive(){
-        return (event.getEventStartDate().isBefore(LocalDateTime.now()) && event.getEventEndDate().isAfter(LocalDateTime.now()));
-    }
 
     @Getter
     @Setter

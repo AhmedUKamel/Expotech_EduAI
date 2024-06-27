@@ -1,9 +1,14 @@
 package org.ahmedukamel.eduai.dto.event;
 
+import lombok.Builder;
+
+@Builder
 public record EventResponse(
         Long id,
 
         Integer schoolId,
+
+        Long creatorId,
 
         String title_en,
 
@@ -15,7 +20,17 @@ public record EventResponse(
 
         String title_fr,
 
-        String description_fr
+        String description_fr,
+
+        String fileName,
+
+        String fileExtension,
+
+        String fileFormat,
+
+        String startDate,
+
+        String endDate
 
 ) {
 }

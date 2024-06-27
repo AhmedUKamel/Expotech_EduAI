@@ -9,5 +9,5 @@ public interface IEventManagementService {
 
     Object getEvent(Long id);
 
-    Object getAllEvents(int pageSize, int pageNumber);
+    Object getAllEventsForSchool(Integer schoolId, int pageSize, int pageNumber);
 }
