@@ -39,9 +39,6 @@ public record CreateEventRequest(
         String title_fr,
 
         @NotBlank
-        String description_fr,
-
-        @NotBlank
-        MultipartFile file
+        String description_fr
 ) {
 }

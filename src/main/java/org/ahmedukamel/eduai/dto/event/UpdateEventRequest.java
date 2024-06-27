@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 
 public record UpdateEventRequest(
+        @NotNull
+        Boolean active,
 
         @NotNull
         LocalDateTime startDate,
@@ -30,9 +32,6 @@ public record UpdateEventRequest(
         String title_fr,
 
         @NotBlank
-        String description_fr,
-
-        @NotBlank
-        MultipartFile file
+        String description_fr
 ) {
 }

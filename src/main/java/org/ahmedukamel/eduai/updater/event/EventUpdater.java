@@ -30,16 +30,6 @@ public class EventUpdater implements BiFunction<Event, UpdateEventRequest, Event
                 eventDetail_fr = EventUtils
                         .getEventDetail(event, Language.FRENCH);
 
-        String filename = FilenameUtils.getBaseName(request.file().getOriginalFilename());
-        String fileExtension = FilenameUtils.getExtension(request.file().getOriginalFilename());
-
-        AttachmentFormat fileFormat;
-        try {
-            fileFormat = AttachmentFormat.valueOf(Objects.requireNonNull(fileExtension).toUpperCase());
-        } catch (Exception e) {
-            fileFormat = AttachmentFormat.OTHER;
-        }
-
         eventDetail_en.setTitle(request.title_en().strip());
         eventDetail_en.setDescription(request.description_en().strip());
 
@@ -49,9 +39,7 @@ public class EventUpdater implements BiFunction<Event, UpdateEventRequest, Event
         eventDetail_fr.setTitle(request.title_fr().strip());
         eventDetail_fr.setDescription(request.description_fr().strip());
 
-        event.setFilename(filename);
-        event.setFileExtension(fileExtension);
-        event.setFileFormat(fileFormat);
+        event.setActive(request.active());
         event.setEventStartDate(request.startDate());
         event.setEventEndDate(request.endDate());
 

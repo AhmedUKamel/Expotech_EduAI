@@ -22,11 +22,7 @@ public record EventResponse(
 
         String description_fr,
 
-        String fileName,
-
-        String fileExtension,
-
-        String fileFormat,
+        String fileUrl,
 
         String startDate,
 

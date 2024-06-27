@@ -43,15 +43,8 @@ public class Event {
     @JoinColumn(nullable = false, updatable = false)
     private User creator;
 
-    @Column(nullable = false, updatable = false)
-    private String filename;
-
-    @Column(nullable = false, updatable = false)
-    private String fileExtension;
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false, updatable = false)
-    private AttachmentFormat fileFormat;
+    @Column(nullable = false)
+    private String filePath;
 
     @Transient
     private boolean active;
