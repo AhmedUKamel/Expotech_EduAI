@@ -2,7 +2,6 @@ package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.ahmedukamel.eduai.model.enumeration.AttachmentFormat;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -30,10 +29,10 @@ public class Event {
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
-    private LocalDateTime eventStartDate;
+    private LocalDateTime eventStartTime;
 
     @Column(nullable = false)
-    private LocalDateTime eventEndDate;
+    private LocalDateTime eventEndTime;
 
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
@@ -44,15 +43,15 @@ public class Event {
     private User creator;
 
     @Column(nullable = false)
-    private String filePath;
+    private String file;
 
     @Transient
     private boolean active;
     public boolean getActive(){
-        return (eventStartDate.isBefore(LocalDateTime.now()) && eventEndDate.isAfter(LocalDateTime.now()));
+        return (eventStartTime.isBefore(LocalDateTime.now()) && eventEndTime.isAfter(LocalDateTime.now()));
     }
 
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name = "event_organizers",
             joinColumns = @JoinColumn(name = "event_id"),

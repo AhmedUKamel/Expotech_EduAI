@@ -2,6 +2,8 @@ package org.ahmedukamel.eduai.dto.event;
 
 import lombok.Builder;
 
+import java.util.Set;
+
 @Builder
 public record EventResponse(
         Long id,
@@ -26,7 +28,9 @@ public record EventResponse(
 
         String startDate,
 
-        String endDate
+        String endDate,
+
+        Set<OrganizerForEventBasicInfo> organizers
 
 ) {
 }

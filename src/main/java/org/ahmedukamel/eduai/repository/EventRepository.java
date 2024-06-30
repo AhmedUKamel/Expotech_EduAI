@@ -12,5 +12,5 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    Page<Event> findAllBySchoolIdOrderByEventStartDateDesc(Integer schoolId, Pageable pageable);
+    Page<Event> findAllBySchoolIdOrderByEventStartTimeDesc(Integer schoolId, Pageable pageable);
 }

@@ -7,22 +7,19 @@ import org.ahmedukamel.eduai.model.Event;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.EventDetail;
 import org.ahmedukamel.eduai.model.User;
-import org.ahmedukamel.eduai.model.enumeration.AttachmentFormat;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.repository.EventRepository;
 import org.ahmedukamel.eduai.repository.SchoolRepository;
 import org.ahmedukamel.eduai.repository.UserRepository;
 import org.ahmedukamel.eduai.saver.file.FileSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
@@ -39,7 +36,7 @@ public class EventSaver implements BiFunction<CreateEventRequest, MultipartFile,
         try {
             savedFile = fileSaver.save(file, PathConstants.EVENT_FILES_PATH);
         } catch (IOException exception) {
-            throw new RuntimeException("Failed save pdf.", exception);
+            throw new RuntimeException("Failed save file.", exception);
         }
 
         User user = DatabaseService.get(userRepository::findById, request.creatorId(), User.class);
@@ -48,12 +45,18 @@ public class EventSaver implements BiFunction<CreateEventRequest, MultipartFile,
         Event event = Event
                 .builder()
                 .school(school)
-                .eventStartDate(request.startDate())
-                .eventEndDate(request.endDate())
-                .filePath(savedFile)
+                .eventStartTime(request.startTime())
+                .eventEndTime(request.endTime())
+                .file(savedFile)
                 .creator(user)
                 .build();
 
+        event.setOrganizers(new HashSet<>());
+        for (Long organizerId :
+                request.organizersId()) {
+            User organizer = DatabaseService.get(userRepository::findById, organizerId, User.class);
+            event.getOrganizers().add(organizer);
+        }
 
 
         EventDetail eventDetail_en = EventDetail

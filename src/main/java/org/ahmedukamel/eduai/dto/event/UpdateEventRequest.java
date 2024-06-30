@@ -5,16 +5,19 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public record UpdateEventRequest(
         @NotNull
         Boolean active,
 
         @NotNull
-        LocalDateTime startDate,
+        LocalDateTime startTime,
 
         @NotNull
-        LocalDateTime endDate,
+        LocalDateTime endTime,
 
         @NotBlank
         String title_en,
@@ -32,6 +35,9 @@ public record UpdateEventRequest(
         String title_fr,
 
         @NotBlank
-        String description_fr
+        String description_fr,
+
+        @NotNull
+        List<Long> organizersId
 ) {
 }

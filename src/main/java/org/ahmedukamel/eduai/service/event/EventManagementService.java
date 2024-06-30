@@ -7,11 +7,8 @@ import org.ahmedukamel.eduai.dto.api.FileResponse;
 import org.ahmedukamel.eduai.dto.event.CreateEventRequest;
 import org.ahmedukamel.eduai.dto.event.EventResponse;
 import org.ahmedukamel.eduai.dto.event.UpdateEventRequest;
-import org.ahmedukamel.eduai.dto.event.EventResponse;
 import org.ahmedukamel.eduai.mapper.event.EventResponseMapper;
 import org.ahmedukamel.eduai.model.Event;
-import org.ahmedukamel.eduai.model.Event;
-import org.ahmedukamel.eduai.model.Notice;
 import org.ahmedukamel.eduai.repository.EventRepository;
 import org.ahmedukamel.eduai.saver.event.EventSaver;
 import org.ahmedukamel.eduai.saver.file.FileSaver;
@@ -70,7 +67,7 @@ public class EventManagementService implements IEventManagementService {
         Event event = DatabaseService.get(eventRepository::findById, id, Event.class);
 
         try {
-            Path oldFilePath = PathConstants.EVENT_FILES_PATH.resolve(event.getFilePath());
+            Path oldFilePath = PathConstants.EVENT_FILES_PATH.resolve(event.getFile());
 
             Files.delete(oldFilePath);
 
@@ -78,9 +75,7 @@ public class EventManagementService implements IEventManagementService {
 
             Path newFilePath = PathConstants.EVENT_FILES_PATH.resolve(filename);
 
-            Files.copy(file.getInputStream(), newFilePath);
-
-            event.setFilePath(filename);
+            event.setFile(filename);
 
         } catch (IOException exception) {
             throw new RuntimeException("Failed upload file.", exception);
@@ -99,14 +94,15 @@ public class EventManagementService implements IEventManagementService {
         Event event = DatabaseService.get(eventRepository::findById, id, Event.class);
 
         try {
-            Files.delete(PathConstants.EVENT_FILES_PATH.resolve(event.getFilePath()));
+            Files.delete(PathConstants.EVENT_FILES_PATH.resolve(event.getFile()));
         } catch (IOException exception) {
             throw new RuntimeException("Failed delete file.", exception);
         }
 
-        eventRepository.delete(event);
+        event.setFile(null);
+        eventRepository.save(event);
 
-        String message = "Event deleted successfully.";
+        String message = "Event file deleted successfully.";
 
         return new ApiResponse(true, message, "");
     }
@@ -127,7 +123,7 @@ public class EventManagementService implements IEventManagementService {
         Event event = DatabaseService.get(eventRepository::findById, id, Event.class);
 
         EventResponse response = eventResponseMapper.apply(event);
-        String message = "Student activity retrieved successfully.";
+        String message = "Event retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }
@@ -136,7 +132,7 @@ public class EventManagementService implements IEventManagementService {
     public Object getAllEventsForSchool(Integer schoolId, int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
         Page<Event> events = eventRepository
-                .findAllBySchoolIdOrderByEventStartDateDesc(schoolId , pageable);
+                .findAllBySchoolIdOrderByEventStartTimeDesc(schoolId , pageable);
 
         Page<EventResponse> response = events
                 .map(eventResponseMapper);
@@ -153,7 +149,7 @@ public class EventManagementService implements IEventManagementService {
         headers.setContentDisposition(ContentDisposition.attachment().build());
 
         try {
-            byte[] data = Files.readAllBytes(PathConstants.EVENT_FILES_PATH.resolve(event.getFilePath()));
+            byte[] data = Files.readAllBytes(PathConstants.EVENT_FILES_PATH.resolve(event.getFile()));
 
             return new FileResponse(data, headers);
         } catch (IOException exception) {

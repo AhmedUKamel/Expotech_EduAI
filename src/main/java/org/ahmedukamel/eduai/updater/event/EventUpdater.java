@@ -4,20 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.event.UpdateEventRequest;
 import org.ahmedukamel.eduai.model.Event;
 import org.ahmedukamel.eduai.model.EventDetail;
-import org.ahmedukamel.eduai.model.enumeration.AttachmentFormat;
+import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.repository.EventRepository;
+import org.ahmedukamel.eduai.repository.UserRepository;
+import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.util.event.EventUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
 import java.util.function.BiFunction;
 
 @Component
 @RequiredArgsConstructor
 public class EventUpdater implements BiFunction<Event, UpdateEventRequest, Event> {
     private final EventRepository eventRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Event apply(Event event, UpdateEventRequest request) {
@@ -39,9 +40,15 @@ public class EventUpdater implements BiFunction<Event, UpdateEventRequest, Event
         eventDetail_fr.setTitle(request.title_fr().strip());
         eventDetail_fr.setDescription(request.description_fr().strip());
 
-        event.setActive(request.active());
-        event.setEventStartDate(request.startDate());
-        event.setEventEndDate(request.endDate());
+        event.setActive(event.getActive());
+        event.setEventStartTime(request.startTime());
+        event.setEventEndTime(request.endTime());
+
+        for (Long organizerId :
+                request.organizersId()) {
+            User organizer = DatabaseService.get(userRepository::findById, organizerId, User.class);
+            event.getOrganizers().add(organizer);
+        }
 
         return eventRepository.save(event);
     }

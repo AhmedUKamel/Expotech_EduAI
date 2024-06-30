@@ -7,6 +7,9 @@ import org.ahmedukamel.eduai.annotation.ExistUser;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public record CreateEventRequest(
         @NotNull
@@ -18,10 +21,10 @@ public record CreateEventRequest(
         Long creatorId,
 
         @NotNull
-        LocalDateTime startDate,
+        LocalDateTime startTime,
 
         @NotNull
-        LocalDateTime endDate,
+        LocalDateTime endTime,
 
         @NotBlank
         String title_en,
@@ -39,6 +42,9 @@ public record CreateEventRequest(
         String title_fr,
 
         @NotBlank
-        String description_fr
+        String description_fr,
+
+        @NotNull
+        List<Long> organizersId
 ) {
 }

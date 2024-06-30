@@ -37,14 +37,14 @@ public class EventManagementController {
         return ResponseEntity.accepted().body(service.updateEvent(id, request));
     }
 
-    @PutMapping(value = "{noticeId}/upload")
-    public ResponseEntity<?> uploadEventFile(@Min(value = 1) @PathVariable(value = "noticeId") Long id,
-                                             @NotEmpty @RequestParam(value = "pdf") MultipartFile pdf) {
-        return ResponseEntity.accepted().body(service.uploadEventFile(id, pdf));
+    @PutMapping(value = "{eventId}/upload")
+    public ResponseEntity<?> uploadEventFile(@Min(value = 1) @PathVariable(value = "eventId") Long id,
+                                             @NotEmpty @RequestParam(value = "file") MultipartFile file) {
+        return ResponseEntity.accepted().body(service.uploadEventFile(id, file));
     }
 
-    @DeleteMapping(value = "{noticeId}")
-    public ResponseEntity<?> deleteEventFile(@Min(value = 1) @PathVariable(value = "noticeId") Long id) {
+    @DeleteMapping(value = "file/{eventId}")
+    public ResponseEntity<?> deleteEventFile(@Min(value = 1) @PathVariable(value = "eventId") Long id) {
         return ResponseEntity.accepted().body(service.deleteEventFile(id));
     }
 
@@ -66,7 +66,7 @@ public class EventManagementController {
     }
 
     @GetMapping(value = "public/{eventId}/file")
-    public ResponseEntity<?> getNoticePdf(@Min(value = 1) @PathVariable(value = "eventId") Long id) {
+    public ResponseEntity<?> getEventFile(@Min(value = 1) @PathVariable(value = "eventId") Long id) {
         FileResponse response = service.getEventFile(id);
         return ResponseEntity.ok().headers(response.headers()).body(response.date());
     }
