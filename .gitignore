@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+# Default ignored files
+/shelf/
+/workspace.xml
+/.idea
+=======
 target/
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -22,3 +28,4 @@ src/main/resources/application-dev.yml
 .env
 update.sh
 versions.txt
+>>>>>>> 72ce4bf3514111bff8a3345497c21c57a80b946f

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Integer> {
@@ -30,4 +31,6 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
     List<Position> selectPositionsByDepartmentWithPagination(@Param(value = "department") Department department,
                                                              @Param("limit") long limit,
                                                              @Param("offset") long offset);
+
+    Optional<Position> findByIdAndDepartment_School_Id(Integer id, Integer schoolId);
 }

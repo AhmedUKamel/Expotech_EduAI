@@ -2,27 +2,29 @@ package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.EmployeeRole;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "EMPLOYEES", uniqueConstraints = {
         @UniqueConstraint(name = "EMPLOYEE_PHONE_NUMBER_UNIQUE_CONSTRAINT", columnNames = {"code", "number"})
 })
-public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Employee extends User {
     @Embedded
     @AttributeOverrides(value = {
             @AttributeOverride(name = "countryCode", column = @Column(name = "code", nullable = false)),
@@ -39,9 +41,13 @@ public class Employee {
     @ManyToOne
     private Position position;
 
-    @OneToOne
-    @JoinColumn(nullable = false, updatable = false)
-    private User user;
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedDate;
 
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
@@ -50,5 +56,13 @@ public class Employee {
     @ElementCollection(fetch = FetchType.EAGER, targetClass = EmployeeRole.class)
     @CollectionTable(name = "EMPLOYEE_ROLES")
     @Enumerated(value = EnumType.STRING)
-    private Set<EmployeeRole> roles = new HashSet<>();
+    private Set<EmployeeRole> employeeRoles = new HashSet<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(this.getRole());
+        authorities.addAll(this.employeeRoles);
+        return authorities;
+    }
 }
