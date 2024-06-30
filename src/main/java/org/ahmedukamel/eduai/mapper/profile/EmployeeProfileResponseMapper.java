@@ -20,23 +20,23 @@ public class EmployeeProfileResponseMapper extends UserProfileResponseMapper
 
     @Override
     public EmployeeProfileResponse apply(Employee employee) {
-        UserDetail userDetail = super.getDetails(employee.getUser());
+        UserDetail userDetail = super.getDetails(employee);
 
         Integer positionId = Objects.isNull(employee.getPosition()) ? null : employee.getPosition().getId();
 
         return new EmployeeProfileResponse(
                 employee.getId(),
-                employee.getUser().getUsername(),
-                employee.getUser().getEmail(),
-                employee.getUser().getPicture(),
-                StringUtils.hasLength(employee.getUser().getPicture()),
-                employee.getUser().getNid(),
-                super.getGender(employee.getUser()),
-                super.getRole(employee.getUser()),
-                super.getNationality(employee.getUser()),
-                super.getReligion(employee.getUser()),
-                employee.getUser().getBirthDate(),
-                employee.getUser().getRegion().getId(),
+                employee.getUsername(),
+                employee.getEmail(),
+                employee.getPicture(),
+                StringUtils.hasLength(employee.getPicture()),
+                employee.getNid(),
+                super.getGender(employee),
+                super.getRole(employee),
+                super.getNationality(employee),
+                super.getReligion(employee),
+                employee.getBirthDate(),
+                employee.getRegion().getId(),
                 employee.getPhoneNumber().toString(),
                 userDetail.getName().getFirst(),
                 userDetail.getName().getLast(),

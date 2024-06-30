@@ -34,6 +34,35 @@ CREATE TABLE `access_tokens` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `ahmed`
+--
+
+DROP TABLE IF EXISTS `ahmed`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ahmed` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `amr`
+--
+
+DROP TABLE IF EXISTS `amr`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `amr` (
+  `age` int DEFAULT NULL,
+  `gps` bigint NOT NULL,
+  PRIMARY KEY (`gps`),
+  CONSTRAINT `FK8of0qvbyj2umty1ndeqhf7xqr` FOREIGN KEY (`gps`) REFERENCES `ahmed` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `attachments`
 --
 
@@ -190,7 +219,7 @@ CREATE TABLE `cities` (
   UNIQUE KEY `CITY_FRENCH_NAME_UNIQUE_CONSTRAINT` (`name_fr`),
   KEY `FK6gatmv9dwedve82icy8wrkdmk` (`country_id`),
   CONSTRAINT `FK6gatmv9dwedve82icy8wrkdmk` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +258,7 @@ CREATE TABLE `countries` (
   UNIQUE KEY `COUNTRY_ENGLISH_NAME_UNIQUE_CONSTRAINT` (`name_en`),
   UNIQUE KEY `COUNTRY_ARABIC_NAME_UNIQUE_CONSTRAINT` (`name_ar`),
   UNIQUE KEY `COUNTRY_FRENCH_NAME_UNIQUE_CONSTRAINT` (`name_fr`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,14 +312,11 @@ CREATE TABLE `departments` (
   `id` int NOT NULL AUTO_INCREMENT,
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
-  `head_id` bigint NOT NULL,
   `school_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_rpbl99tstvgrcsdpfsx34iheb` (`head_id`),
   KEY `FK9fwvupr4xfhftlrl40k0ga8u5` (`school_id`),
-  CONSTRAINT `FK9fwvupr4xfhftlrl40k0ga8u5` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
-  CONSTRAINT `FKbl8pi22vx8dv15r86mf4m9gdp` FOREIGN KEY (`head_id`) REFERENCES `employees` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FK9fwvupr4xfhftlrl40k0ga8u5` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,7 +328,7 @@ DROP TABLE IF EXISTS `employee_roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee_roles` (
   `employee_id` bigint NOT NULL,
-  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER') DEFAULT NULL,
+  `roles` enum('ADMIN','SEMESTER_MANAGER') DEFAULT NULL,
   KEY `FK3uwwaxeiucvfixgd45etkjgmg` (`employee_id`),
   CONSTRAINT `FK3uwwaxeiucvfixgd45etkjgmg` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -316,20 +342,22 @@ DROP TABLE IF EXISTS `employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employees` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `created_date` datetime(6) NOT NULL,
   `hire_date` date DEFAULT NULL,
   `code` int NOT NULL,
   `number` bigint NOT NULL,
   `salary` double DEFAULT NULL,
   `updated_date` datetime(6) NOT NULL,
-  `id` bigint NOT NULL,
   `position_id` int DEFAULT NULL,
   `school_id` int NOT NULL,
+  `user_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `EMPLOYEE_PHONE_NUMBER_UNIQUE_CONSTRAINT` (`code`,`number`),
+  UNIQUE KEY `UK_j2dmgsma6pont6kf7nic9elpd` (`user_id`),
   KEY `FKngcpgx7fx5kednw3m7u0u8of3` (`position_id`),
   KEY `FKogp1ei47gy6bd19kx203rdowg` (`school_id`),
-  CONSTRAINT `FKd6th9xowehhf1kmmq1dsseq28` FOREIGN KEY (`id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK69x3vjuy1t5p18a5llb8h2fjx` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FKngcpgx7fx5kednw3m7u0u8of3` FOREIGN KEY (`position_id`) REFERENCES `positions` (`id`),
   CONSTRAINT `FKogp1ei47gy6bd19kx203rdowg` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -381,7 +409,9 @@ CREATE TABLE `events` (
   `created_at` datetime(6) NOT NULL,
   `event_end_date` datetime(6) NOT NULL,
   `event_start_date` datetime(6) NOT NULL,
-  `file_path` varchar(255) NOT NULL,
+  `file_extension` varchar(255) NOT NULL,
+  `file_format` enum('JPG','JPEG','PNG','DOC','DOCX','TXT','PDF','OTHER') NOT NULL,
+  `filename` varchar(255) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   `creator_id` bigint NOT NULL,
   `school_id` int NOT NULL,
@@ -728,7 +758,7 @@ CREATE TABLE `positions` (
   PRIMARY KEY (`id`),
   KEY `FK7lkgjivwf8cd9o6s4h0ule242` (`department_id`),
   CONSTRAINT `FK7lkgjivwf8cd9o6s4h0ule242` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -754,7 +784,7 @@ CREATE TABLE `regions` (
   UNIQUE KEY `REGION_LOCATION_UNIQUE_CONSTRAINT` (`latitude`,`longitude`),
   KEY `FKauwnrrif8787f1jaddkxe35go` (`city_id`),
   CONSTRAINT `FKauwnrrif8787f1jaddkxe35go` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -803,7 +833,7 @@ CREATE TABLE `schools` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `SCHOOL_NAME_UNIQUE_CONSTRAINT` (`name`),
   UNIQUE KEY `SCHOOL_CODE_UNIQUE_CONSTRAINT` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1013,8 +1043,8 @@ DROP TABLE IF EXISTS `user_notifications`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_notifications` (
   `is_read` bit(1) NOT NULL DEFAULT b'0',
-  `notification_id` bigint NOT NULL,
   `user_id` bigint NOT NULL,
+  `notification_id` bigint NOT NULL,
   PRIMARY KEY (`notification_id`,`user_id`),
   KEY `FK9f86wonnl11hos1cuf5fibutl` (`user_id`),
   CONSTRAINT `FK9f86wonnl11hos1cuf5fibutl` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
@@ -1053,7 +1083,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `USER_PICTURE_UNIQUE_CONSTRAINT` (`picture`),
   KEY `FK4muym4ujsr1xfh4qc3wsmmrhe` (`region_id`),
   CONSTRAINT `FK4muym4ujsr1xfh4qc3wsmmrhe` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1065,4 +1095,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-06-30 14:37:57
+-- Dump completed on 2024-06-28  2:14:39

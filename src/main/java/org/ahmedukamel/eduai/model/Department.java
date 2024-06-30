@@ -29,6 +29,10 @@ public class Department {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Employee head;
+
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
     private School school;

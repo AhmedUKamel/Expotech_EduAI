@@ -29,21 +29,21 @@ public class UserSaver implements BiFunction<UserRegistrationRequest, Role, User
         Region region = DatabaseService.get(regionRepository::findById, request.regionId(), Region.class);
         String password = passwordEncoder.encode(request.password());
 
-        User user = User
-                .builder()
-                .username(request.username().strip())
-                .email(request.email().strip().toLowerCase())
-                .password(password)
-                .gender(request.gender())
-                .role(role)
-                .nid(request.nid())
-                .birthDate(request.birthDate())
-                .nationality(request.nationality())
-                .region(region)
-                .religion(request.religion())
-                .enabled(true) // Temporary TODO: Send Activation Email
-                .accountNonLocked(true)
-                .build();
+        User user = new User();
+
+        user.setUsername(request.username().strip());
+        user.setEmail(request.email().strip().toLowerCase());
+        user.setPassword(password);
+        user.setGender(request.gender());
+        user.setRole(role);
+        user.setNid(request.nid());
+        user.setBirthDate(request.birthDate());
+        user.setNationality(request.nationality());
+        user.setRegion(region);
+        user.setReligion(request.religion());
+        user.setEnabled(true); // Temporary TODO: Send Activation Email
+        user.setAccountNonLocked(true);
+
 
         UserDetail userDetail_en = UserDetail
                 .builder()

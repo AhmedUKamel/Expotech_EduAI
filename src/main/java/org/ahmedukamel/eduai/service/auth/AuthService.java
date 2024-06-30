@@ -15,7 +15,7 @@ import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.StudentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.*;
-import org.ahmedukamel.eduai.saver.auth.EmployeeSaver;
+import org.ahmedukamel.eduai.saver.auth.EmployeeRegistrationRequestSaver;
 import org.ahmedukamel.eduai.saver.auth.ParentSaver;
 import org.ahmedukamel.eduai.saver.auth.StudentSaver;
 import org.ahmedukamel.eduai.saver.auth.TeacherSaver;
@@ -37,7 +37,7 @@ public class AuthService implements IAuthService {
     private final ParentProfileResponseMapper parentProfileResponseMapper;
     private final AuthenticationManager authenticationManager;
     private final AccessTokenService accessTokenService;
-    private final EmployeeSaver employeeSaver;
+    private final EmployeeRegistrationRequestSaver employeeRegistrationRequestSaver;
     private final StudentSaver studentSaver;
     private final TeacherSaver teacherSaver;
     private final ParentSaver parentSaver;
@@ -78,7 +78,7 @@ public class AuthService implements IAuthService {
     @Override
     public Object registerEmployee(Object object) {
         EmployeeRegistrationRequest request = (EmployeeRegistrationRequest) object;
-        Employee employee = employeeSaver.apply(request);
+        Employee employee = employeeRegistrationRequestSaver.apply(request);
 
         EmployeeProfileResponse response = employeeProfileResponseMapper.apply(employee);
         String message = "Successful employee registration, check mail inbox for activation email.";

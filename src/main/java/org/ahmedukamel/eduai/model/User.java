@@ -19,8 +19,8 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "USERS", uniqueConstraints = {
         @UniqueConstraint(name = "USER_USERNAME_UNIQUE_CONSTRAINT", columnNames = "username"),
         @UniqueConstraint(name = "USER_EMAIL_UNIQUE_CONSTRAINT", columnNames = "email"),
@@ -86,12 +86,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(this.role);
-        if (Objects.nonNull(this.employee)) {
-            authorities.addAll(this.employee.getRoles());
-        }
-        return authorities;
+        return Collections.singletonList(this.role);
     }
 
     @Override
@@ -103,9 +98,6 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
-    @OneToOne(mappedBy = "user")
-    private Employee employee;
 
     @OneToOne(mappedBy = "user")
     private Teacher teacher;
