@@ -6,6 +6,7 @@ import org.ahmedukamel.eduai.dto.interaction.CreateInteractionRequest;
 import org.ahmedukamel.eduai.dto.interaction.InteractionResponse;
 import org.ahmedukamel.eduai.mapper.interaction.InteractionResponseMapper;
 import org.ahmedukamel.eduai.model.Interaction;
+import org.ahmedukamel.eduai.model.Student;
 import org.ahmedukamel.eduai.model.Teacher;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.enumeration.InteractionType;
@@ -48,7 +49,7 @@ public class InteractionService implements IInteractionService {
                     user.getParent(), InteractionType.PARENT_TO_TEACHER, pageable);
 
             case STUDENT -> interactions = interactionRepository.findAllByStudentAndType(
-                    user.getStudent(), InteractionType.STUDENT_TO_TEACHER, pageable);
+                    (Student) user, InteractionType.STUDENT_TO_TEACHER, pageable);
 
             case TEACHER -> interactions = interactionRepository.findAllByTeacherAndType(
                     (Teacher) user, InteractionType.TEACHER_TO_STUDENT, pageable);
@@ -71,7 +72,7 @@ public class InteractionService implements IInteractionService {
 
         switch (user.getRole()) {
             case STUDENT -> interactions = interactionRepository.findAllByStudentAndType(
-                    user.getStudent(), InteractionType.TEACHER_TO_STUDENT, pageable);
+                    (Student) user, InteractionType.TEACHER_TO_STUDENT, pageable);
 
             case TEACHER -> interactions = interactionRepository.findAllByTeacherAndTypeOrType(
                     (Teacher) user, InteractionType.STUDENT_TO_TEACHER, InteractionType.PARENT_TO_TEACHER, pageable);

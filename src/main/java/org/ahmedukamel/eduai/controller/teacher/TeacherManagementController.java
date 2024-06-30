@@ -1,7 +1,7 @@
 package org.ahmedukamel.eduai.controller.teacher;
 
 import jakarta.validation.Valid;
-import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequest;
+import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequestITeacherRegistrationRequest;
 import org.ahmedukamel.eduai.service.teacher.ITeacherManagementService;
 import org.ahmedukamel.eduai.service.teacher.TeacherManagementService;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class TeacherManagementController {
 
     @PostMapping(value = "new")
     public ResponseEntity<?> addTeacher(
-            @Valid @RequestBody AddTeacherRequest request) {
+            @Valid @RequestBody AddTeacherRequestITeacherRegistrationRequest request) {
 
         return ResponseEntity.created(URI.create("api/v1/management/teacher/new"))
                 .body(service.addTeacher(request));

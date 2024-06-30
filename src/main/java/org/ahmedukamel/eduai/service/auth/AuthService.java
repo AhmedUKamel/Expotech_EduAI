@@ -17,9 +17,9 @@ import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.*;
 import org.ahmedukamel.eduai.repository.SchoolRepository;
 import org.ahmedukamel.eduai.saver.auth.EmployeeRegistrationRequestSaver;
-import org.ahmedukamel.eduai.saver.auth.ParentSaver;
-import org.ahmedukamel.eduai.saver.auth.StudentSaver;
 import org.ahmedukamel.eduai.saver.auth.ITeacherRegistrationRequestSaver;
+import org.ahmedukamel.eduai.saver.auth.ParentSaver;
+import org.ahmedukamel.eduai.saver.student.IStudentRegistrationRequestSaver;
 import org.ahmedukamel.eduai.service.access_token.AccessTokenService;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +35,7 @@ import java.util.Objects;
 public class AuthService implements IAuthService {
     private final EmployeeRegistrationRequestSaver employeeRegistrationRequestSaver;
     private final ITeacherRegistrationRequestSaver iTeacherRegistrationRequestSaver;
+    private final IStudentRegistrationRequestSaver iStudentRegistrationRequestSaver;
     private final EmployeeProfileResponseMapper employeeProfileResponseMapper;
     private final StudentProfileResponseMapper studentProfileResponseMapper;
     private final TeacherProfileResponseMapper teacherProfileResponseMapper;
@@ -42,13 +43,14 @@ public class AuthService implements IAuthService {
     private final AuthenticationManager authenticationManager;
     private final AccessTokenService accessTokenService;
     private final SchoolRepository schoolRepository;
-    private final StudentSaver studentSaver;
     private final ParentSaver parentSaver;
 
     @Override
     public Object registerStudent(Object object) {
         StudentRegistrationRequest request = (StudentRegistrationRequest) object;
-        Student savedStudent = studentSaver.apply(request);
+        School school = DatabaseService.get(schoolRepository::findById, request.schoolId(), School.class);
+
+        Student savedStudent = iStudentRegistrationRequestSaver.apply(request, school);
 
         StudentProfileResponse response = studentProfileResponseMapper.apply(savedStudent);
         String message = "Successful student registration, check mail inbox for activation email.";

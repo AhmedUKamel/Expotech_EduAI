@@ -7,6 +7,7 @@ import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.StudentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.Employee;
+import org.ahmedukamel.eduai.model.Student;
 import org.ahmedukamel.eduai.model.Teacher;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.repository.UserRepository;
@@ -32,7 +33,7 @@ public class AccountManagementService implements IAccountManagementService {
             case SUPER_ADMIN, ADMIN -> null;
             case EMPLOYEE -> employeeProfileResponseMapper.apply((Employee) user);
             case TEACHER -> teacherProfileResponseMapper.apply((Teacher) user);
-            case STUDENT -> studentProfileResponseMapper.apply(user.getStudent());
+            case STUDENT -> studentProfileResponseMapper.apply((Student) user);
             case PARENT -> parentProfileResponseMapper.apply(user.getParent());
         };
         String message = "User profile retrieved successfully.";

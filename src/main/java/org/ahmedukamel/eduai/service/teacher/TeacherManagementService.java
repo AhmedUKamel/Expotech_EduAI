@@ -3,7 +3,7 @@ package org.ahmedukamel.eduai.service.teacher;
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.dto.profile.TeacherProfileResponse;
-import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequest;
+import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequestITeacherRegistrationRequest;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.Teacher;
@@ -19,7 +19,7 @@ public class TeacherManagementService implements ITeacherManagementService {
 
     @Override
     public Object addTeacher(Object object) {
-        AddTeacherRequest request = (AddTeacherRequest) object;
+        AddTeacherRequestITeacherRegistrationRequest request = (AddTeacherRequestITeacherRegistrationRequest) object;
         School school = ContextHolderUtils.getEmployee().getSchool();
 
         Teacher teacher = iTeacherRegistrationRequestSaver.apply(request, school);

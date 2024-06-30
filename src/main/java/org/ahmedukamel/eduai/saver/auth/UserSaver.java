@@ -1,7 +1,7 @@
 package org.ahmedukamel.eduai.saver.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.dto.auth.UserRegistrationRequest;
+import org.ahmedukamel.eduai.dto.auth.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.Region;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.UserDetail;
@@ -19,13 +19,13 @@ import java.util.function.BiFunction;
 
 @Component
 @RequiredArgsConstructor
-public class UserSaver implements BiFunction<UserRegistrationRequest, Role, User> {
+public class UserSaver implements BiFunction<IUserRegistrationRequest, Role, User> {
     private final RegionRepository regionRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Override
-    public User apply(UserRegistrationRequest request, Role role) {
+    public User apply(IUserRegistrationRequest request, Role role) {
         Region region = DatabaseService.get(regionRepository::findById, request.regionId(), Region.class);
         String password = passwordEncoder.encode(request.password());
 

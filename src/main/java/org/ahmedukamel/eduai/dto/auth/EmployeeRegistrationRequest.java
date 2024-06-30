@@ -85,5 +85,5 @@ public record EmployeeRegistrationRequest(
         @NotNull
         @ExistSchool
         Integer schoolId
-) implements UserRegistrationRequest {
+) implements IUserRegistrationRequest {
 }

@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.ahmedukamel.eduai.annotation.ExistRegion;
+import org.ahmedukamel.eduai.annotation.ExistSchool;
 import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
 import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
+import org.ahmedukamel.eduai.dto.student.IStudentRegistrationRequest;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
 import org.ahmedukamel.eduai.model.enumeration.Religion;
@@ -73,6 +75,10 @@ public record StudentRegistrationRequest(
         String about_ar,
 
         @NotBlank
-        String about_fr
-) implements UserRegistrationRequest {
+        String about_fr,
+
+        @NotNull
+        @ExistSchool
+        Integer schoolId
+) implements IStudentRegistrationRequest {
 }

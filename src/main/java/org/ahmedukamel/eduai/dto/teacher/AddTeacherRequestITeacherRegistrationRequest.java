@@ -17,7 +17,7 @@ import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
-public record AddTeacherRequest(
+public record AddTeacherRequestITeacherRegistrationRequest(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,

@@ -42,8 +42,8 @@ public class Parent {
     @OneToMany(mappedBy = "parent")
     private Collection<Interaction> interactions;
 
-    @OneToMany(mappedBy = "parent")
-    private Set<Student> students;
+//    @OneToMany(mappedBy = "parent")
+//    private Set<Student> students;
 
     @Column(nullable = false)
     private String fullName;

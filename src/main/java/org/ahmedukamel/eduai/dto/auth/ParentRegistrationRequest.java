@@ -89,5 +89,5 @@ public record ParentRegistrationRequest(
 
         @NotBlank
         String occupation_fr
-) implements UserRegistrationRequest {
+) implements IUserRegistrationRequest {
 }

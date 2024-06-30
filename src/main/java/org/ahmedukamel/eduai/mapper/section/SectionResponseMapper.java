@@ -2,7 +2,6 @@ package org.ahmedukamel.eduai.mapper.section;
 
 import org.ahmedukamel.eduai.dto.section.SectionResponse;
 import org.ahmedukamel.eduai.model.Section;
-import org.ahmedukamel.eduai.model.Student;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -12,10 +11,12 @@ import java.util.function.Function;
 public class SectionResponseMapper implements Function<Section, SectionResponse> {
     @Override
     public SectionResponse apply(Section section) {
-        Collection<Long> studentsId = section.getStudents()
-                .stream()
-                .map(Student::getId)
-                .toList();
+        // TODO: Fix this
+//        Collection<Long> studentsId = section.getStudents()
+//                .stream()
+//                .map(Student::getId)
+//                .toList();
+        Collection<Long> studentsId = null;
 
         return new SectionResponse(
                 section.getId(),

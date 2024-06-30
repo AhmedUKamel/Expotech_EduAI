@@ -21,17 +21,18 @@ public class SectionUpdater implements BiFunction<Section, UpdateSectionRequest,
 
     @Override
     public Section apply(Section section, UpdateSectionRequest request) {
-        Collection<Student> students = request.studentsId()
-                .stream()
-                .flatMap(Stream::ofNullable)
-                .map(studentRepository::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .toList();
+//        Collection<Student> students = request.studentsId()
+//                .stream()
+//                .flatMap(Stream::ofNullable)
+//                .map(studentRepository::findById)
+//                .filter(Optional::isPresent)
+//                .map(Optional::get)
+//                .toList();
 
         section.setName(request.name().strip());
         section.setNumber(request.number().strip());
-        section.setStudents(students);
+//        section.setStudents(students);
+        // TODO: Fix this
 
         return sectionRepository.save(section);
     }

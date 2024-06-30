@@ -1,13 +1,12 @@
 package org.ahmedukamel.eduai.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
-import org.ahmedukamel.eduai.model.enumeration.Gender;
-import org.ahmedukamel.eduai.model.enumeration.Religion;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -15,19 +14,14 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "STUDENTS")
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToOne
-    @JoinColumn(nullable = false, updatable = false)
-    private User user;
-
+public class Student extends User {
     @ManyToOne
-    private Section section;
+    @JoinColumn(nullable = false, updatable = false)
+    private School school;
+
+//    @ManyToOne
+//    private Parent parent;
 
     @OneToMany(mappedBy = "student")
     private Collection<ExamResult> examResults;
@@ -37,43 +31,4 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private Set<Attendance> attendances;
-
-    @ManyToOne
-    private Parent parent;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    @JsonIgnore
-    private Grade grade;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private int age;
-
-    @Column(nullable = false)
-    private Gender gender;
-
-    @Column(nullable = false)
-    private String fatherName;
-
-    @Column(nullable = false)
-    private String motherName;
-
-    @Column(nullable = false)
-    private Date dateOfBirth;
-
-    @Column(nullable = false)
-    private Religion religion;
-
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
-    private String mobile;
-
 }

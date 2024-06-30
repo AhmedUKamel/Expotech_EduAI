@@ -2,7 +2,7 @@ package org.ahmedukamel.eduai.service.employee;
 
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
-import org.ahmedukamel.eduai.dto.employee.AddEmployeeRequest;
+import org.ahmedukamel.eduai.dto.employee.AddEmployeeRequestI;
 import org.ahmedukamel.eduai.dto.employee.AssignPositionToEmployeeRequest;
 import org.ahmedukamel.eduai.dto.profile.EmployeeProfileResponse;
 import org.ahmedukamel.eduai.mapper.profile.EmployeeProfileResponseMapper;
@@ -76,7 +76,7 @@ public class EmployeeManagementService implements IEmployeeManagementService {
 
     @Override
     public Object addEmployee(Object object) {
-        AddEmployeeRequest request = (AddEmployeeRequest) object;
+        AddEmployeeRequestI request = (AddEmployeeRequestI) object;
         School school = ContextHolderUtils.getEmployee().getSchool();
 
         Employee savedEmployee = addEmployeeRequestSaver.apply(request, school);

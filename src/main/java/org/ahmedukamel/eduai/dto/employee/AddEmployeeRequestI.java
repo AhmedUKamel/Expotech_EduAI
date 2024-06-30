@@ -5,14 +5,14 @@ import org.ahmedukamel.eduai.annotation.*;
 import org.ahmedukamel.eduai.annotation.enumeration.UniquePhoneConstraint;
 import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.constant.RegexConstants;
-import org.ahmedukamel.eduai.dto.auth.UserRegistrationRequest;
+import org.ahmedukamel.eduai.dto.auth.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
 import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
-public record AddEmployeeRequest(
+public record AddEmployeeRequestI(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,
@@ -86,5 +86,5 @@ public record AddEmployeeRequest(
 
         @NotNull
         LocalDate hireDate
-) implements UserRegistrationRequest {
+) implements IUserRegistrationRequest {
 }

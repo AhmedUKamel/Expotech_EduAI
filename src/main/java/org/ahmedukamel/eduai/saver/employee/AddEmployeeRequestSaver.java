@@ -1,7 +1,7 @@
 package org.ahmedukamel.eduai.saver.employee;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.dto.employee.AddEmployeeRequest;
+import org.ahmedukamel.eduai.dto.employee.AddEmployeeRequestI;
 import org.ahmedukamel.eduai.mapper.phonenumber.PhoneNumberMapper;
 import org.ahmedukamel.eduai.mapper.user.UserRegistrationRequestMapper;
 import org.ahmedukamel.eduai.model.Employee;
@@ -19,7 +19,7 @@ import java.util.function.BiFunction;
 @Component
 @RequiredArgsConstructor
 public class AddEmployeeRequestSaver
-        implements BiFunction<AddEmployeeRequest, School, Employee> {
+        implements BiFunction<AddEmployeeRequestI, School, Employee> {
 
     private final UserRegistrationRequestMapper<Employee> userRegistrationRequestMapper;
     private final EmployeeRepository employeeRepository;
@@ -27,7 +27,7 @@ public class AddEmployeeRequestSaver
     private final PhoneNumberMapper phoneNumberMapper;
 
     @Override
-    public Employee apply(AddEmployeeRequest request, School school) {
+    public Employee apply(AddEmployeeRequestI request, School school) {
         PhoneNumber phoneNumber = phoneNumberMapper.apply(request.number());
         Position position = DatabaseService.get(positionRepository::findByIdAndDepartment_School_Id,
                 request.positionId(), school.getId(), Position.class);
