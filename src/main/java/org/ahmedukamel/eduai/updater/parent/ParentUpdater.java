@@ -3,9 +3,10 @@ package org.ahmedukamel.eduai.updater.parent;
 import org.ahmedukamel.eduai.dto.parent.UpdateParentRequest;
 import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.repository.ParentRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.function.BiFunction;
-
+@Component
 public class ParentUpdater implements BiFunction<Parent, UpdateParentRequest,Parent> {
     private final ParentRepository parentRepository;
 

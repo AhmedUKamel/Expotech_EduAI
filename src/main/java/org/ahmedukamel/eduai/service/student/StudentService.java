@@ -7,21 +7,22 @@ import org.ahmedukamel.eduai.dto.student.UpdateStudentRequest;
 import org.ahmedukamel.eduai.mapper.student.StudentResponseMapper;
 import org.ahmedukamel.eduai.model.Student;
 import org.ahmedukamel.eduai.repository.StudentRepository;
-import org.ahmedukamel.eduai.saver.student.StudentSaver;
+import org.ahmedukamel.eduai.saver.student.CreateStudentSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.updater.student.StudentUpdater;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class StudentService implements IStudentService{
     private final StudentRepository studentRepository;
-    private final StudentSaver studentSaver;
+    private final CreateStudentSaver createStudentSaver;
     private final StudentUpdater studentUpdater;
     private final StudentResponseMapper studentResponseMapper;
 
-    public StudentService(StudentRepository studentRepository, StudentSaver studentSaver, StudentUpdater studentUpdater, StudentResponseMapper studentResponseMapper) {
+    public StudentService(StudentRepository studentRepository, CreateStudentSaver createStudentSaver, StudentUpdater studentUpdater, StudentResponseMapper studentResponseMapper) {
         this.studentRepository = studentRepository;
-        this.studentSaver = studentSaver;
+        this.createStudentSaver = createStudentSaver;
         this.studentUpdater = studentUpdater;
         this.studentResponseMapper = studentResponseMapper;
     }
@@ -29,7 +30,7 @@ public class StudentService implements IStudentService{
     @Override
     public Object createStudent(Object object) {
         CreateStudentRequest request = (CreateStudentRequest) object;
-        Student student = studentSaver.apply(request);
+        Student student = createStudentSaver.apply(request);
         StudentResponse response = studentResponseMapper.apply(student);
         String message = "Student created successfully.";
 

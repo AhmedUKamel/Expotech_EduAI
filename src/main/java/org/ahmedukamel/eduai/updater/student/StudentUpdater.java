@@ -6,9 +6,10 @@ import org.ahmedukamel.eduai.model.Student;
 import org.ahmedukamel.eduai.repository.ParentRepository;
 import org.ahmedukamel.eduai.repository.StudentRepository;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
+import org.springframework.stereotype.Component;
 
 import java.util.function.BiFunction;
-
+@Component
 public class StudentUpdater implements BiFunction<Student, UpdateStudentRequest,Student> {
     private final StudentRepository studentRepository;
     private final ParentRepository parentRepository;

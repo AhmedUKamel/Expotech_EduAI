@@ -14,7 +14,7 @@ import java.util.List;
 public interface ParentRepository extends JpaRepository<Parent, Long> {
     @Query(value = """
             SELECT e
-            FROM parent e
+            FROM Parent e
             ORDER BY e.id
             LIMIT :limit
             OFFSET :offset""")

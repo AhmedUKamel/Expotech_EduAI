@@ -2,9 +2,10 @@ package org.ahmedukamel.eduai.mapper.parent;
 
 import org.ahmedukamel.eduai.dto.parent.ParentResponse;
 import org.ahmedukamel.eduai.model.Parent;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
-
+@Component
 public class ParentResponseMapper implements Function<Parent, ParentResponse> {
     @Override
     public ParentResponse apply(Parent parent) {

@@ -3,13 +3,14 @@ package org.ahmedukamel.eduai.saver.parent;
 import org.ahmedukamel.eduai.dto.parent.CreateParentRequest;
 import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.repository.ParentRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
-
-public class ParentSaver implements Function<CreateParentRequest, Parent> {
+@Component
+public class CreateParentSaver implements Function<CreateParentRequest, Parent> {
     private final ParentRepository parentRepository;
 
-    public ParentSaver(ParentRepository parentRepository) {
+    public CreateParentSaver(ParentRepository parentRepository) {
         this.parentRepository = parentRepository;
     }
 

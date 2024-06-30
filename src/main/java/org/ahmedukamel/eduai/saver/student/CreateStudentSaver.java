@@ -1,20 +1,20 @@
 package org.ahmedukamel.eduai.saver.student;
 
-import org.ahmedukamel.eduai.dto.school.CreateSchoolRequest;
 import org.ahmedukamel.eduai.dto.student.CreateStudentRequest;
 import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.model.Student;
 import org.ahmedukamel.eduai.repository.ParentRepository;
 import org.ahmedukamel.eduai.repository.StudentRepository;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
-
-public class StudentSaver implements Function<CreateStudentRequest, Student> {
+@Component
+public class CreateStudentSaver implements Function<CreateStudentRequest, Student> {
     private final StudentRepository studentRepository;
     private final ParentRepository parentRepository;
 
-    public StudentSaver(StudentRepository studentRepository, ParentRepository parentRepository) {
+    public CreateStudentSaver(StudentRepository studentRepository, ParentRepository parentRepository) {
         this.studentRepository = studentRepository;
         this.parentRepository = parentRepository;
     }

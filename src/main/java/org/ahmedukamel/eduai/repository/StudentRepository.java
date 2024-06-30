@@ -13,7 +13,7 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = """
             SELECT e
-            FROM student e
+            FROM Student e
             ORDER BY e.id
             LIMIT :limit
             OFFSET :offset""")

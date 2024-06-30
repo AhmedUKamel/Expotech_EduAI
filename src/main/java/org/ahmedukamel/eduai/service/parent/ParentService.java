@@ -7,31 +7,32 @@ import org.ahmedukamel.eduai.dto.parent.UpdateParentRequest;
 import org.ahmedukamel.eduai.mapper.parent.ParentResponseMapper;
 import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.repository.ParentRepository;
-import org.ahmedukamel.eduai.saver.parent.ParentSaver;
+import org.ahmedukamel.eduai.saver.parent.CreateParentSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.updater.parent.ParentUpdater;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class ParentService implements IParentService{
     private final ParentResponseMapper parentResponseMapper;
     private final ParentRepository parentRepository;
-    private final ParentSaver parentSaver;
+    private final CreateParentSaver createParentSaver;
     private final ParentUpdater parentUpdater;
 
 
-    public ParentService(ParentResponseMapper parentResponseMapper, ParentRepository parentRepository, ParentSaver parentSaver, ParentUpdater parentUpdater) {
+    public ParentService(ParentResponseMapper parentResponseMapper, ParentRepository parentRepository, CreateParentSaver createParentSaver, ParentUpdater parentUpdater) {
         this.parentResponseMapper = parentResponseMapper;
         this.parentRepository = parentRepository;
-        this.parentSaver = parentSaver;
+        this.createParentSaver = createParentSaver;
         this.parentUpdater = parentUpdater;
     }
 
     @Override
     public Object createParent(Object object) {
         CreateParentRequest request = (CreateParentRequest) object;
-        Parent parent = parentSaver.apply(request);
+        Parent parent = createParentSaver.apply(request);
         ParentResponse response = parentResponseMapper.apply(parent);
         String message = "Parent created successfully.";
 
