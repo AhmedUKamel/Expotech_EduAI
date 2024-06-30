@@ -6,6 +6,7 @@ import org.ahmedukamel.eduai.dto.interaction.CreateInteractionRequest;
 import org.ahmedukamel.eduai.dto.interaction.InteractionResponse;
 import org.ahmedukamel.eduai.mapper.interaction.InteractionResponseMapper;
 import org.ahmedukamel.eduai.model.Interaction;
+import org.ahmedukamel.eduai.model.Teacher;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.enumeration.InteractionType;
 import org.ahmedukamel.eduai.repository.InteractionRepository;
@@ -50,7 +51,7 @@ public class InteractionService implements IInteractionService {
                     user.getStudent(), InteractionType.STUDENT_TO_TEACHER, pageable);
 
             case TEACHER -> interactions = interactionRepository.findAllByTeacherAndType(
-                    user.getTeacher(), InteractionType.TEACHER_TO_STUDENT, pageable);
+                    (Teacher) user, InteractionType.TEACHER_TO_STUDENT, pageable);
 
             default -> throw new IllegalStateException("Unexpected value: " + user.getRole());
         }
@@ -73,7 +74,7 @@ public class InteractionService implements IInteractionService {
                     user.getStudent(), InteractionType.TEACHER_TO_STUDENT, pageable);
 
             case TEACHER -> interactions = interactionRepository.findAllByTeacherAndTypeOrType(
-                    user.getTeacher(), InteractionType.STUDENT_TO_TEACHER, InteractionType.PARENT_TO_TEACHER, pageable);
+                    (Teacher) user, InteractionType.STUDENT_TO_TEACHER, InteractionType.PARENT_TO_TEACHER, pageable);
 
             default -> throw new IllegalStateException("Unexpected value: " + user.getRole());
         }
