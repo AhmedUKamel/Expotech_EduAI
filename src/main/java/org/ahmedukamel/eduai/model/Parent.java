@@ -3,9 +3,12 @@ package org.ahmedukamel.eduai.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
+import org.ahmedukamel.eduai.model.enumeration.Gender;
+import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,5 +44,33 @@ public class Parent {
     private Collection<Interaction> interactions;
 
     @OneToMany(mappedBy = "parent")
-    private Collection<ParentStudentAssociation> studentAssociations;
+    private Set<Student> students;
+
+    @Column(nullable = false)
+    private String fullName;
+
+    @Column(nullable = false)
+    private int age;
+
+    @Column(nullable = false)
+    private Gender gender;
+
+    @Column(nullable = false)
+    private int numberOfChildren;
+
+    @Column(nullable = false)
+    private String occupation;
+
+    @Column(nullable = false)
+    private Religion religion;
+
+    @Column(nullable = false)
+    private Date dateOfBirth;
+
+    @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
+    private String email;
+
 }
