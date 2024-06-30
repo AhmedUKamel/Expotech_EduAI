@@ -8,7 +8,6 @@ import org.ahmedukamel.eduai.dto.event.CreateEventRequest;
 import org.ahmedukamel.eduai.dto.event.UpdateEventRequest;
 import org.ahmedukamel.eduai.service.event.EventManagementService;
 import org.ahmedukamel.eduai.service.event.IEventManagementService;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -15,11 +15,13 @@ import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.StudentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.*;
+import org.ahmedukamel.eduai.repository.SchoolRepository;
 import org.ahmedukamel.eduai.saver.auth.EmployeeRegistrationRequestSaver;
 import org.ahmedukamel.eduai.saver.auth.ParentSaver;
 import org.ahmedukamel.eduai.saver.auth.StudentSaver;
-import org.ahmedukamel.eduai.saver.auth.TeacherSaver;
+import org.ahmedukamel.eduai.saver.auth.ITeacherRegistrationRequestSaver;
 import org.ahmedukamel.eduai.service.access_token.AccessTokenService;
+import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,15 +33,16 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
+    private final EmployeeRegistrationRequestSaver employeeRegistrationRequestSaver;
+    private final ITeacherRegistrationRequestSaver iTeacherRegistrationRequestSaver;
     private final EmployeeProfileResponseMapper employeeProfileResponseMapper;
     private final StudentProfileResponseMapper studentProfileResponseMapper;
     private final TeacherProfileResponseMapper teacherProfileResponseMapper;
     private final ParentProfileResponseMapper parentProfileResponseMapper;
     private final AuthenticationManager authenticationManager;
     private final AccessTokenService accessTokenService;
-    private final EmployeeRegistrationRequestSaver employeeRegistrationRequestSaver;
+    private final SchoolRepository schoolRepository;
     private final StudentSaver studentSaver;
-    private final TeacherSaver teacherSaver;
     private final ParentSaver parentSaver;
 
     @Override
@@ -67,7 +70,9 @@ public class AuthService implements IAuthService {
     @Override
     public Object registerTeacher(Object object) {
         TeacherRegistrationRequest request = (TeacherRegistrationRequest) object;
-        Teacher teacher = teacherSaver.apply(request);
+        School school = DatabaseService.get(schoolRepository::findById, request.schoolId(), School.class);
+
+        Teacher teacher = iTeacherRegistrationRequestSaver.apply(request, school);
 
         TeacherProfileResponse response = teacherProfileResponseMapper.apply(teacher);
         String message = "Successful teacher registration, check mail inbox for activation email.";

@@ -1,12 +1,14 @@
 package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Religion;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,7 +19,6 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "PARENTS", uniqueConstraints = {
         @UniqueConstraint(name = "PARENT_PHONE_NUMBER_UNIQUE_CONSTRAINT", columnNames = {"code", "number"})
 })

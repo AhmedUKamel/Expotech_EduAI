@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.ahmedukamel.eduai.annotation.ExistRegion;
+import org.ahmedukamel.eduai.annotation.ExistSchool;
 import org.ahmedukamel.eduai.annotation.UniquePhone;
 import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
@@ -88,6 +89,10 @@ public record TeacherRegistrationRequest(
         String qualification_ar,
 
         @NotBlank
-        String qualification_fr
-) implements UserRegistrationRequest {
+        String qualification_fr,
+
+        @NotNull
+        @ExistSchool
+        Integer schoolId
+) implements ITeacherRegistrationRequest {
 }
