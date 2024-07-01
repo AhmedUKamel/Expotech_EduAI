@@ -53,10 +53,10 @@ public class Event {
 
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
-            name = "event_organizers",
+            name = "event_attendees",
             joinColumns = @JoinColumn(name = "event_id"),
-            inverseJoinColumns = @JoinColumn(name = "organizer_id"))
-    private Set<User> organizers;
+            inverseJoinColumns = @JoinColumn(name = "attendee_id"))
+    private Set<User> attendees;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<EventDetail> details;

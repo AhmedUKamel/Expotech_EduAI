@@ -2,12 +2,9 @@ package org.ahmedukamel.eduai.dto.event;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 public record UpdateEventRequest(
         @NotNull
@@ -37,7 +34,6 @@ public record UpdateEventRequest(
         @NotBlank
         String description_fr,
 
-        @NotNull
-        List<Long> organizersId
+        List<Long> attendeesId
 ) {
 }

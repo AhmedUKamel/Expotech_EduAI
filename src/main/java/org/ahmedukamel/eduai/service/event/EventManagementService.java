@@ -9,7 +9,9 @@ import org.ahmedukamel.eduai.dto.event.EventResponse;
 import org.ahmedukamel.eduai.dto.event.UpdateEventRequest;
 import org.ahmedukamel.eduai.mapper.event.EventResponseMapper;
 import org.ahmedukamel.eduai.model.Event;
+import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.repository.EventRepository;
+import org.ahmedukamel.eduai.repository.UserRepository;
 import org.ahmedukamel.eduai.saver.event.EventSaver;
 import org.ahmedukamel.eduai.saver.file.FileSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
@@ -31,6 +33,7 @@ import java.nio.file.Path;
 public class EventManagementService implements IEventManagementService {
     private final EventResponseMapper eventResponseMapper;
     private final EventRepository eventRepository;
+    private final UserRepository userRepository;
     private final EventUpdater eventUpdater;
     private final EventSaver eventSaver;
     private final FileSaver fileSaver;
@@ -75,6 +78,8 @@ public class EventManagementService implements IEventManagementService {
 
             Path newFilePath = PathConstants.EVENT_FILES_PATH.resolve(filename);
 
+            Files.copy(file.getInputStream(), newFilePath);
+
             event.setFile(filename);
 
         } catch (IOException exception) {
@@ -84,6 +89,35 @@ public class EventManagementService implements IEventManagementService {
         Event updatedEvent = eventRepository.save(event);
 
         EventResponse response = eventResponseMapper.apply(updatedEvent);
+        String message = "Event updated successfully.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object addAttendeeToEvent(Long eventId, Long attendeeId) {
+        Event event = DatabaseService.get(eventRepository::findById, eventId, Event.class);
+        User attendee = DatabaseService.get(userRepository::findById, attendeeId, User.class);
+
+        event.getAttendees().add(attendee);
+
+        Event updatedEvent = eventRepository.save(event);
+
+        EventResponse response = eventResponseMapper.apply(updatedEvent);
+        String message = "Event updated successfully.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object removeAttendeeFromEvent(Long eventId, Long attendeeId) {
+        Event event = DatabaseService.get(eventRepository::findById, eventId, Event.class);
+
+        eventRepository.deleteAttendeeForEvent(eventId, attendeeId);
+
+        Event eventAfterDelete = DatabaseService.get(eventRepository::findById, eventId, Event.class);
+
+        EventResponse response = eventResponseMapper.apply(eventAfterDelete);
         String message = "Event updated successfully.";
 
         return new ApiResponse(true, message, response);
