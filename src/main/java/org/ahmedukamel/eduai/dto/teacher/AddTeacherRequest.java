@@ -1,18 +1,22 @@
-package org.ahmedukamel.eduai.dto.employee;
+package org.ahmedukamel.eduai.dto.teacher;
 
-import jakarta.validation.constraints.*;
-import org.ahmedukamel.eduai.annotation.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import org.ahmedukamel.eduai.annotation.ExistRegion;
+import org.ahmedukamel.eduai.annotation.UniquePhone;
+import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.annotation.enumeration.UniquePhoneConstraint;
 import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.constant.RegexConstants;
-import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
 import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
-public record AddEmployeeRequestI(
+public record AddTeacherRequest(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,
@@ -77,14 +81,13 @@ public record AddEmployeeRequestI(
         @NotBlank
         String about_fr,
 
-        @ExistPosition
-        Integer positionId,
+        @NotBlank
+        String qualification_en,
 
-        @NotNull
-        @Min(value = 0)
-        Double salary,
+        @NotBlank
+        String qualification_ar,
 
-        @NotNull
-        LocalDate hireDate
-) implements IUserRegistrationRequest {
+        @NotBlank
+        String qualification_fr
+) implements ITeacherRegistrationRequest {
 }

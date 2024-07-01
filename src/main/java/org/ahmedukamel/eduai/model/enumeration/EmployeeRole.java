@@ -8,6 +8,7 @@ public enum EmployeeRole implements GrantedAuthority {
     EMPLOYEE_MANAGER,
     TEACHER_MANAGER,
     STUDENT_MANAGER,
+    PARENT_MANAGER,
     BUS_MANAGER,
     EVENT_MANAGER;
 

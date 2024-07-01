@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@PreAuthorize(value = "hasAuthority('STUDENT_MANAGER')")
+@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'STUDENT_MANAGER')")
 @RequestMapping(value = "api/v1/management/student")
-public class StudentController {
-    private final IStudentManagementService studentService;
+public class StudentManagementController {
+    private final IStudentManagementService service;
 
-    public StudentController(StudentManagementService studentService) {
-        this.studentService = studentService;
+    public StudentManagementController(StudentManagementService service) {
+        this.service = service;
     }
 
     @PostMapping(value = "new")
@@ -26,28 +26,28 @@ public class StudentController {
             @Valid @RequestBody AddStudentRequest request) {
 
         return ResponseEntity.created(URI.create("api/v1/management/student/new"))
-                .body(studentService.addStudent(request));
+                .body(service.addStudent(request));
     }
 
     @DeleteMapping(value = "{studentId}")
     public ResponseEntity<?> deleteStudent(
             @Min(value = 1) @PathVariable(value = "studentId") Long id) {
 
-        return ResponseEntity.accepted().body(studentService.deleteStudent(id));
+        return ResponseEntity.accepted().body(service.deleteStudent(id));
     }
 
     @GetMapping(value = "{studentId}")
     public ResponseEntity<?> getStudent(
             @Min(value = 1) @PathVariable(value = "studentId") Long id) {
 
-        return ResponseEntity.ok().body(studentService.getStudent(id));
+        return ResponseEntity.ok().body(service.getStudent(id));
     }
 
     @GetMapping(value = "all")
     public ResponseEntity<?> getAllStudents(
             @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-            @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
+            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
 
-        return ResponseEntity.ok().body(studentService.getAllStudents(pageSize, pageNumber));
+        return ResponseEntity.ok().body(service.getAllStudents(pageSize, pageNumber));
     }
 }

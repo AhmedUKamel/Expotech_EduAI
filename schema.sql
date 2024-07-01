@@ -290,7 +290,7 @@ CREATE TABLE `departments` (
   KEY `FK9fwvupr4xfhftlrl40k0ga8u5` (`school_id`),
   CONSTRAINT `FK9fwvupr4xfhftlrl40k0ga8u5` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
   CONSTRAINT `FKbl8pi22vx8dv15r86mf4m9gdp` FOREIGN KEY (`head_id`) REFERENCES `employees` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,7 +302,7 @@ DROP TABLE IF EXISTS `employee_roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee_roles` (
   `employee_id` bigint NOT NULL,
-  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER','TEACHER_MANAGER','STUDENT_MANAGER') DEFAULT NULL,
+  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER','TEACHER_MANAGER','STUDENT_MANAGER','PARENT_MANAGER') DEFAULT NULL,
   KEY `FK3uwwaxeiucvfixgd45etkjgmg` (`employee_id`),
   CONSTRAINT `FK3uwwaxeiucvfixgd45etkjgmg` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -731,7 +731,7 @@ CREATE TABLE `positions` (
   PRIMARY KEY (`id`),
   KEY `FK7lkgjivwf8cd9o6s4h0ule242` (`department_id`),
   CONSTRAINT `FK7lkgjivwf8cd9o6s4h0ule242` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1056,7 +1056,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `USER_PICTURE_UNIQUE_CONSTRAINT` (`picture`),
   KEY `FK4muym4ujsr1xfh4qc3wsmmrhe` (`region_id`),
   CONSTRAINT `FK4muym4ujsr1xfh4qc3wsmmrhe` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1068,4 +1068,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-07-01 17:01:29
+-- Dump completed on 2024-07-01 18:46:32
