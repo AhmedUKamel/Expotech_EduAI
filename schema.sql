@@ -290,7 +290,7 @@ CREATE TABLE `departments` (
   KEY `FK9fwvupr4xfhftlrl40k0ga8u5` (`school_id`),
   CONSTRAINT `FK9fwvupr4xfhftlrl40k0ga8u5` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
   CONSTRAINT `FKbl8pi22vx8dv15r86mf4m9gdp` FOREIGN KEY (`head_id`) REFERENCES `employees` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,7 +302,7 @@ DROP TABLE IF EXISTS `employee_roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee_roles` (
   `employee_id` bigint NOT NULL,
-  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER') DEFAULT NULL,
+  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER','TEACHER_MANAGER','STUDENT_MANAGER') DEFAULT NULL,
   KEY `FK3uwwaxeiucvfixgd45etkjgmg` (`employee_id`),
   CONSTRAINT `FK3uwwaxeiucvfixgd45etkjgmg` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -379,9 +379,9 @@ DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `created_at` datetime(6) NOT NULL,
-  `event_end_date` datetime(6) NOT NULL,
-  `event_start_date` datetime(6) NOT NULL,
-  `file_path` varchar(255) NOT NULL,
+  `event_end_time` datetime(6) NOT NULL,
+  `event_start_time` datetime(6) NOT NULL,
+  `file` varchar(255) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   `creator_id` bigint NOT NULL,
   `school_id` int NOT NULL,
@@ -686,13 +686,24 @@ DROP TABLE IF EXISTS `parents`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `parents` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `address` varchar(255) NOT NULL,
+  `age` int NOT NULL,
+  `date_of_birth` datetime(6) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `gender` tinyint NOT NULL,
+  `number_of_children` int NOT NULL,
+  `occupation` varchar(255) NOT NULL,
   `code` int NOT NULL,
   `number` bigint NOT NULL,
+  `religion` tinyint NOT NULL,
   `user_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `PARENT_PHONE_NUMBER_UNIQUE_CONSTRAINT` (`code`,`number`),
   UNIQUE KEY `UK_c1t2v6wf187l8w0yew9sph3l4` (`user_id`),
-  CONSTRAINT `FKchh8tf8w072tapgqoijrahojk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FKchh8tf8w072tapgqoijrahojk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `parents_chk_1` CHECK ((`gender` between 0 and 1)),
+  CONSTRAINT `parents_chk_2` CHECK ((`religion` between 0 and 2))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -728,7 +739,7 @@ CREATE TABLE `positions` (
   PRIMARY KEY (`id`),
   KEY `FK7lkgjivwf8cd9o6s4h0ule242` (`department_id`),
   CONSTRAINT `FK7lkgjivwf8cd9o6s4h0ule242` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -893,19 +904,14 @@ DROP TABLE IF EXISTS `students`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `students` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `grade_id` bigint NOT NULL,
-  `section_id` int DEFAULT NULL,
-  `user_id` bigint NOT NULL,
+  `id` bigint NOT NULL,
+  `school_id` int NOT NULL,
   `students_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UK_g4fwvutq09fjdlb4bb0byp7t` (`user_id`),
-  KEY `FKexo2cgxoe0p8p60y4m6g9hent` (`grade_id`),
-  KEY `FKbu72kq4xd8qjcemytgfxel71l` (`section_id`),
+  KEY `FKdojmg8v3rw2ow4dev2b8q5oqq` (`school_id`),
   KEY `FKfratr5hhdx4ua36trv6rdcknh` (`students_id`),
-  CONSTRAINT `FKbu72kq4xd8qjcemytgfxel71l` FOREIGN KEY (`section_id`) REFERENCES `sections` (`id`),
-  CONSTRAINT `FKdt1cjx5ve5bdabmuuf3ibrwaq` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FKexo2cgxoe0p8p60y4m6g9hent` FOREIGN KEY (`grade_id`) REFERENCES `grades` (`id`),
+  CONSTRAINT `FK7xqmtv7r2eb5axni3jm0a80su` FOREIGN KEY (`id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKdojmg8v3rw2ow4dev2b8q5oqq` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
   CONSTRAINT `FKfratr5hhdx4ua36trv6rdcknh` FOREIGN KEY (`students_id`) REFERENCES `grades` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -935,14 +941,17 @@ DROP TABLE IF EXISTS `teachers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teachers` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
+  `created_date` datetime(6) NOT NULL,
   `code` int NOT NULL,
   `number` bigint NOT NULL,
-  `user_id` bigint NOT NULL,
+  `updated_date` datetime(6) NOT NULL,
+  `id` bigint NOT NULL,
+  `school_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `TEACHER_PHONE_NUMBER_UNIQUE_CONSTRAINT` (`code`,`number`),
-  UNIQUE KEY `UK_cd1k6xwg9jqtiwx9ybnxpmoh9` (`user_id`),
-  CONSTRAINT `FKb8dct7w2j1vl1r2bpstw5isc0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  KEY `FK25tvrvw3ww2p7mbt62abrbwev` (`school_id`),
+  CONSTRAINT `FK25tvrvw3ww2p7mbt62abrbwev` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
+  CONSTRAINT `FKpavufmal5lbtc60csriy8sx3` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1053,7 +1062,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `USER_PICTURE_UNIQUE_CONSTRAINT` (`picture`),
   KEY `FK4muym4ujsr1xfh4qc3wsmmrhe` (`region_id`),
   CONSTRAINT `FK4muym4ujsr1xfh4qc3wsmmrhe` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1065,4 +1074,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-06-30 14:37:57
+-- Dump completed on 2024-07-01 14:48:16
