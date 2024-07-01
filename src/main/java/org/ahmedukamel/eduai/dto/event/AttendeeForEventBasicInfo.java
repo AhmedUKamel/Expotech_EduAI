@@ -1,6 +1,6 @@
 package org.ahmedukamel.eduai.dto.event;
 
-public record OrganizerForEventBasicInfo(
+public record AttendeeForEventBasicInfo(
 
         Long id,
 

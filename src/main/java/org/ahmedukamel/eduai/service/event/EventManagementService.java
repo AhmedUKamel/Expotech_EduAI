@@ -75,6 +75,8 @@ public class EventManagementService implements IEventManagementService {
 
             Path newFilePath = PathConstants.EVENT_FILES_PATH.resolve(filename);
 
+            Files.copy(file.getInputStream(), newFilePath);
+
             event.setFile(filename);
 
         } catch (IOException exception) {

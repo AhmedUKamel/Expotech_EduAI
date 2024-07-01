@@ -4,12 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.ahmedukamel.eduai.annotation.ExistSchool;
 import org.ahmedukamel.eduai.annotation.ExistUser;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 public record CreateEventRequest(
         @NotNull
@@ -44,7 +41,6 @@ public record CreateEventRequest(
         @NotBlank
         String description_fr,
 
-        @NotNull
-        List<Long> organizersId
+        List<Long> attendeesId
 ) {
 }

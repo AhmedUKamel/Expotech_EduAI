@@ -45,9 +45,9 @@ public class EventUpdater implements BiFunction<Event, UpdateEventRequest, Event
         event.setEventEndTime(request.endTime());
 
         for (Long organizerId :
-                request.organizersId()) {
+                request.attendeesId()) {
             User organizer = DatabaseService.get(userRepository::findById, organizerId, User.class);
-            event.getOrganizers().add(organizer);
+            event.getAttendees().add(organizer);
         }
 
         return eventRepository.save(event);
