@@ -4,15 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.constant.PathConstants;
 import org.ahmedukamel.eduai.dto.event.CreateEventRequest;
 import org.ahmedukamel.eduai.model.Event;
-import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.EventDetail;
+import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.repository.EventRepository;
-import org.ahmedukamel.eduai.repository.SchoolRepository;
 import org.ahmedukamel.eduai.repository.UserRepository;
 import org.ahmedukamel.eduai.saver.file.FileSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
+import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +25,6 @@ import java.util.function.BiFunction;
 @RequiredArgsConstructor
 public class EventSaver implements BiFunction<CreateEventRequest, MultipartFile, Event> {
     private final EventRepository eventRepository;
-    private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
     private final FileSaver fileSaver;
 
@@ -40,7 +39,7 @@ public class EventSaver implements BiFunction<CreateEventRequest, MultipartFile,
         }
 
         User user = DatabaseService.get(userRepository::findById, request.creatorId(), User.class);
-        School school = DatabaseService.get(schoolRepository::findById, request.schoolId(), School.class);
+        School school = ContextHolderUtils.getEmployee().getSchool();
 
         Event event = Event
                 .builder()

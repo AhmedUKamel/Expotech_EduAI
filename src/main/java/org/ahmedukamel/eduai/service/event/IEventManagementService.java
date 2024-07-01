@@ -1,7 +1,6 @@
 package org.ahmedukamel.eduai.service.event;
 
 import org.ahmedukamel.eduai.dto.api.FileResponse;
-import org.ahmedukamel.eduai.dto.event.UpdateEventRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IEventManagementService {
@@ -17,7 +16,7 @@ public interface IEventManagementService {
 
     Object getEvent(Long id);
 
-    Object getAllEventsForSchool(Integer schoolId, int pageSize, int pageNumber);
+    Object getAllEventsForSchool(int pageSize, int pageNumber);
 
     Object uploadEventFile(Long id, MultipartFile pdf);
 

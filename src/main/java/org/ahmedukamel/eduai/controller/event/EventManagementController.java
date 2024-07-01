@@ -9,12 +9,14 @@ import org.ahmedukamel.eduai.dto.event.UpdateEventRequest;
 import org.ahmedukamel.eduai.service.event.EventManagementService;
 import org.ahmedukamel.eduai.service.event.IEventManagementService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 
 @RestController
+@PreAuthorize(value = "hasAnyAuthority(['ADMIN' ,'EVENT_MANAGER'])")
 @RequestMapping(value = "api/v1/event")
 public class EventManagementController {
     private final IEventManagementService service;
@@ -70,10 +72,9 @@ public class EventManagementController {
     }
 
     @GetMapping(value = "all")
-    public ResponseEntity<?> getAllEventsForSchool(@RequestParam(value = "schoolId") int schoolId,
-                                                     @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-                                                     @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
-        return ResponseEntity.ok().body(service.getAllEventsForSchool(schoolId, pageSize, pageNumber));
+    public ResponseEntity<?> getAllEventsForSchool(@Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
+                                                   @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
+        return ResponseEntity.ok().body(service.getAllEventsForSchool(pageSize, pageNumber));
     }
 
     @GetMapping(value = "public/{eventId}/file")

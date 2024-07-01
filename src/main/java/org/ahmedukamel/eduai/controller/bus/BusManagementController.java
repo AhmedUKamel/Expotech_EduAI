@@ -7,11 +7,13 @@ import org.ahmedukamel.eduai.dto.bus.UpdateBusRequest;
 import org.ahmedukamel.eduai.service.bus.IBusManagementService;
 import org.ahmedukamel.eduai.service.bus.BusManagementService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
 @RestController
+@PreAuthorize(value = "hasAnyAuthority(['ADMIN' ,'BUS_MANAGER'])")
 @RequestMapping(value = "api/v1/bus")
 public class BusManagementController {
     private final IBusManagementService service;
@@ -44,9 +46,8 @@ public class BusManagementController {
 
     @GetMapping(value = "all")
     public ResponseEntity<?> getAllBuses(
-            @Min(value = 1) @RequestParam(value = "schoolId") Integer schoolId,
             @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-            @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
-        return ResponseEntity.ok().body(service.getAllBuses(schoolId, pageSize, pageNumber));
+            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
+        return ResponseEntity.ok().body(service.getAllBuses(pageSize, pageNumber));
     }
 }

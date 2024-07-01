@@ -20,10 +20,6 @@ public record CreateBusRequest(
         Integer busCapacity,
 
         @NotBlank
-        String route,
-
-        @NotNull
-        @ExistSchool
-        Integer schoolId
+        String route
 ) {
 }
