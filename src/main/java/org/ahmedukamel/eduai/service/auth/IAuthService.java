@@ -9,7 +9,7 @@ public interface IAuthService {
 
     Object registerEmployee(Object object);
 
-    Object loginUser(String username, String password);
+    Object loginUser(Object object);
 
     Object logoutUser();
 }

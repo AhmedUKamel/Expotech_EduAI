@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.user_management.AdminParentResponse;
 import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.model.ParentDetail;
-import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.UserDetail;
 import org.ahmedukamel.eduai.service.message.MessageSourceService;
 import org.ahmedukamel.eduai.util.address.AddressUtils;
@@ -24,26 +23,25 @@ public class AdminParentResponseMapper implements Function<Parent, AdminParentRe
 
     @Override
     public AdminParentResponse apply(Parent parent) {
-        User user = parent.getUser();
-        UserDetail userDetails = UserUtils.getUserDetail(user);
+        UserDetail userDetails = UserUtils.getUserDetail(parent);
         ParentDetail parentDetails = ParentUtils.getParentDetail(parent);
 
         return new AdminParentResponse(
                 userDetails.getName().toString(),
                 parent.getId(),
-                user.getId(),
-                messageSourceService.getGender(user.getGender()),
-                messageSourceService.getReligion(user.getReligion()),
+                parent.getId(),
+                messageSourceService.getGender(parent.getGender()),
+                messageSourceService.getReligion(parent.getReligion()),
                 parentDetails.getOccupation(),
-                AddressUtils.formatAddress(user.getRegion()),
+                AddressUtils.formatAddress(parent.getRegion()),
                 parent.getPhoneNumber().toString(),
-                user.getEmail(),
+                parent.getEmail(),
                 // TODO: Map picture url
-                user.getPicture(),
-                StringUtils.hasLength(user.getPicture()),
-                ((int) ChronoUnit.YEARS.between(user.getBirthDate(), LocalDateTime.now())),
+                parent.getPicture(),
+                StringUtils.hasLength(parent.getPicture()),
+                ((int) ChronoUnit.YEARS.between(parent.getBirthDate(), LocalDateTime.now())),
                 0,
-                user.getBirthDate()
+                parent.getBirthDate()
 
         );
     }

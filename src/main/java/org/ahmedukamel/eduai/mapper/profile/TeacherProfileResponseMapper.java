@@ -22,22 +22,22 @@ public class TeacherProfileResponseMapper extends UserProfileResponseMapper
 
     @Override
     public TeacherProfileResponse apply(Teacher teacher) {
-        UserDetail userDetail = super.getDetails(teacher.getUser());
+        UserDetail userDetail = super.getDetails(teacher);
         TeacherDetail teacherDetail = this.getDetails(teacher);
 
         return new TeacherProfileResponse(
                 teacher.getId(),
-                teacher.getUser().getUsername(),
-                teacher.getUser().getEmail(),
-                teacher.getUser().getPicture(),
-                StringUtils.hasLength(teacher.getUser().getPicture()),
-                teacher.getUser().getNid(),
-                super.getGender(teacher.getUser()),
-                super.getRole(teacher.getUser()),
-                super.getNationality(teacher.getUser()),
-                super.getReligion(teacher.getUser()),
-                teacher.getUser().getBirthDate(),
-                teacher.getUser().getRegion().getId(),
+                teacher.getUsername(),
+                teacher.getEmail(),
+                teacher.getPicture(),
+                StringUtils.hasLength(teacher.getPicture()),
+                teacher.getNid(),
+                super.getGender(teacher),
+                super.getRole(teacher),
+                super.getNationality(teacher),
+                super.getReligion(teacher),
+                teacher.getBirthDate(),
+                teacher.getRegion().getId(),
                 teacher.getPhoneNumber().toString(),
                 userDetail.getName().getFirst(),
                 userDetail.getName().getLast(),
@@ -51,7 +51,7 @@ public class TeacherProfileResponseMapper extends UserProfileResponseMapper
         Predicate<TeacherDetail> filter = (i) -> i.getLanguage().getCode()
                 .equalsIgnoreCase(LocaleContextHolder.getLocale().getLanguage());
 
-        return teacher.getDetails()
+        return teacher.getTeacherDetails()
                 .stream()
                 .filter(filter)
                 .findFirst()

@@ -1,11 +1,12 @@
-package org.ahmedukamel.eduai.saver.auth;
+package org.ahmedukamel.eduai.saver.teacher;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.dto.auth.TeacherRegistrationRequest;
+import org.ahmedukamel.eduai.dto.teacher.ITeacherRegistrationRequest;
 import org.ahmedukamel.eduai.mapper.phonenumber.PhoneNumberMapper;
+import org.ahmedukamel.eduai.mapper.user.UserRegistrationRequestMapper;
+import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.Teacher;
 import org.ahmedukamel.eduai.model.TeacherDetail;
-import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.model.enumeration.Role;
@@ -13,26 +14,25 @@ import org.ahmedukamel.eduai.repository.TeacherRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 @Component
 @RequiredArgsConstructor
-public class TeacherSaver implements Function<TeacherRegistrationRequest, Teacher> {
+public class ITeacherRegistrationRequestSaver
+        implements BiFunction<ITeacherRegistrationRequest, School, Teacher> {
+
+    private final UserRegistrationRequestMapper<Teacher> userRegistrationRequestMapper;
     private final PhoneNumberMapper phoneNumberMapper;
     private final TeacherRepository teacherRepository;
-    private final UserSaver userSaver;
 
     @Override
-    public Teacher apply(TeacherRegistrationRequest request) {
+    public Teacher apply(ITeacherRegistrationRequest request, School school) {
         PhoneNumber phoneNumber = phoneNumberMapper.apply(request.number());
 
-        User savedUser = userSaver.apply(request, Role.TEACHER);
-
-        Teacher teacher = Teacher
-                .builder()
-                .phoneNumber(phoneNumber)
-                .user(savedUser)
-                .build();
+        Teacher teacher = userRegistrationRequestMapper.apply(request, Teacher.class);
+        teacher.setPhoneNumber(phoneNumber);
+        teacher.setSchool(school);
+        teacher.setRole(Role.TEACHER);
 
         TeacherDetail teacherDetail_en = TeacherDetail
                 .builder()
@@ -55,7 +55,7 @@ public class TeacherSaver implements Function<TeacherRegistrationRequest, Teache
                         .language(Language.FRENCH)
                         .build();
 
-        teacher.setDetails(Set.of(teacherDetail_en, teacherDetail_ar, teacherDetail_fr));
+        teacher.setTeacherDetails(Set.of(teacherDetail_en, teacherDetail_ar, teacherDetail_fr));
         return teacherRepository.save(teacher);
     }
 }

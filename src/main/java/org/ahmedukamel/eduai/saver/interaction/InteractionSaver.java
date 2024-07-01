@@ -32,14 +32,14 @@ public class InteractionSaver implements Function<CreateInteractionRequest, Inte
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No valid interaction type found."));
 
-        Student student = toUser.getRole().equals(Role.STUDENT) ? toUser.getStudent() :
-                fromUser.getRole().equals(Role.STUDENT) ? fromUser.getStudent() : null;
+        Student student = toUser.getRole().equals(Role.STUDENT) ? (Student) toUser :
+                fromUser.getRole().equals(Role.STUDENT) ? (Student) fromUser : null;
 
-        Teacher teacher = toUser.getRole().equals(Role.TEACHER) ? toUser.getTeacher() :
-                fromUser.getRole().equals(Role.TEACHER) ? fromUser.getTeacher() : null;
+        Teacher teacher = toUser.getRole().equals(Role.TEACHER) ? (Teacher) toUser :
+                fromUser.getRole().equals(Role.TEACHER) ? (Teacher) fromUser : null;
 
-        Parent parent = toUser.getRole().equals(Role.PARENT) ? toUser.getParent() :
-                fromUser.getRole().equals(Role.PARENT) ? fromUser.getParent() : null;
+        Parent parent = toUser.getRole().equals(Role.PARENT) ? (Parent) toUser :
+                fromUser.getRole().equals(Role.PARENT) ? (Parent) fromUser : null;
 
         Interaction interaction = Interaction
                 .builder()

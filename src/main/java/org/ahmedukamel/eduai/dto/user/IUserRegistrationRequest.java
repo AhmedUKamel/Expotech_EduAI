@@ -1,4 +1,4 @@
-package org.ahmedukamel.eduai.dto.auth;
+package org.ahmedukamel.eduai.dto.user;
 
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
@@ -6,7 +6,7 @@ import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
-public interface UserRegistrationRequest {
+public interface IUserRegistrationRequest {
     String username();
 
     String email();

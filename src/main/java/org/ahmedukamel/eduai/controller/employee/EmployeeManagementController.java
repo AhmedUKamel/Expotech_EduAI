@@ -2,7 +2,7 @@ package org.ahmedukamel.eduai.controller.employee;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import org.ahmedukamel.eduai.dto.employee.AddEmployeeRequest;
+import org.ahmedukamel.eduai.dto.employee.AddEmployeeRequestI;
 import org.ahmedukamel.eduai.dto.employee.AssignPositionToEmployeeRequest;
 import org.ahmedukamel.eduai.service.employee.EmployeeManagementService;
 import org.ahmedukamel.eduai.service.employee.IEmployeeManagementService;
@@ -47,7 +47,7 @@ public class EmployeeManagementController {
 
     @PostMapping(value = "new")
     public ResponseEntity<?> addEmployee(
-            @Valid @RequestBody AddEmployeeRequest request) {
+            @Valid @RequestBody AddEmployeeRequestI request) {
 
         return ResponseEntity.created(URI.create("api/v1/employees/new"))
                 .body(service.addEmployee(request));

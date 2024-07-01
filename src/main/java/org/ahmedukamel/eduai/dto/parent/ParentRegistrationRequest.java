@@ -1,10 +1,11 @@
-package org.ahmedukamel.eduai.dto.auth;
+package org.ahmedukamel.eduai.dto.parent;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.ahmedukamel.eduai.annotation.ExistRegion;
+import org.ahmedukamel.eduai.annotation.ExistSchool;
 import org.ahmedukamel.eduai.annotation.UniquePhone;
 import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
@@ -16,7 +17,7 @@ import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
-public record TeacherRegistrationRequest(
+public record ParentRegistrationRequest(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,
@@ -51,7 +52,7 @@ public record TeacherRegistrationRequest(
         LocalDate birthDate,
 
         @NotBlank
-        @UniquePhone(entity = UniquePhoneConstraint.TEACHER)
+        @UniquePhone(entity = UniquePhoneConstraint.PARENT)
         String number,
 
         @NotBlank
@@ -82,12 +83,16 @@ public record TeacherRegistrationRequest(
         String about_fr,
 
         @NotBlank
-        String qualification_en,
+        String occupation_en,
 
         @NotBlank
-        String qualification_ar,
+        String occupation_ar,
 
         @NotBlank
-        String qualification_fr
-) implements UserRegistrationRequest {
+        String occupation_fr,
+
+        @NotNull
+        @ExistSchool
+        Integer schoolId
+) implements IParentRegistrationRequest {
 }

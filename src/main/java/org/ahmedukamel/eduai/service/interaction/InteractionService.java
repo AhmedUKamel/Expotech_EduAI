@@ -5,8 +5,7 @@ import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.dto.interaction.CreateInteractionRequest;
 import org.ahmedukamel.eduai.dto.interaction.InteractionResponse;
 import org.ahmedukamel.eduai.mapper.interaction.InteractionResponseMapper;
-import org.ahmedukamel.eduai.model.Interaction;
-import org.ahmedukamel.eduai.model.User;
+import org.ahmedukamel.eduai.model.*;
 import org.ahmedukamel.eduai.model.enumeration.InteractionType;
 import org.ahmedukamel.eduai.repository.InteractionRepository;
 import org.ahmedukamel.eduai.saver.interaction.InteractionSaver;
@@ -44,13 +43,13 @@ public class InteractionService implements IInteractionService {
 
         switch (user.getRole()) {
             case PARENT -> interactions = interactionRepository.findAllByParentAndType(
-                    user.getParent(), InteractionType.PARENT_TO_TEACHER, pageable);
+                    (Parent) user, InteractionType.PARENT_TO_TEACHER, pageable);
 
             case STUDENT -> interactions = interactionRepository.findAllByStudentAndType(
-                    user.getStudent(), InteractionType.STUDENT_TO_TEACHER, pageable);
+                    (Student) user, InteractionType.STUDENT_TO_TEACHER, pageable);
 
             case TEACHER -> interactions = interactionRepository.findAllByTeacherAndType(
-                    user.getTeacher(), InteractionType.TEACHER_TO_STUDENT, pageable);
+                    (Teacher) user, InteractionType.TEACHER_TO_STUDENT, pageable);
 
             default -> throw new IllegalStateException("Unexpected value: " + user.getRole());
         }
@@ -70,10 +69,10 @@ public class InteractionService implements IInteractionService {
 
         switch (user.getRole()) {
             case STUDENT -> interactions = interactionRepository.findAllByStudentAndType(
-                    user.getStudent(), InteractionType.TEACHER_TO_STUDENT, pageable);
+                    (Student) user, InteractionType.TEACHER_TO_STUDENT, pageable);
 
             case TEACHER -> interactions = interactionRepository.findAllByTeacherAndTypeOrType(
-                    user.getTeacher(), InteractionType.STUDENT_TO_TEACHER, InteractionType.PARENT_TO_TEACHER, pageable);
+                    (Teacher) user, InteractionType.STUDENT_TO_TEACHER, InteractionType.PARENT_TO_TEACHER, pageable);
 
             default -> throw new IllegalStateException("Unexpected value: " + user.getRole());
         }

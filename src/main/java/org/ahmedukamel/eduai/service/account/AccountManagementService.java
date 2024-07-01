@@ -6,8 +6,7 @@ import org.ahmedukamel.eduai.mapper.profile.EmployeeProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.StudentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
-import org.ahmedukamel.eduai.model.Employee;
-import org.ahmedukamel.eduai.model.User;
+import org.ahmedukamel.eduai.model.*;
 import org.ahmedukamel.eduai.repository.UserRepository;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,9 +29,9 @@ public class AccountManagementService implements IAccountManagementService {
         Object response = switch (user.getRole()) {
             case SUPER_ADMIN, ADMIN -> null;
             case EMPLOYEE -> employeeProfileResponseMapper.apply((Employee) user);
-            case TEACHER -> teacherProfileResponseMapper.apply(user.getTeacher());
-            case STUDENT -> studentProfileResponseMapper.apply(user.getStudent());
-            case PARENT -> parentProfileResponseMapper.apply(user.getParent());
+            case TEACHER -> teacherProfileResponseMapper.apply((Teacher) user);
+            case STUDENT -> studentProfileResponseMapper.apply((Student) user);
+            case PARENT -> parentProfileResponseMapper.apply((Parent) user);
         };
         String message = "User profile retrieved successfully.";
 

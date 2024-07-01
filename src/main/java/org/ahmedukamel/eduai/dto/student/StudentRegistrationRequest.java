@@ -1,4 +1,4 @@
-package org.ahmedukamel.eduai.dto.auth;
+package org.ahmedukamel.eduai.dto.student;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -6,10 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.ahmedukamel.eduai.annotation.ExistRegion;
 import org.ahmedukamel.eduai.annotation.ExistSchool;
-import org.ahmedukamel.eduai.annotation.UniquePhone;
 import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
-import org.ahmedukamel.eduai.annotation.enumeration.UniquePhoneConstraint;
 import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
@@ -17,7 +15,7 @@ import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
-public record EmployeeRegistrationRequest(
+public record StudentRegistrationRequest(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,
@@ -52,10 +50,6 @@ public record EmployeeRegistrationRequest(
         LocalDate birthDate,
 
         @NotBlank
-        @UniquePhone(entity = UniquePhoneConstraint.TEACHER)
-        String number,
-
-        @NotBlank
         String firstName_en,
 
         @NotBlank
@@ -85,5 +79,5 @@ public record EmployeeRegistrationRequest(
         @NotNull
         @ExistSchool
         Integer schoolId
-) implements UserRegistrationRequest {
+) implements IStudentRegistrationRequest {
 }

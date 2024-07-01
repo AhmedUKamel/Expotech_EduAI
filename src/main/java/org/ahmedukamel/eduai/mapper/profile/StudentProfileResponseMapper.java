@@ -19,21 +19,21 @@ public class StudentProfileResponseMapper extends UserProfileResponseMapper
 
     @Override
     public StudentProfileResponse apply(Student student) {
-        UserDetail userDetail = super.getDetails(student.getUser());
+        UserDetail userDetail = super.getDetails(student);
 
         return new StudentProfileResponse(
                 student.getId(),
-                student.getUser().getUsername(),
-                student.getUser().getEmail(),
-                student.getUser().getPicture(),
-                StringUtils.hasLength(student.getUser().getPicture()),
-                student.getUser().getNid(),
-                super.getGender(student.getUser()),
-                super.getRole(student.getUser()),
-                super.getNationality(student.getUser()),
-                super.getReligion(student.getUser()),
-                student.getUser().getBirthDate(),
-                student.getUser().getRegion().getId(),
+                student.getUsername(),
+                student.getEmail(),
+                student.getPicture(),
+                StringUtils.hasLength(student.getPicture()),
+                student.getNid(),
+                super.getGender(student),
+                super.getRole(student),
+                super.getNationality(student),
+                super.getReligion(student),
+                student.getBirthDate(),
+                student.getRegion().getId(),
                 userDetail.getName().getFirst(),
                 userDetail.getName().getLast(),
                 userDetail.getAbout()

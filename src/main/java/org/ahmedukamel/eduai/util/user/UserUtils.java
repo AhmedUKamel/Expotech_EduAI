@@ -10,7 +10,7 @@ public abstract class UserUtils {
     public static UserDetail getUserDetail(User user) {
         String languageCode = LocaleContextHolder.getLocale().getLanguage();
 
-        return user.getDetails()
+        return user.getUserDetails()
                 .stream()
                 .filter(userDetail -> userDetail.getLanguage().getCode()
                         .equalsIgnoreCase(languageCode))

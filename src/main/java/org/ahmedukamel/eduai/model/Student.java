@@ -1,45 +1,43 @@
 package org.ahmedukamel.eduai.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Collection;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "STUDENTS")
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToOne
+public class Student extends User {
+    @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
-    private User user;
+    private School school;
 
     @ManyToOne
-    private Section section;
+    private Parent parent;
 
-    @OneToMany(mappedBy = "student")
-    private Collection<ExamResult> examResults;
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate;
 
-    @OneToMany(mappedBy = "student")
-    private Collection<Interaction> interactions;
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "student")
-    private Set<Attendance> attendances;
-
-    @OneToMany(mappedBy = "student")
-    private Collection<ParentStudentAssociation> parentAssociations;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    @JsonIgnore
-    private Grade grade;
+//    @OneToMany(mappedBy = "student")
+//    private Collection<ExamResult> examResults;
+//
+//    @OneToMany(mappedBy = "student")
+//    private Collection<Interaction> interactions;
+//
+//    @OneToMany(mappedBy = "student")
+//    private Set<Attendance> attendances;
 }

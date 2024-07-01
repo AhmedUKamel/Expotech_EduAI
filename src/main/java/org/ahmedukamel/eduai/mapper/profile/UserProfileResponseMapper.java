@@ -19,7 +19,7 @@ public abstract class UserProfileResponseMapper {
         Predicate<UserDetail> filter = (i) -> i.getLanguage().getCode()
                 .equalsIgnoreCase(LocaleContextHolder.getLocale().getLanguage());
 
-        return user.getDetails()
+        return user.getUserDetails()
                 .stream()
                 .filter(filter)
                 .findFirst()

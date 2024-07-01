@@ -1,7 +1,7 @@
 package org.ahmedukamel.eduai.mapper.user;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.dto.auth.UserRegistrationRequest;
+import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.Region;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.UserDetail;
@@ -18,13 +18,13 @@ import java.util.function.BiFunction;
 @Component
 @RequiredArgsConstructor
 public class UserRegistrationRequestMapper<T extends User>
-        implements BiFunction<UserRegistrationRequest, Class<? extends T>, T> {
+        implements BiFunction<IUserRegistrationRequest, Class<? extends T>, T> {
 
     private final RegionRepository regionRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public T apply(UserRegistrationRequest request, Class<? extends T> tClass) {
+    public T apply(IUserRegistrationRequest request, Class<? extends T> tClass) {
         try {
             T user = tClass.getDeclaredConstructor().newInstance();
 
@@ -66,7 +66,7 @@ public class UserRegistrationRequestMapper<T extends User>
                     .language(Language.FRENCH)
                     .build();
 
-            user.setDetails(Set.of(userDetail_en, userDetail_ar, userDetail_fr));
+            user.setUserDetails(Set.of(userDetail_en, userDetail_ar, userDetail_fr));
 
             return user;
         } catch (Exception exception) {
