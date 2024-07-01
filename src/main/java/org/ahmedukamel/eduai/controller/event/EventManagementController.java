@@ -37,6 +37,18 @@ public class EventManagementController {
         return ResponseEntity.accepted().body(service.updateEvent(id, request));
     }
 
+    @PutMapping(value ="add-attendee")
+    public ResponseEntity<?> addAttendeeToEvent(@Min(value = 1) @RequestParam(value = "eventId") Long eventId,
+                                                @Min(value = 1) @RequestParam(value = "attendeeId") Long attendeeId) {
+        return ResponseEntity.accepted().body(service.addAttendeeToEvent(eventId, attendeeId));
+    }
+
+    @PutMapping(value ="remove-attendee")
+    public ResponseEntity<?> removeAttendeeFromEvent(@Min(value = 1) @RequestParam(value = "eventId") Long eventId,
+                                                @Min(value = 1) @RequestParam(value = "attendeeId") Long attendeeId) {
+        return ResponseEntity.accepted().body(service.removeAttendeeFromEvent(eventId, attendeeId));
+    }
+
     @PutMapping(value = "{eventId}/upload")
     public ResponseEntity<?> uploadEventFile(@Min(value = 1) @PathVariable(value = "eventId") Long id,
                                              @NotEmpty @RequestParam(value = "file") MultipartFile file) {
