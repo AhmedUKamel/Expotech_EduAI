@@ -1,7 +1,7 @@
 package org.ahmedukamel.eduai.mapper.user;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.dto.auth.IUserRegistrationRequest;
+import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.Region;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.UserDetail;

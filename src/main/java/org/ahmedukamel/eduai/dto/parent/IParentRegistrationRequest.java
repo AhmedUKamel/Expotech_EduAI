@@ -1,6 +1,6 @@
 package org.ahmedukamel.eduai.dto.parent;
 
-import org.ahmedukamel.eduai.dto.auth.IUserRegistrationRequest;
+import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
 
 public interface IParentRegistrationRequest extends IUserRegistrationRequest {
     String number();

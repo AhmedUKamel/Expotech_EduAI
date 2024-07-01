@@ -1,4 +1,4 @@
-package org.ahmedukamel.eduai.dto.auth;
+package org.ahmedukamel.eduai.dto.employee;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,14 +11,14 @@ import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
 import org.ahmedukamel.eduai.annotation.enumeration.UniquePhoneConstraint;
 import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
-import org.ahmedukamel.eduai.dto.teacher.ITeacherRegistrationRequest;
+import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
 import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
 
-public record TeacherRegistrationRequest(
+public record EmployeeRegistrationRequest(
         @NotBlank
         @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,
@@ -53,7 +53,7 @@ public record TeacherRegistrationRequest(
         LocalDate birthDate,
 
         @NotBlank
-        @UniquePhone(entity = UniquePhoneConstraint.TEACHER)
+        @UniquePhone(entity = UniquePhoneConstraint.EMPLOYEE)
         String number,
 
         @NotBlank
@@ -83,17 +83,8 @@ public record TeacherRegistrationRequest(
         @NotBlank
         String about_fr,
 
-        @NotBlank
-        String qualification_en,
-
-        @NotBlank
-        String qualification_ar,
-
-        @NotBlank
-        String qualification_fr,
-
         @NotNull
         @ExistSchool
         Integer schoolId
-) implements ITeacherRegistrationRequest {
+) implements IUserRegistrationRequest {
 }

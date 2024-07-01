@@ -2,14 +2,15 @@ package org.ahmedukamel.eduai.service.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
-import org.ahmedukamel.eduai.dto.auth.EmployeeRegistrationRequest;
-import org.ahmedukamel.eduai.dto.auth.ParentRegistrationRequest;
-import org.ahmedukamel.eduai.dto.auth.StudentRegistrationRequest;
-import org.ahmedukamel.eduai.dto.auth.TeacherRegistrationRequest;
+import org.ahmedukamel.eduai.dto.auth.LoginRequest;
+import org.ahmedukamel.eduai.dto.employee.EmployeeRegistrationRequest;
+import org.ahmedukamel.eduai.dto.parent.ParentRegistrationRequest;
 import org.ahmedukamel.eduai.dto.profile.EmployeeProfileResponse;
 import org.ahmedukamel.eduai.dto.profile.ParentProfileResponse;
 import org.ahmedukamel.eduai.dto.profile.StudentProfileResponse;
 import org.ahmedukamel.eduai.dto.profile.TeacherProfileResponse;
+import org.ahmedukamel.eduai.dto.student.StudentRegistrationRequest;
+import org.ahmedukamel.eduai.dto.teacher.TeacherRegistrationRequest;
 import org.ahmedukamel.eduai.mapper.profile.EmployeeProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.StudentProfileResponseMapper;
@@ -17,9 +18,9 @@ import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.*;
 import org.ahmedukamel.eduai.repository.SchoolRepository;
 import org.ahmedukamel.eduai.saver.employee.EmployeeRegistrationRequestSaver;
-import org.ahmedukamel.eduai.saver.teacher.ITeacherRegistrationRequestSaver;
 import org.ahmedukamel.eduai.saver.parent.IParentRegistrationRequestSaver;
 import org.ahmedukamel.eduai.saver.student.IStudentRegistrationRequestSaver;
+import org.ahmedukamel.eduai.saver.teacher.ITeacherRegistrationRequestSaver;
 import org.ahmedukamel.eduai.service.access_token.AccessTokenService;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -96,9 +97,10 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public Object loginUser(String username, String password) {
+    public Object loginUser(Object object) {
+        LoginRequest request = (LoginRequest) object;
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+                new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );
 
         if (Objects.nonNull(authentication) &&

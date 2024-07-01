@@ -27,6 +27,10 @@ public class Teacher extends User {
     })
     private PhoneNumber phoneNumber;
 
+    @ManyToOne
+    @JoinColumn(nullable = false, updatable = false)
+    private School school;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -34,10 +38,6 @@ public class Teacher extends User {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedDate;
-
-    @ManyToOne
-    @JoinColumn(nullable = false, updatable = false)
-    private School school;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<TeacherDetail> teacherDetails = new HashSet<>();

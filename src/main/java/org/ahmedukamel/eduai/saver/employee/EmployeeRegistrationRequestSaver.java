@@ -1,7 +1,7 @@
 package org.ahmedukamel.eduai.saver.employee;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.dto.auth.EmployeeRegistrationRequest;
+import org.ahmedukamel.eduai.dto.employee.EmployeeRegistrationRequest;
 import org.ahmedukamel.eduai.mapper.phonenumber.PhoneNumberMapper;
 import org.ahmedukamel.eduai.mapper.user.UserRegistrationRequestMapper;
 import org.ahmedukamel.eduai.model.Employee;

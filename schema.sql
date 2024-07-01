@@ -685,25 +685,15 @@ DROP TABLE IF EXISTS `parents`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `parents` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `address` varchar(255) NOT NULL,
-  `age` int NOT NULL,
-  `date_of_birth` datetime(6) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `full_name` varchar(255) NOT NULL,
-  `gender` tinyint NOT NULL,
-  `number_of_children` int NOT NULL,
-  `occupation` varchar(255) NOT NULL,
   `code` int NOT NULL,
   `number` bigint NOT NULL,
-  `religion` tinyint NOT NULL,
-  `user_id` bigint NOT NULL,
+  `id` bigint NOT NULL,
+  `school_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `PARENT_PHONE_NUMBER_UNIQUE_CONSTRAINT` (`code`,`number`),
-  UNIQUE KEY `UK_c1t2v6wf187l8w0yew9sph3l4` (`user_id`),
-  CONSTRAINT `FKchh8tf8w072tapgqoijrahojk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `parents_chk_1` CHECK ((`gender` between 0 and 1)),
-  CONSTRAINT `parents_chk_2` CHECK ((`religion` between 0 and 2))
+  KEY `FKatq0lg3m5wavlfe3p7kfkvwpj` (`school_id`),
+  CONSTRAINT `FKatq0lg3m5wavlfe3p7kfkvwpj` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
+  CONSTRAINT `FKbunaue5n1kwq8j49jeqvgu0f3` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -905,11 +895,14 @@ DROP TABLE IF EXISTS `students`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `students` (
   `id` bigint NOT NULL,
+  `parent_id` bigint DEFAULT NULL,
   `school_id` int NOT NULL,
   `students_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
+  KEY `FK7bbpphkk8f0aoav3iiih3mh4e` (`parent_id`),
   KEY `FKdojmg8v3rw2ow4dev2b8q5oqq` (`school_id`),
   KEY `FKfratr5hhdx4ua36trv6rdcknh` (`students_id`),
+  CONSTRAINT `FK7bbpphkk8f0aoav3iiih3mh4e` FOREIGN KEY (`parent_id`) REFERENCES `parents` (`id`),
   CONSTRAINT `FK7xqmtv7r2eb5axni3jm0a80su` FOREIGN KEY (`id`) REFERENCES `users` (`id`),
   CONSTRAINT `FKdojmg8v3rw2ow4dev2b8q5oqq` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
   CONSTRAINT `FKfratr5hhdx4ua36trv6rdcknh` FOREIGN KEY (`students_id`) REFERENCES `grades` (`id`)
@@ -1074,4 +1067,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-07-01 14:48:16
+-- Dump completed on 2024-07-01 15:51:03

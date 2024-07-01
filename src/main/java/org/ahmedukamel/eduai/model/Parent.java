@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +33,14 @@ public class Parent extends User {
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
     private School school;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedDate;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ParentDetail> parentDetails = new HashSet<>();
