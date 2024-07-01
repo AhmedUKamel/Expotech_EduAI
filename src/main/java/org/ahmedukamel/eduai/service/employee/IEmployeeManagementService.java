@@ -1,11 +1,11 @@
 package org.ahmedukamel.eduai.service.employee;
 
 public interface IEmployeeManagementService {
-    Object assignPositionToEmployee(Object object);
+    Object addEmployee(Object object);
 
-    Object getUnEmployedEmployees(int pageSize, int pageNumber);
+    Object deleteEmployee(Long id);
+
+    Object getEmployee(Long id);
 
     Object getAllEmployees(int pageSize, int pageNumber);
-
-    Object addEmployee(Object object);
 }

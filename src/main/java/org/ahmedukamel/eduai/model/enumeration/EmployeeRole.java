@@ -7,7 +7,8 @@ public enum EmployeeRole implements GrantedAuthority {
     SEMESTER_MANAGER,
     EMPLOYEE_MANAGER,
     TEACHER_MANAGER,
-    STUDENT_MANAGER;
+    STUDENT_MANAGER,
+    PARENT_MANAGER;
 
     @Override
     public String getAuthority() {

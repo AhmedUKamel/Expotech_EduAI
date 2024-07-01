@@ -1,20 +1,18 @@
 package org.ahmedukamel.eduai.controller.teacher;
 
 import jakarta.validation.Valid;
-import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequestITeacherRegistrationRequest;
+import jakarta.validation.constraints.Min;
+import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequest;
 import org.ahmedukamel.eduai.service.teacher.ITeacherManagementService;
 import org.ahmedukamel.eduai.service.teacher.TeacherManagementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
 @RestController
-@PreAuthorize(value = "hasAuthority('TEACHER_MANAGER')")
+@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'TEACHER_MANAGER')")
 @RequestMapping(value = "api/v1/management/teacher")
 public class TeacherManagementController {
     private final ITeacherManagementService service;
@@ -25,9 +23,31 @@ public class TeacherManagementController {
 
     @PostMapping(value = "new")
     public ResponseEntity<?> addTeacher(
-            @Valid @RequestBody AddTeacherRequestITeacherRegistrationRequest request) {
+            @Valid @RequestBody AddTeacherRequest request) {
 
         return ResponseEntity.created(URI.create("api/v1/management/teacher/new"))
                 .body(service.addTeacher(request));
+    }
+
+    @DeleteMapping(value = "{teacherId}")
+    public ResponseEntity<?> deleteTeacher(
+            @Min(value = 1) @PathVariable(value = "teacherId") Long id) {
+
+        return ResponseEntity.accepted().body(service.deleteTeacher(id));
+    }
+
+    @GetMapping(value = "{teacherId}")
+    public ResponseEntity<?> getTeacher(
+            @Min(value = 1) @PathVariable(value = "teacherId") Long id) {
+
+        return ResponseEntity.ok().body(service.getTeacher(id));
+    }
+
+    @GetMapping(value = "all")
+    public ResponseEntity<?> getAllTeachers(
+            @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
+            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
+
+        return ResponseEntity.ok().body(service.getAllTeachers(pageSize, pageNumber));
     }
 }

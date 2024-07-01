@@ -1,6 +1,6 @@
 package org.ahmedukamel.eduai.service.parent;
 
-public interface IParentService {
+public interface IParentManagementService {
     Object addParent(Object object);
 
     Object deleteParent(Long id);

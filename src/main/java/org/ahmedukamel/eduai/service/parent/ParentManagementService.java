@@ -11,7 +11,7 @@ import org.ahmedukamel.eduai.repository.ParentRepository;
 import org.ahmedukamel.eduai.saver.parent.IParentRegistrationRequestSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
-import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ParentService implements IParentService {
+public class ParentManagementService implements IParentManagementService {
     private final IParentRegistrationRequestSaver iParentRegistrationRequestSaver;
     private final ParentProfileResponseMapper parentProfileResponseMapper;
     private final ParentRepository parentRepository;
@@ -45,7 +45,7 @@ public class ParentService implements IParentService {
 
         try {
             parentRepository.delete(parent);
-        } catch (ConstraintViolationException exception) {
+        } catch (DataIntegrityViolationException exception) {
             throw new RuntimeException("Parent is associated with other records and can't be deleted.", exception);
         }
 
@@ -57,6 +57,7 @@ public class ParentService implements IParentService {
     @Override
     public Object getParent(Long id) {
         School school = ContextHolderUtils.getEmployee().getSchool();
+
         Parent parent = DatabaseService.get(parentRepository::findByIdAndSchool_Id,
                 id, school.getId(), Parent.class);
 
@@ -69,7 +70,7 @@ public class ParentService implements IParentService {
     @Override
     public Object getAllParents(int pageSize, int pageNumber) {
         School school = ContextHolderUtils.getEmployee().getSchool();
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         Page<Parent> parents = parentRepository.findAllBySchool_Id(school.getId(), pageable);
 
