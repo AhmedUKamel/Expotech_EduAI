@@ -685,8 +685,10 @@ DROP TABLE IF EXISTS `parents`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `parents` (
+  `created_date` datetime(6) NOT NULL,
   `code` int NOT NULL,
   `number` bigint NOT NULL,
+  `updated_date` datetime(6) NOT NULL,
   `id` bigint NOT NULL,
   `school_id` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -894,18 +896,17 @@ DROP TABLE IF EXISTS `students`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `students` (
+  `created_date` datetime(6) NOT NULL,
+  `updated_date` datetime(6) NOT NULL,
   `id` bigint NOT NULL,
   `parent_id` bigint DEFAULT NULL,
   `school_id` int NOT NULL,
-  `students_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK7bbpphkk8f0aoav3iiih3mh4e` (`parent_id`),
   KEY `FKdojmg8v3rw2ow4dev2b8q5oqq` (`school_id`),
-  KEY `FKfratr5hhdx4ua36trv6rdcknh` (`students_id`),
   CONSTRAINT `FK7bbpphkk8f0aoav3iiih3mh4e` FOREIGN KEY (`parent_id`) REFERENCES `parents` (`id`),
   CONSTRAINT `FK7xqmtv7r2eb5axni3jm0a80su` FOREIGN KEY (`id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FKdojmg8v3rw2ow4dev2b8q5oqq` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
-  CONSTRAINT `FKfratr5hhdx4ua36trv6rdcknh` FOREIGN KEY (`students_id`) REFERENCES `grades` (`id`)
+  CONSTRAINT `FKdojmg8v3rw2ow4dev2b8q5oqq` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1055,7 +1056,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `USER_PICTURE_UNIQUE_CONSTRAINT` (`picture`),
   KEY `FK4muym4ujsr1xfh4qc3wsmmrhe` (`region_id`),
   CONSTRAINT `FK4muym4ujsr1xfh4qc3wsmmrhe` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1067,4 +1068,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-07-01 15:51:03
+-- Dump completed on 2024-07-01 17:01:29
