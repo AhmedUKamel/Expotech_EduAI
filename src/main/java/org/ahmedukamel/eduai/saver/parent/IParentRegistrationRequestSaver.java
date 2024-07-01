@@ -9,6 +9,7 @@ import org.ahmedukamel.eduai.model.ParentDetail;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.Language;
+import org.ahmedukamel.eduai.model.enumeration.Role;
 import org.ahmedukamel.eduai.repository.ParentRepository;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ public class IParentRegistrationRequestSaver
 
         parent.setPhoneNumber(phoneNumber);
         parent.setSchool(school);
+        parent.setRole(Role.PARENT);
 
         ParentDetail parentDetail_en = new ParentDetail();
         parentDetail_en.setParent(parent);

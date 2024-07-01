@@ -9,6 +9,7 @@ import org.ahmedukamel.eduai.model.Teacher;
 import org.ahmedukamel.eduai.model.TeacherDetail;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.Language;
+import org.ahmedukamel.eduai.model.enumeration.Role;
 import org.ahmedukamel.eduai.repository.TeacherRepository;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,7 @@ public class ITeacherRegistrationRequestSaver
         Teacher teacher = userRegistrationRequestMapper.apply(request, Teacher.class);
         teacher.setPhoneNumber(phoneNumber);
         teacher.setSchool(school);
+        teacher.setRole(Role.TEACHER);
 
         TeacherDetail teacherDetail_en = TeacherDetail
                 .builder()

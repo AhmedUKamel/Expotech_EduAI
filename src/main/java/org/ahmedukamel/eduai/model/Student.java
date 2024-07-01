@@ -9,8 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -34,12 +32,12 @@ public class Student extends User {
     @Column(nullable = false)
     private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "student")
-    private Collection<ExamResult> examResults;
-
-    @OneToMany(mappedBy = "student")
-    private Collection<Interaction> interactions;
-
-    @OneToMany(mappedBy = "student")
-    private Set<Attendance> attendances;
+//    @OneToMany(mappedBy = "student")
+//    private Collection<ExamResult> examResults;
+//
+//    @OneToMany(mappedBy = "student")
+//    private Collection<Interaction> interactions;
+//
+//    @OneToMany(mappedBy = "student")
+//    private Set<Attendance> attendances;
 }
