@@ -30,7 +30,7 @@ public record EventResponse(
 
         String endDate,
 
-        Set<OrganizerForEventBasicInfo> organizers
+        Set<AttendeeForEventBasicInfo> attendees
 
 ) {
 }

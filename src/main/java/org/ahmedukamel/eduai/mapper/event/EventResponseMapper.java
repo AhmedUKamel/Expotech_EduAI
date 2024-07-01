@@ -1,7 +1,7 @@
 package org.ahmedukamel.eduai.mapper.event;
 
 import org.ahmedukamel.eduai.dto.event.EventResponse;
-import org.ahmedukamel.eduai.dto.event.OrganizerForEventBasicInfo;
+import org.ahmedukamel.eduai.dto.event.AttendeeForEventBasicInfo;
 import org.ahmedukamel.eduai.model.Event;
 import org.ahmedukamel.eduai.model.EventDetail;
 import org.ahmedukamel.eduai.model.User;
@@ -26,12 +26,12 @@ public class EventResponseMapper implements Function<Event, EventResponse> {
                 eventDetail_fr = EventUtils.getEventDetail(
                         event, Language.FRENCH);
 
-        Set<OrganizerForEventBasicInfo> organizersInfo= new HashSet<>();
-        for (User organizer:
-             event.getOrganizers()) {
-            OrganizerForEventBasicInfo organizerInfo = new OrganizerForEventBasicInfo(organizer.getId(),
-                    organizer.getUsername(), organizer.getPicture());
-            organizersInfo.add(organizerInfo);
+        Set<AttendeeForEventBasicInfo> attendeesInfo= new HashSet<>();
+        for (User attendee:
+             event.getAttendees()) {
+            AttendeeForEventBasicInfo organizerInfo = new AttendeeForEventBasicInfo(attendee.getId(),
+                    attendee.getUsername(), attendee.getPicture());
+            attendeesInfo.add(organizerInfo);
         }
 
         return EventResponse
@@ -48,7 +48,7 @@ public class EventResponseMapper implements Function<Event, EventResponse> {
                 .description_en(eventDetail_en.getDescription())
                 .description_ar(eventDetail_ar.getDescription())
                 .description_fr(eventDetail_fr.getDescription())
-                .organizers(organizersInfo)
+                .attendees(attendeesInfo)
                 .build();
     }
 }

@@ -1,30 +1,28 @@
 package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
-import org.ahmedukamel.eduai.model.enumeration.Gender;
-import org.ahmedukamel.eduai.model.enumeration.Religion;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "PARENTS", uniqueConstraints = {
         @UniqueConstraint(name = "PARENT_PHONE_NUMBER_UNIQUE_CONSTRAINT", columnNames = {"code", "number"})
 })
-public class Parent {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Parent extends User {
     @Embedded
     @AttributeOverrides(value = {
             @AttributeOverride(name = "countryCode", column = @Column(name = "code", nullable = false)),
@@ -32,44 +30,24 @@ public class Parent {
     })
     private PhoneNumber phoneNumber;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
-    private User user;
+    private School school;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedDate;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<ParentDetail> details = new HashSet<>();
+    private Set<ParentDetail> parentDetails = new HashSet<>();
 
     @OneToMany(mappedBy = "parent")
     private Collection<Interaction> interactions;
 
-//    @OneToMany(mappedBy = "parent")
-//    private Set<Student> students;
-
-    @Column(nullable = false)
-    private String fullName;
-
-    @Column(nullable = false)
-    private int age;
-
-    @Column(nullable = false)
-    private Gender gender;
-
-    @Column(nullable = false)
-    private int numberOfChildren;
-
-    @Column(nullable = false)
-    private String occupation;
-
-    @Column(nullable = false)
-    private Religion religion;
-
-    @Column(nullable = false)
-    private Date dateOfBirth;
-
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private String email;
-
+    @OneToMany(mappedBy = "parent")
+    private Set<Student> students;
 }

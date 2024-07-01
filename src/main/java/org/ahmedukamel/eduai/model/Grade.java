@@ -22,9 +22,9 @@ public class Grade {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany
-    @JoinColumn(nullable = false, updatable = false)
-    private List<Student> students;
+//    @OneToMany
+//    @JoinColumn(nullable = false, updatable = false)
+//    private List<Student> students;
 
     @OneToMany
     @JoinColumn(nullable = false, updatable = false)

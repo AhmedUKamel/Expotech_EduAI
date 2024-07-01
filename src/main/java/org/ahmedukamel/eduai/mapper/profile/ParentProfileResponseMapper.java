@@ -22,22 +22,22 @@ public class ParentProfileResponseMapper extends UserProfileResponseMapper
 
     @Override
     public ParentProfileResponse apply(Parent parent) {
-        UserDetail userDetail = super.getDetails(parent.getUser());
+        UserDetail userDetail = super.getDetails(parent);
         ParentDetail teacherDetail = this.getDetails(parent);
 
         return new ParentProfileResponse(
                 parent.getId(),
-                parent.getUser().getUsername(),
-                parent.getUser().getEmail(),
-                parent.getUser().getPicture(),
-                StringUtils.hasLength(parent.getUser().getPicture()),
-                parent.getUser().getNid(),
-                super.getGender(parent.getUser()),
-                super.getRole(parent.getUser()),
-                super.getNationality(parent.getUser()),
-                super.getReligion(parent.getUser()),
-                parent.getUser().getRegion().getId(),
-                parent.getUser().getBirthDate(),
+                parent.getUsername(),
+                parent.getEmail(),
+                parent.getPicture(),
+                StringUtils.hasLength(parent.getPicture()),
+                parent.getNid(),
+                super.getGender(parent),
+                super.getRole(parent),
+                super.getNationality(parent),
+                super.getReligion(parent),
+                parent.getRegion().getId(),
+                parent.getBirthDate(),
                 parent.getPhoneNumber().toString(),
                 userDetail.getName().getFirst(),
                 userDetail.getName().getLast(),
@@ -51,7 +51,7 @@ public class ParentProfileResponseMapper extends UserProfileResponseMapper
         Predicate<ParentDetail> filter = (i) -> i.getLanguage().getCode()
                 .equalsIgnoreCase(LocaleContextHolder.getLocale().getLanguage());
 
-        return parent.getDetails()
+        return parent.getParentDetails()
                 .stream()
                 .filter(filter)
                 .findFirst()

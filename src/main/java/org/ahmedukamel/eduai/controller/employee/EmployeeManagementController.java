@@ -2,8 +2,7 @@ package org.ahmedukamel.eduai.controller.employee;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import org.ahmedukamel.eduai.dto.employee.AddEmployeeRequestI;
-import org.ahmedukamel.eduai.dto.employee.AssignPositionToEmployeeRequest;
+import org.ahmedukamel.eduai.dto.employee.AddEmployeeRequest;
 import org.ahmedukamel.eduai.service.employee.EmployeeManagementService;
 import org.ahmedukamel.eduai.service.employee.IEmployeeManagementService;
 import org.springframework.http.ResponseEntity;
@@ -13,43 +12,42 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@PreAuthorize(value = "hasAuthority('EMPLOYEE_MANAGER')")
-@RequestMapping(value = "api/v1/employees")
+@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'EMPLOYEE_MANAGER')")
+@RequestMapping(value = "api/v1/management/employee")
 public class EmployeeManagementController {
-    private final IEmployeeManagementService service;
+    private final IEmployeeManagementService parentService;
 
     public EmployeeManagementController(EmployeeManagementService service) {
-        this.service = service;
+        this.parentService = service;
     }
 
-    @GetMapping(value = "unemployed")
-    public ResponseEntity<?> getUnEmployedEmployees(
-            @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-            @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
+    @PostMapping(value = "new")
+    public ResponseEntity<?> addEmployee(
+            @Valid @RequestBody AddEmployeeRequest request) {
 
-        return ResponseEntity.ok().body(service.getUnEmployedEmployees(pageSize, pageNumber));
+        return ResponseEntity.created(URI.create("api/v1/management/employee/new"))
+                .body(parentService.addEmployee(request));
+    }
+
+    @DeleteMapping(value = "{employeeId}")
+    public ResponseEntity<?> deleteEmployee(
+            @Min(value = 1) @PathVariable(value = "employeeId") Long id) {
+
+        return ResponseEntity.accepted().body(parentService.deleteEmployee(id));
+    }
+
+    @GetMapping(value = "{employeeId}")
+    public ResponseEntity<?> getEmployee(
+            @Min(value = 1) @PathVariable(value = "employeeId") Long id) {
+
+        return ResponseEntity.ok().body(parentService.getEmployee(id));
     }
 
     @GetMapping(value = "all")
     public ResponseEntity<?> getAllEmployees(
             @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-            @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
+            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
 
-        return ResponseEntity.ok().body(service.getAllEmployees(pageSize, pageNumber));
-    }
-
-    @PostMapping(value = "assign")
-    public ResponseEntity<?> assignPositionToEmployee(
-            @Valid @RequestBody AssignPositionToEmployeeRequest request) {
-
-        return ResponseEntity.accepted().body(service.assignPositionToEmployee(request));
-    }
-
-    @PostMapping(value = "new")
-    public ResponseEntity<?> addEmployee(
-            @Valid @RequestBody AddEmployeeRequestI request) {
-
-        return ResponseEntity.created(URI.create("api/v1/employees/new"))
-                .body(service.addEmployee(request));
+        return ResponseEntity.ok().body(parentService.getAllEmployees(pageSize, pageNumber));
     }
 }

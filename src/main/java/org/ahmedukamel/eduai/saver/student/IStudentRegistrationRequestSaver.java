@@ -5,6 +5,7 @@ import org.ahmedukamel.eduai.dto.student.IStudentRegistrationRequest;
 import org.ahmedukamel.eduai.mapper.user.UserRegistrationRequestMapper;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.Student;
+import org.ahmedukamel.eduai.model.enumeration.Role;
 import org.ahmedukamel.eduai.repository.StudentRepository;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ public class IStudentRegistrationRequestSaver
         Student student = userRegistrationRequestMapper.apply(request, Student.class);
 
         student.setSchool(school);
+        student.setRole(Role.STUDENT);
 
         return studentRepository.save(student);
     }

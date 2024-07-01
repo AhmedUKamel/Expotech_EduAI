@@ -51,11 +51,11 @@ public class EventSaver implements BiFunction<CreateEventRequest, MultipartFile,
                 .creator(user)
                 .build();
 
-        event.setOrganizers(new HashSet<>());
+        event.setAttendees(new HashSet<>());
         for (Long organizerId :
-                request.organizersId()) {
+                request.attendeesId()) {
             User organizer = DatabaseService.get(userRepository::findById, organizerId, User.class);
-            event.getOrganizers().add(organizer);
+            event.getAttendees().add(organizer);
         }
 
 

@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Collection;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,15 +21,23 @@ public class Student extends User {
     @JoinColumn(nullable = false, updatable = false)
     private School school;
 
-//    @ManyToOne
-//    private Parent parent;
+    @ManyToOne
+    private Parent parent;
 
-    @OneToMany(mappedBy = "student")
-    private Collection<ExamResult> examResults;
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdDate;
 
-    @OneToMany(mappedBy = "student")
-    private Collection<Interaction> interactions;
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedDate;
 
-    @OneToMany(mappedBy = "student")
-    private Set<Attendance> attendances;
+//    @OneToMany(mappedBy = "student")
+//    private Collection<ExamResult> examResults;
+//
+//    @OneToMany(mappedBy = "student")
+//    private Collection<Interaction> interactions;
+//
+//    @OneToMany(mappedBy = "student")
+//    private Set<Attendance> attendances;
 }

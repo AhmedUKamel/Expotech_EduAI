@@ -1,10 +1,11 @@
-package org.ahmedukamel.eduai.dto.auth;
+package org.ahmedukamel.eduai.dto.parent;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.ahmedukamel.eduai.annotation.ExistRegion;
+import org.ahmedukamel.eduai.annotation.ExistSchool;
 import org.ahmedukamel.eduai.annotation.UniquePhone;
 import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
@@ -88,6 +89,10 @@ public record ParentRegistrationRequest(
         String occupation_ar,
 
         @NotBlank
-        String occupation_fr
-) implements IUserRegistrationRequest {
+        String occupation_fr,
+
+        @NotNull
+        @ExistSchool
+        Integer schoolId
+) implements IParentRegistrationRequest {
 }
