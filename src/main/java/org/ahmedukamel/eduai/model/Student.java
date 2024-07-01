@@ -20,8 +20,8 @@ public class Student extends User {
     @JoinColumn(nullable = false, updatable = false)
     private School school;
 
-//    @ManyToOne
-//    private Parent parent;
+    @ManyToOne
+    private Parent parent;
 
     @OneToMany(mappedBy = "student")
     private Collection<ExamResult> examResults;

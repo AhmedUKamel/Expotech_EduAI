@@ -16,7 +16,6 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "TEACHERS", uniqueConstraints = {
         @UniqueConstraint(name = "TEACHER_PHONE_NUMBER_UNIQUE_CONSTRAINT", columnNames = {"code", "number"})
 })

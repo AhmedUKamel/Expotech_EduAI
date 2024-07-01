@@ -10,7 +10,7 @@ public abstract class ParentUtils {
     public static ParentDetail getParentDetail(Parent parent) {
         String languageCode = LocaleContextHolder.getLocale().getLanguage();
 
-        return parent.getDetails()
+        return parent.getParentDetails()
                 .stream()
                 .filter(userDetail -> userDetail.getLanguage().getCode()
                         .equalsIgnoreCase(languageCode))

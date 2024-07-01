@@ -1,4 +1,6 @@
-package org.ahmedukamel.eduai.dto.auth;
+package org.ahmedukamel.eduai.dto.teacher;
+
+import org.ahmedukamel.eduai.dto.auth.IUserRegistrationRequest;
 
 public interface ITeacherRegistrationRequest extends IUserRegistrationRequest {
     String number();

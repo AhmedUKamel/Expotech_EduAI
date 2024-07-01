@@ -66,7 +66,7 @@ public class UserRegistrationRequestMapper<T extends User>
                     .language(Language.FRENCH)
                     .build();
 
-            user.setDetails(Set.of(userDetail_en, userDetail_ar, userDetail_fr));
+            user.setUserDetails(Set.of(userDetail_en, userDetail_ar, userDetail_fr));
 
             return user;
         } catch (Exception exception) {

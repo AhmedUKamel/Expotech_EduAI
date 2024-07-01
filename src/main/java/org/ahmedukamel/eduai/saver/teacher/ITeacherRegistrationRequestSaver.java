@@ -1,7 +1,7 @@
-package org.ahmedukamel.eduai.saver.auth;
+package org.ahmedukamel.eduai.saver.teacher;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.dto.auth.ITeacherRegistrationRequest;
+import org.ahmedukamel.eduai.dto.teacher.ITeacherRegistrationRequest;
 import org.ahmedukamel.eduai.mapper.phonenumber.PhoneNumberMapper;
 import org.ahmedukamel.eduai.mapper.user.UserRegistrationRequestMapper;
 import org.ahmedukamel.eduai.model.School;

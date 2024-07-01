@@ -38,8 +38,8 @@ public class InteractionSaver implements Function<CreateInteractionRequest, Inte
         Teacher teacher = toUser.getRole().equals(Role.TEACHER) ? (Teacher) toUser :
                 fromUser.getRole().equals(Role.TEACHER) ? (Teacher) fromUser : null;
 
-        Parent parent = toUser.getRole().equals(Role.PARENT) ? toUser.getParent() :
-                fromUser.getRole().equals(Role.PARENT) ? fromUser.getParent() : null;
+        Parent parent = toUser.getRole().equals(Role.PARENT) ? (Parent) toUser :
+                fromUser.getRole().equals(Role.PARENT) ? (Parent) fromUser : null;
 
         Interaction interaction = Interaction
                 .builder()

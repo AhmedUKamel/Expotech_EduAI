@@ -1,61 +1,54 @@
 package org.ahmedukamel.eduai.service.parent;
 
+import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
-import org.ahmedukamel.eduai.dto.parent.CreateParentRequest;
-import org.ahmedukamel.eduai.dto.parent.ParentResponse;
-import org.ahmedukamel.eduai.dto.parent.UpdateParentRequest;
-import org.ahmedukamel.eduai.mapper.parent.ParentResponseMapper;
+import org.ahmedukamel.eduai.dto.parent.AddParentRequest;
+import org.ahmedukamel.eduai.dto.profile.ParentProfileResponse;
+import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.model.Parent;
+import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.repository.ParentRepository;
-import org.ahmedukamel.eduai.saver.parent.CreateParentSaver;
+import org.ahmedukamel.eduai.saver.parent.IParentRegistrationRequestSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
-import org.ahmedukamel.eduai.updater.parent.ParentUpdater;
+import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class ParentService implements IParentService{
-    private final ParentResponseMapper parentResponseMapper;
+@RequiredArgsConstructor
+public class ParentService implements IParentService {
+    private final IParentRegistrationRequestSaver iParentRegistrationRequestSaver;
+    private final ParentProfileResponseMapper parentProfileResponseMapper;
     private final ParentRepository parentRepository;
-    private final CreateParentSaver createParentSaver;
-    private final ParentUpdater parentUpdater;
-
-
-    public ParentService(ParentResponseMapper parentResponseMapper, ParentRepository parentRepository, CreateParentSaver createParentSaver, ParentUpdater parentUpdater) {
-        this.parentResponseMapper = parentResponseMapper;
-        this.parentRepository = parentRepository;
-        this.createParentSaver = createParentSaver;
-        this.parentUpdater = parentUpdater;
-    }
 
     @Override
-    public Object createParent(Object object) {
-        CreateParentRequest request = (CreateParentRequest) object;
-        Parent parent = createParentSaver.apply(request);
-        ParentResponse response = parentResponseMapper.apply(parent);
-        String message = "Parent created successfully.";
+    public Object addParent(Object object) {
+        AddParentRequest request = (AddParentRequest) object;
+        School school = ContextHolderUtils.getEmployee().getSchool();
+
+        Parent parent = iParentRegistrationRequestSaver.apply(request, school);
+
+        ParentProfileResponse response = parentProfileResponseMapper.apply(parent);
+        String message = "Parent added successfully.";
 
         return new ApiResponse(true, message, response);
     }
 
     @Override
-    public Object updateParent(Long id, Object object) {
-        Parent parent = DatabaseService.get(parentRepository::findById,id,Parent.class);
-        UpdateParentRequest request = (UpdateParentRequest) object;
-
-        Parent updatedParent = parentUpdater.apply(parent, request);
-
-        ParentResponse response = parentResponseMapper.apply(updatedParent);
-        String message = "Parent updated successfully.";
-        return null;
-    }
-
-    @Override
     public Object deleteParent(Long id) {
-        Parent parent = DatabaseService.get(parentRepository::findById, id, Parent.class);
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Parent parent = DatabaseService.get(parentRepository::findByIdAndSchool_Id,
+                id, school.getId(), Parent.class);
 
-        parentRepository.delete(parent);
+        try {
+            parentRepository.delete(parent);
+        } catch (ConstraintViolationException exception) {
+            throw new RuntimeException("Parent is associated with other records and can't be deleted.", exception);
+        }
+
         String message = "Parent deleted successfully.";
 
         return new ApiResponse(true, message, "");
@@ -63,25 +56,26 @@ public class ParentService implements IParentService{
 
     @Override
     public Object getParent(Long id) {
-        Parent parent = DatabaseService.get(parentRepository::findById, id, Parent.class);
-        ParentResponse response = parentResponseMapper.apply(parent);
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Parent parent = DatabaseService.get(parentRepository::findByIdAndSchool_Id,
+                id, school.getId(), Parent.class);
 
+        ParentProfileResponse response = parentProfileResponseMapper.apply(parent);
         String message = "Parent retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }
 
     @Override
-    public Object getAllParent(long pageSize, long pageNumber) {
-        List<Parent> parents = parentRepository.selectParentWithPagination(pageSize, pageSize * (pageNumber - 1));
-        List<ParentResponse > response = parents
-                .stream()
-                .map(parentResponseMapper)
-                .toList();
+    public Object getAllParents(int pageSize, int pageNumber) {
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
 
-        String message = "Parents retrieved successfully.";
+        Page<Parent> parents = parentRepository.findAllBySchool_Id(school.getId(), pageable);
+
+        Page<ParentProfileResponse> response = parents.map(parentProfileResponseMapper);
+        String message = "All parents retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }
 }
-

@@ -7,7 +7,7 @@ import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequestITeacherRegistrationRe
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.Teacher;
-import org.ahmedukamel.eduai.saver.auth.ITeacherRegistrationRequestSaver;
+import org.ahmedukamel.eduai.saver.teacher.ITeacherRegistrationRequestSaver;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.stereotype.Service;
 

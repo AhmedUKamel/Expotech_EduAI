@@ -1,4 +1,4 @@
-package org.ahmedukamel.eduai.saver.auth;
+package org.ahmedukamel.eduai.saver.employee;
 
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.auth.EmployeeRegistrationRequest;

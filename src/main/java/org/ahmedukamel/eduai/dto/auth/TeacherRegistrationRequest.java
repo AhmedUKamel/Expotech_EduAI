@@ -11,6 +11,7 @@ import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.constant.RegexConstants;
 import org.ahmedukamel.eduai.annotation.enumeration.UniquePhoneConstraint;
 import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
+import org.ahmedukamel.eduai.dto.teacher.ITeacherRegistrationRequest;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
 import org.ahmedukamel.eduai.model.enumeration.Religion;

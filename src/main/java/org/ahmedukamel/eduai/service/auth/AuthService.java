@@ -16,9 +16,9 @@ import org.ahmedukamel.eduai.mapper.profile.StudentProfileResponseMapper;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.*;
 import org.ahmedukamel.eduai.repository.SchoolRepository;
-import org.ahmedukamel.eduai.saver.auth.EmployeeRegistrationRequestSaver;
-import org.ahmedukamel.eduai.saver.auth.ITeacherRegistrationRequestSaver;
-import org.ahmedukamel.eduai.saver.auth.ParentSaver;
+import org.ahmedukamel.eduai.saver.employee.EmployeeRegistrationRequestSaver;
+import org.ahmedukamel.eduai.saver.teacher.ITeacherRegistrationRequestSaver;
+import org.ahmedukamel.eduai.saver.parent.IParentRegistrationRequestSaver;
 import org.ahmedukamel.eduai.saver.student.IStudentRegistrationRequestSaver;
 import org.ahmedukamel.eduai.service.access_token.AccessTokenService;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
@@ -36,6 +36,7 @@ public class AuthService implements IAuthService {
     private final EmployeeRegistrationRequestSaver employeeRegistrationRequestSaver;
     private final ITeacherRegistrationRequestSaver iTeacherRegistrationRequestSaver;
     private final IStudentRegistrationRequestSaver iStudentRegistrationRequestSaver;
+    private final IParentRegistrationRequestSaver iParentRegistrationRequestSaver;
     private final EmployeeProfileResponseMapper employeeProfileResponseMapper;
     private final StudentProfileResponseMapper studentProfileResponseMapper;
     private final TeacherProfileResponseMapper teacherProfileResponseMapper;
@@ -43,7 +44,6 @@ public class AuthService implements IAuthService {
     private final AuthenticationManager authenticationManager;
     private final AccessTokenService accessTokenService;
     private final SchoolRepository schoolRepository;
-    private final ParentSaver parentSaver;
 
     @Override
     public Object registerStudent(Object object) {
@@ -61,7 +61,9 @@ public class AuthService implements IAuthService {
     @Override
     public Object registerParent(Object object) {
         ParentRegistrationRequest request = (ParentRegistrationRequest) object;
-        Parent savedParent = parentSaver.apply(request);
+        School school = DatabaseService.get(schoolRepository::findById, request.schoolId(), School.class);
+
+        Parent savedParent = iParentRegistrationRequestSaver.apply(request, school);
 
         ParentProfileResponse response = parentProfileResponseMapper.apply(savedParent);
         String message = "Successful parent registration, check mail inbox for activation email.";

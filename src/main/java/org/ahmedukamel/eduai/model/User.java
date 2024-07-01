@@ -99,11 +99,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    @OneToOne(mappedBy = "user")
-    private Parent parent;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<UserDetail> details = new HashSet<>();
+    private Set<UserDetail> userDetails = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private Collection<Exam> exams = new ArrayList<>();
