@@ -3,7 +3,6 @@ package org.ahmedukamel.eduai.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.ahmedukamel.eduai.model.embeddable.Name;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 
 import java.io.Serializable;
@@ -26,15 +25,8 @@ public class UserDetail {
     @Enumerated(value = EnumType.STRING)
     private Language language;
 
-    @Embedded
-    @AttributeOverrides(value = {
-            @AttributeOverride(name = "first", column = @Column(name = "first_name", nullable = false)),
-            @AttributeOverride(name = "last", column = @Column(name = "last_name", nullable = false))
-    })
-    private Name name;
-
     @Column(nullable = false)
-    private String about;
+    private String name;
 
     @Getter
     @Setter
@@ -44,6 +36,7 @@ public class UserDetail {
         private User user;
         private Language language;
     }
+
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private List<TransactionHistory> transaction;

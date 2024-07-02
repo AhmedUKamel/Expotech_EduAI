@@ -15,4 +15,5 @@ public interface MessageSourceConstants {
     String ENUMERATION_EXAM_RESULT_STATUS = "enumeration.ExamResultStatus.%s";
     String ENUMERATION_ATTENDANCE_STATUS = "enumeration.AttendanceStatus.%s";
     String ENUMERATION_ASSOCIATION_TYPE = "enumeration.AssociationType.%s";
+    String ENUMERATION_QUALIFICATION = "enumeration.Qualification.%s";
 }

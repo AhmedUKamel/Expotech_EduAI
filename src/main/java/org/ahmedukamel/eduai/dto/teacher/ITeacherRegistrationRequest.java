@@ -1,13 +1,10 @@
 package org.ahmedukamel.eduai.dto.teacher;
 
 import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
+import org.ahmedukamel.eduai.model.enumeration.Qualification;
 
 public interface ITeacherRegistrationRequest extends IUserRegistrationRequest {
     String number();
 
-    String qualification_en();
-
-    String qualification_ar();
-
-    String qualification_fr();
+    Qualification qualification();
 }

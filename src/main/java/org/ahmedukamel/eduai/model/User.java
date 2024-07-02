@@ -44,6 +44,9 @@ public class User implements UserDetails {
     @Column(nullable = false, updatable = false)
     private String nid;
 
+    @Column(nullable = false)
+    private String about;
+
     private String picture;
 
     @Column(nullable = false, columnDefinition = "bit(1) default true")

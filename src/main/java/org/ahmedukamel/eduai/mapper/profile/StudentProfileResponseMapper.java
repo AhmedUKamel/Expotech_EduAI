@@ -1,25 +1,26 @@
 package org.ahmedukamel.eduai.mapper.profile;
 
+import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.profile.StudentProfileResponse;
 import org.ahmedukamel.eduai.model.Student;
 import org.ahmedukamel.eduai.model.UserDetail;
-import org.springframework.context.MessageSource;
+import org.ahmedukamel.eduai.service.message.MessageSourceService;
+import org.ahmedukamel.eduai.util.user.UserUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.function.Function;
 
 @Component
-public class StudentProfileResponseMapper extends UserProfileResponseMapper
+@RequiredArgsConstructor
+public class StudentProfileResponseMapper
         implements Function<Student, StudentProfileResponse> {
 
-    public StudentProfileResponseMapper(MessageSource messageSource) {
-        super(messageSource);
-    }
+    private final MessageSourceService messageSourceService;
 
     @Override
     public StudentProfileResponse apply(Student student) {
-        UserDetail userDetail = super.getDetails(student);
+        UserDetail userDetail = UserUtils.getUserDetail(student);
 
         return new StudentProfileResponse(
                 student.getId(),
@@ -28,15 +29,14 @@ public class StudentProfileResponseMapper extends UserProfileResponseMapper
                 student.getPicture(),
                 StringUtils.hasLength(student.getPicture()),
                 student.getNid(),
-                super.getGender(student),
-                super.getRole(student),
-                super.getNationality(student),
-                super.getReligion(student),
+                messageSourceService.getGender(student.getGender()),
+                messageSourceService.getRole(student.getRole()),
+                messageSourceService.getNationality(student.getNationality()),
+                messageSourceService.getReligion(student.getReligion()),
                 student.getBirthDate(),
                 student.getRegion().getId(),
-                userDetail.getName().getFirst(),
-                userDetail.getName().getLast(),
-                userDetail.getAbout()
+                userDetail.getName(),
+                student.getAbout()
         );
     }
 }

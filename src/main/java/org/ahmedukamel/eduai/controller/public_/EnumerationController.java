@@ -67,6 +67,26 @@ public class EnumerationController {
 
     @GetMapping(value = "attendance-status")
     public ResponseEntity<?> getAttendanceStatus() {
-        return ResponseEntity.ok().body(service.getAttendanceStatus());
+        return ResponseEntity.ok().body(service.getAttendanceStatuses());
+    }
+
+    @GetMapping(value = "exam-result-status")
+    public ResponseEntity<?> getExamResultStatuses() {
+        return ResponseEntity.ok().body(service.getExamResultStatuses());
+    }
+
+    @GetMapping(value = "association-type")
+    public ResponseEntity<?> getAssociationTypes() {
+        return ResponseEntity.ok().body(service.getAssociationTypes());
+    }
+
+    @GetMapping(value = "qualification")
+    public ResponseEntity<?> getQualifications() {
+        return ResponseEntity.ok().body(service.getQualifications());
+    }
+
+    @GetMapping(value = "role")
+    public ResponseEntity<?> getRoles() {
+        return ResponseEntity.ok().body(service.getRoles());
     }
 }
