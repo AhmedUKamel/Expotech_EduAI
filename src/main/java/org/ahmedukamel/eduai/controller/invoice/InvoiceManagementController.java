@@ -6,11 +6,13 @@ import org.ahmedukamel.eduai.dto.invoice.CreateInvoiceRequest;
 import org.ahmedukamel.eduai.dto.invoice.UpdateInvoiceRequest;
 import org.ahmedukamel.eduai.service.invoice.IInvoiceManagementService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
 @RestController
+@PreAuthorize(value = "hasAnyAuthority(['ADMIN' ,'INVOICE_MANAGER'])")
 @RequestMapping(value = "api/v1/invoice")
 public class InvoiceManagementController {
     
