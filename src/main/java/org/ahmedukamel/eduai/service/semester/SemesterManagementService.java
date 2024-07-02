@@ -13,7 +13,7 @@ import org.ahmedukamel.eduai.saver.semester.SemesterSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.updater.semester.SemesterUpdater;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
-import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -61,8 +61,8 @@ public class SemesterManagementService implements ISemesterManagementService {
 
         try {
             semesterRepository.delete(semester);
-        } catch (ConstraintViolationException exception) {
-            throw new RuntimeException("This semester cannot be deleted because it is associated with other records.", exception);
+        } catch (DataIntegrityViolationException exception) {
+            throw new RuntimeException("This semester is associated with other records and can't be deleted.", exception);
         }
 
         String message = "Semester deleted successfully.";
@@ -84,7 +84,7 @@ public class SemesterManagementService implements ISemesterManagementService {
     @Override
     public Object getAllSemesters(int pageSize, int pageNumber) {
         School school = ContextHolderUtils.getEmployee().getSchool();
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         Page<Semester> semesters = semesterRepository.findAllBySchool(school, pageable);
 

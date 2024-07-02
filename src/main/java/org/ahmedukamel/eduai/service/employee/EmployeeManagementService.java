@@ -12,7 +12,6 @@ import org.ahmedukamel.eduai.repository.EmployeeRepository;
 import org.ahmedukamel.eduai.saver.employee.AddEmployeeRequestSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,18 +38,15 @@ public class EmployeeManagementService implements IEmployeeManagementService {
     }
 
     @Override
-    public Object deleteEmployee(Long id) {
+    public Object setEmployeeAccountLock(Long id, boolean accountLocked) {
         School school = ContextHolderUtils.getEmployee().getSchool();
         Employee employee = DatabaseService.get(employeeRepository::findByIdAndSchool_Id,
                 id, school.getId(), Teacher.class);
 
-        try {
-            employeeRepository.delete(employee);
-        } catch (DataIntegrityViolationException exception) {
-            throw new RuntimeException("Employee is associated with other records and can't be deleted.", exception);
-        }
+        employee.setAccountNonLocked(!accountLocked);
+        employeeRepository.save(employee);
 
-        String message = "Employee deleted successfully.";
+        String message = "Employee account lock set successfully.";
 
         return new ApiResponse(true, message, "");
     }

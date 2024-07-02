@@ -9,10 +9,10 @@ import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.repository.NoticeRepository;
-import org.ahmedukamel.eduai.repository.SchoolRepository;
 import org.ahmedukamel.eduai.repository.UserRepository;
 import org.ahmedukamel.eduai.saver.file.FileSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
+import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +24,6 @@ import java.util.function.BiFunction;
 @RequiredArgsConstructor
 public class NoticeSaver implements BiFunction<CreateNoticeRequest, MultipartFile, Notice> {
     private final NoticeRepository noticeRepository;
-    private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
     private final FileSaver fileSaver;
 
@@ -38,7 +37,7 @@ public class NoticeSaver implements BiFunction<CreateNoticeRequest, MultipartFil
         }
 
         User user = DatabaseService.get(userRepository::findById, request.userId(), User.class);
-        School school = DatabaseService.get(schoolRepository::findById, request.schoolId(), School.class);
+        School school = ContextHolderUtils.getEmployee().getSchool();
 
         Notice notice = Notice
                 .builder()

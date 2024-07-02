@@ -29,11 +29,12 @@ public class EmployeeManagementController {
                 .body(parentService.addEmployee(request));
     }
 
-    @DeleteMapping(value = "{employeeId}")
-    public ResponseEntity<?> deleteEmployee(
-            @Min(value = 1) @PathVariable(value = "employeeId") Long id) {
+    @PutMapping(value = "account-lock/{employeeId}")
+    public ResponseEntity<?> setEmployeeAccountLock(
+            @Min(value = 1) @PathVariable(value = "employeeId") Long id,
+            @RequestParam(value = "locked", defaultValue = "true") boolean accountLocked) {
 
-        return ResponseEntity.accepted().body(parentService.deleteEmployee(id));
+        return ResponseEntity.accepted().body(parentService.setEmployeeAccountLock(id, accountLocked));
     }
 
     @GetMapping(value = "{employeeId}")

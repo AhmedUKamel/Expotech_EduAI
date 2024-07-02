@@ -5,7 +5,6 @@ import org.springframework.security.core.GrantedAuthority;
 public enum EmployeeRole implements GrantedAuthority {
 
     ADMIN,
-    EMPLOYEE,
     SEMESTER_MANAGER,
     EMPLOYEE_MANAGER,
     TEACHER_MANAGER,
@@ -13,7 +12,10 @@ public enum EmployeeRole implements GrantedAuthority {
     PARENT_MANAGER,
     BUS_MANAGER,
     EVENT_MANAGER,
-    TRAINING_PROGRAM_MANAGER;
+
+    TRAINING_PROGRAM_MANAGER,
+    INVOICE_MANAGER;
+
 
     @Override
     public String getAuthority() {
