@@ -1,34 +1,24 @@
 package org.ahmedukamel.eduai.service.public_;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.constant.MessageSourceConstants;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.model.enumeration.*;
 import org.ahmedukamel.eduai.service.message.MessageSourceService;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class EnumerationService implements IEnumerationService {
     private final MessageSourceService messageSourceService;
-    private final MessageSource messageSource;
 
     @Override
     public Object getNationalities() {
-        Function<Nationality, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_NATIONALITY.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(Nationality.values())
-                .collect(Collectors.toMap(Nationality::name, function));
+                .collect(Collectors.toMap(Nationality::name, messageSourceService::getNationality));
         String message = "Successful get all nationalities.";
 
         return new ApiResponse(true, message, response);
@@ -36,13 +26,8 @@ public class EnumerationService implements IEnumerationService {
 
     @Override
     public Object getReligions() {
-        Function<Religion, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_RELIGION.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(Religion.values())
-                .collect(Collectors.toMap(Religion::name, function));
+                .collect(Collectors.toMap(Religion::name, messageSourceService::getReligion));
         String message = "Successful get all religions.";
 
         return new ApiResponse(true, message, response);
@@ -50,13 +35,8 @@ public class EnumerationService implements IEnumerationService {
 
     @Override
     public Object getGenders() {
-        Function<Gender, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_GENDER.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(Gender.values())
-                .collect(Collectors.toMap(Gender::name, function));
+                .collect(Collectors.toMap(Gender::name, messageSourceService::getGender));
         String message = "Successful get all genders.";
 
         return new ApiResponse(true, message, response);
@@ -64,13 +44,8 @@ public class EnumerationService implements IEnumerationService {
 
     @Override
     public Object getLabTypes() {
-        Function<LabType, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_LAB_TYPE.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(LabType.values())
-                .collect(Collectors.toMap(LabType::name, function));
+                .collect(Collectors.toMap(LabType::name, messageSourceService::getLabType));
         String message = "Successful get all lab types.";
 
         return new ApiResponse(true, message, response);
@@ -78,13 +53,8 @@ public class EnumerationService implements IEnumerationService {
 
     @Override
     public Object getOfficeTypes() {
-        Function<OfficeType, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_OFFICE_TYPE.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(OfficeType.values())
-                .collect(Collectors.toMap(OfficeType::name, function));
+                .collect(Collectors.toMap(OfficeType::name, messageSourceService::getOfficeType));
         String message = "Successful get all office types.";
 
         return new ApiResponse(true, message, response);
@@ -92,13 +62,8 @@ public class EnumerationService implements IEnumerationService {
 
     @Override
     public Object getRoomCategories() {
-        Function<RoomCategory, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_ROOM_CATEGORY.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(RoomCategory.values())
-                .collect(Collectors.toMap(RoomCategory::name, function));
+                .collect(Collectors.toMap(RoomCategory::name, messageSourceService::getRoomCategory));
         String message = "Successful get all room categories.";
 
         return new ApiResponse(true, message, response);
@@ -106,13 +71,8 @@ public class EnumerationService implements IEnumerationService {
 
     @Override
     public Object getRoomStatuses() {
-        Function<RoomStatus, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_ROOM_STATUS.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(RoomStatus.values())
-                .collect(Collectors.toMap(RoomStatus::name, function));
+                .collect(Collectors.toMap(RoomStatus::name, messageSourceService::getRoomStatus));
         String message = "Successful get all room statuses.";
 
         return new ApiResponse(true, message, response);
@@ -120,51 +80,72 @@ public class EnumerationService implements IEnumerationService {
 
     @Override
     public Object getRoomTypes() {
-        Function<RoomType, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_ROOM_TYPE.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(RoomType.values())
-                .collect(Collectors.toMap(RoomType::name, function));
-        String message = "Successful get all room statuses.";
+                .collect(Collectors.toMap(RoomType::name, messageSourceService::getRoomType));
+        String message = "Successful get all room types.";
 
         return new ApiResponse(true, message, response);
     }
 
     @Override
     public Object getStudyLevels() {
-        Function<StudyLevel, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_STUDY_LEVEL.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(StudyLevel.values())
-                .collect(Collectors.toMap(StudyLevel::name, function));
-        String message = "Successful get all room statuses.";
+                .collect(Collectors.toMap(StudyLevel::name, messageSourceService::getStudyLevel));
+        String message = "Successful get all study levels.";
 
         return new ApiResponse(true, message, response);
     }
 
     @Override
     public Object getStudyStages() {
-        Function<StudyStage, String> function = (i) -> messageSource.getMessage(
-                MessageSourceConstants.ENUMERATION_STUDY_STAGE.formatted(i.name()),
-                null, LocaleContextHolder.getLocale()
-        );
-
         Map<String, String> response = Arrays.stream(StudyStage.values())
-                .collect(Collectors.toMap(StudyStage::name, function));
-        String message = "Successful get all room statuses.";
+                .collect(Collectors.toMap(StudyStage::name, messageSourceService::getStudyStage));
+        String message = "Successful get all study stages.";
 
         return new ApiResponse(true, message, response);
     }
 
     @Override
-    public Object getAttendanceStatus() {
+    public Object getAttendanceStatuses() {
         Map<String, String> response = Arrays.stream(AttendanceStatus.values())
                 .collect(Collectors.toMap(AttendanceStatus::name, messageSourceService::getAttendanceStatus));
         String message = "Successful get all attend status.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object getExamResultStatuses() {
+        Map<String, String> response = Arrays.stream(ExamResultStatus.values())
+                .collect(Collectors.toMap(ExamResultStatus::name, messageSourceService::getExamResultStatus));
+        String message = "Successful get all exam result status.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object getAssociationTypes() {
+        Map<String, String> response = Arrays.stream(AssociationType.values())
+                .collect(Collectors.toMap(AssociationType::name, messageSourceService::getAssociationType));
+        String message = "Successful get all association types.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object getQualifications() {
+        Map<String, String> response = Arrays.stream(Qualification.values())
+                .collect(Collectors.toMap(Qualification::name, messageSourceService::getQualification));
+        String message = "Successful get all qualifications.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object getRoles() {
+        Map<String, String> response = Arrays.stream(Role.values())
+                .collect(Collectors.toMap(Role::name, messageSourceService::getRole));
+        String message = "Successful get all roles.";
 
         return new ApiResponse(true, message, response);
     }

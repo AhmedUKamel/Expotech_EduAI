@@ -83,4 +83,22 @@ public class MessageSourceService {
                 MessageSourceConstants.ENUMERATION_ASSOCIATION_TYPE.formatted(associationType),
                 null, LocaleContextHolder.getLocale());
     }
+
+    public String getQualification(Qualification qualification) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_QUALIFICATION.formatted(qualification),
+                null, LocaleContextHolder.getLocale());
+    }
+
+    public String getRole(Role role) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_ROLE.formatted(role),
+                null, LocaleContextHolder.getLocale());
+    }
+
+    public String getNationality(Nationality nationality) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_NATIONALITY.formatted(nationality),
+                null, LocaleContextHolder.getLocale());
+    }
 }

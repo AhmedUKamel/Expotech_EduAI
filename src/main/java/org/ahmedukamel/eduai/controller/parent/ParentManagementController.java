@@ -29,11 +29,12 @@ public class ParentManagementController {
                 .body(service.addParent(request));
     }
 
-    @DeleteMapping(value = "{parentId}")
-    public ResponseEntity<?> deleteParent(
-            @Min(value = 1) @PathVariable(value = "parentId") Long id) {
+    @PutMapping(value = "account-lock/{parentId}")
+    public ResponseEntity<?> setParentAccountLock(
+            @Min(value = 1) @PathVariable(value = "parentId") Long id,
+            @RequestParam(value = "locked", defaultValue = "true") boolean accountLocked) {
 
-        return ResponseEntity.accepted().body(service.deleteParent(id));
+        return ResponseEntity.accepted().body(service.setParentAccountLock(id, accountLocked));
     }
 
     @GetMapping(value = "{parentId}")

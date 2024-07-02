@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@PreAuthorize(value = "hasAuthority('SEMESTER_MANAGER')")
-@RequestMapping(value = "api/v1/semester")
+@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'SEMESTER_MANAGER')")
+@RequestMapping(value = "api/v1/management/semester")
 public class SemesterManagementController {
     private final ISemesterManagementService service;
 
@@ -26,7 +26,7 @@ public class SemesterManagementController {
     public ResponseEntity<?> createSemester(
             @Valid @RequestBody CreateSemesterRequest request) {
 
-        return ResponseEntity.created(URI.create("api/v1/semester"))
+        return ResponseEntity.created(URI.create("api/v1/management/semester"))
                 .body(service.createSemester(request));
     }
 
@@ -55,7 +55,7 @@ public class SemesterManagementController {
     @GetMapping(value = "all")
     public ResponseEntity<?> getAllSemesters(
             @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-            @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
+            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
 
         return ResponseEntity.ok().body(service.getAllSemesters(pageSize, pageNumber));
     }

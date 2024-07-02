@@ -1,29 +1,26 @@
 package org.ahmedukamel.eduai.mapper.profile;
 
+import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.profile.TeacherProfileResponse;
 import org.ahmedukamel.eduai.model.Teacher;
-import org.ahmedukamel.eduai.model.TeacherDetail;
 import org.ahmedukamel.eduai.model.UserDetail;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.ahmedukamel.eduai.service.message.MessageSourceService;
+import org.ahmedukamel.eduai.util.user.UserUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 @Component
-public class TeacherProfileResponseMapper extends UserProfileResponseMapper
+@RequiredArgsConstructor
+public class TeacherProfileResponseMapper
         implements Function<Teacher, TeacherProfileResponse> {
 
-    public TeacherProfileResponseMapper(MessageSource messageSource) {
-        super(messageSource);
-    }
+    private final MessageSourceService messageSourceService;
 
     @Override
     public TeacherProfileResponse apply(Teacher teacher) {
-        UserDetail userDetail = super.getDetails(teacher);
-        TeacherDetail teacherDetail = this.getDetails(teacher);
+        UserDetail userDetail = UserUtils.getUserDetail(teacher);
 
         return new TeacherProfileResponse(
                 teacher.getId(),
@@ -32,29 +29,17 @@ public class TeacherProfileResponseMapper extends UserProfileResponseMapper
                 teacher.getPicture(),
                 StringUtils.hasLength(teacher.getPicture()),
                 teacher.getNid(),
-                super.getGender(teacher),
-                super.getRole(teacher),
-                super.getNationality(teacher),
-                super.getReligion(teacher),
+                messageSourceService.getGender(teacher.getGender()),
+                messageSourceService.getRole(teacher.getRole()),
+                messageSourceService.getNationality(teacher.getNationality()),
+                messageSourceService.getReligion(teacher.getReligion()),
                 teacher.getBirthDate(),
                 teacher.getRegion().getId(),
                 teacher.getPhoneNumber().toString(),
-                userDetail.getName().getFirst(),
-                userDetail.getName().getLast(),
-                userDetail.getAbout(),
+                userDetail.getName(),
+                teacher.getAbout(),
                 teacher.getPhoneNumber().toString(),
-                teacherDetail.getQualification()
+                messageSourceService.getQualification(teacher.getQualification())
         );
-    }
-
-    private TeacherDetail getDetails(Teacher teacher) {
-        Predicate<TeacherDetail> filter = (i) -> i.getLanguage().getCode()
-                .equalsIgnoreCase(LocaleContextHolder.getLocale().getLanguage());
-
-        return teacher.getTeacherDetails()
-                .stream()
-                .filter(filter)
-                .findFirst()
-                .orElseThrow();
     }
 }

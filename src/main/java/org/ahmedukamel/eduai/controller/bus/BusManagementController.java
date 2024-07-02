@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@PreAuthorize(value = "hasAnyAuthority(['ADMIN' ,'BUS_MANAGER'])")
+@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'BUS_MANAGER')")
 @RequestMapping(value = "api/v1/bus")
 public class BusManagementController {
     private final IBusManagementService service;

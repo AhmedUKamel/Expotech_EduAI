@@ -29,11 +29,12 @@ public class StudentManagementController {
                 .body(service.addStudent(request));
     }
 
-    @DeleteMapping(value = "{studentId}")
-    public ResponseEntity<?> deleteStudent(
-            @Min(value = 1) @PathVariable(value = "studentId") Long id) {
+    @PutMapping(value = "account-lock/{studentId}")
+    public ResponseEntity<?> setStudentAccountLock(
+            @Min(value = 1) @PathVariable(value = "studentId") Long id,
+            @RequestParam(value = "locked", defaultValue = "true") boolean accountLocked) {
 
-        return ResponseEntity.accepted().body(service.deleteStudent(id));
+        return ResponseEntity.accepted().body(service.setStudentAccountLock(id, accountLocked));
     }
 
     @GetMapping(value = "{studentId}")

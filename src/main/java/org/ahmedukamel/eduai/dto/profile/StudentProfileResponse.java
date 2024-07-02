@@ -27,9 +27,7 @@ public record StudentProfileResponse(
 
         Integer regionId,
 
-        String firstName,
-
-        String lastName,
+        String name,
 
         String about
 ) {

@@ -290,7 +290,7 @@ CREATE TABLE `departments` (
   KEY `FK9fwvupr4xfhftlrl40k0ga8u5` (`school_id`),
   CONSTRAINT `FK9fwvupr4xfhftlrl40k0ga8u5` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
   CONSTRAINT `FKbl8pi22vx8dv15r86mf4m9gdp` FOREIGN KEY (`head_id`) REFERENCES `employees` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,7 +302,7 @@ DROP TABLE IF EXISTS `employee_roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee_roles` (
   `employee_id` bigint NOT NULL,
-  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER','TEACHER_MANAGER','STUDENT_MANAGER','PARENT_MANAGER') DEFAULT NULL,
+  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER','TEACHER_MANAGER','STUDENT_MANAGER','PARENT_MANAGER','BUS_MANAGER','EVENT_MANAGER') DEFAULT NULL,
   KEY `FK3uwwaxeiucvfixgd45etkjgmg` (`employee_id`),
   CONSTRAINT `FK3uwwaxeiucvfixgd45etkjgmg` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -336,6 +336,23 @@ CREATE TABLE `employees` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `event_attendees`
+--
+
+DROP TABLE IF EXISTS `event_attendees`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_attendees` (
+  `event_id` bigint NOT NULL,
+  `attendee_id` bigint NOT NULL,
+  PRIMARY KEY (`event_id`,`attendee_id`),
+  KEY `FKg2y8vx9p77dpinlj5gk389rgr` (`attendee_id`),
+  CONSTRAINT `FKg0w14vgqmpawqmil4fceac4yl` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  CONSTRAINT `FKg2y8vx9p77dpinlj5gk389rgr` FOREIGN KEY (`attendee_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `event_details`
 --
 
@@ -353,23 +370,6 @@ CREATE TABLE `event_details` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `event_organizers`
---
-
-DROP TABLE IF EXISTS `event_organizers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_organizers` (
-  `event_id` bigint NOT NULL,
-  `organizer_id` bigint NOT NULL,
-  PRIMARY KEY (`event_id`,`organizer_id`),
-  KEY `FKed7ll645ubdl5yc61ql25sa6y` (`organizer_id`),
-  CONSTRAINT `FK16stg4khqay3j62bjnxp8rgdb` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
-  CONSTRAINT `FKed7ll645ubdl5yc61ql25sa6y` FOREIGN KEY (`organizer_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `events`
 --
 
@@ -381,7 +381,7 @@ CREATE TABLE `events` (
   `created_at` datetime(6) NOT NULL,
   `event_end_time` datetime(6) NOT NULL,
   `event_start_time` datetime(6) NOT NULL,
-  `file` varchar(255) NOT NULL,
+  `file` varchar(255) DEFAULT NULL,
   `updated_at` datetime(6) NOT NULL,
   `creator_id` bigint NOT NULL,
   `school_id` int NOT NULL,
@@ -731,7 +731,7 @@ CREATE TABLE `positions` (
   PRIMARY KEY (`id`),
   KEY `FK7lkgjivwf8cd9o6s4h0ule242` (`department_id`),
   CONSTRAINT `FK7lkgjivwf8cd9o6s4h0ule242` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -911,23 +911,6 @@ CREATE TABLE `students` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `teacher_details`
---
-
-DROP TABLE IF EXISTS `teacher_details`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `teacher_details` (
-  `language` enum('ENGLISH','ARABIC','FRENCH') NOT NULL,
-  `qualification` varchar(255) NOT NULL,
-  `teacher_id` bigint NOT NULL,
-  PRIMARY KEY (`language`,`teacher_id`),
-  KEY `FK6agxxcg3cv53gc08b36l20vl4` (`teacher_id`),
-  CONSTRAINT `FK6agxxcg3cv53gc08b36l20vl4` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `teachers`
 --
 
@@ -938,6 +921,7 @@ CREATE TABLE `teachers` (
   `created_date` datetime(6) NOT NULL,
   `code` int NOT NULL,
   `number` bigint NOT NULL,
+  `qualification` enum('HIGH_SCHOOL_DIPLOMA','BACHELOR_DEGREE','MASTER_DEGREE','DOCTORATE_DEGREE') NOT NULL,
   `updated_date` datetime(6) NOT NULL,
   `id` bigint NOT NULL,
   `school_id` int NOT NULL,
@@ -997,9 +981,7 @@ DROP TABLE IF EXISTS `user_details`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_details` (
   `language` enum('ENGLISH','ARABIC','FRENCH') NOT NULL,
-  `about` varchar(255) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `user_id` bigint NOT NULL,
   PRIMARY KEY (`language`,`user_id`),
   KEY `FKicouhgavvmiiohc28mgk0kuj5` (`user_id`),
@@ -1034,6 +1016,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `about` varchar(255) NOT NULL,
   `account_non_locked` bit(1) NOT NULL DEFAULT b'1',
   `birth_date` date NOT NULL,
   `created_at` datetime(6) NOT NULL,
@@ -1056,7 +1039,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `USER_PICTURE_UNIQUE_CONSTRAINT` (`picture`),
   KEY `FK4muym4ujsr1xfh4qc3wsmmrhe` (`region_id`),
   CONSTRAINT `FK4muym4ujsr1xfh4qc3wsmmrhe` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1068,4 +1051,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-07-01 18:46:32
+-- Dump completed on 2024-07-02 19:16:40
