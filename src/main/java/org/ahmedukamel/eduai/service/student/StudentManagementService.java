@@ -11,7 +11,6 @@ import org.ahmedukamel.eduai.repository.StudentRepository;
 import org.ahmedukamel.eduai.saver.student.IStudentRegistrationRequestSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,18 +37,15 @@ public class StudentManagementService implements IStudentManagementService {
     }
 
     @Override
-    public Object deleteStudent(Long id) {
+    public Object setStudentAccountLock(Long id, boolean accountLocked) {
         School school = ContextHolderUtils.getEmployee().getSchool();
         Student student = DatabaseService.get(studentRepository::findByIdAndSchool_Id,
                 id, school.getId(), Student.class);
 
-        try {
-            studentRepository.delete(student);
-        } catch (DataIntegrityViolationException exception) {
-            throw new RuntimeException("Student is associated with other records and can't be deleted.", exception);
-        }
+        student.setAccountNonLocked(!accountLocked);
+        studentRepository.save(student);
 
-        String message = "Student deleted successfully.";
+        String message = "Student account lock set successfully.";
 
         return new ApiResponse(true, message, "");
     }

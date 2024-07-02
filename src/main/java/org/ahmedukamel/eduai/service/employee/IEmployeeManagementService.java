@@ -3,7 +3,7 @@ package org.ahmedukamel.eduai.service.employee;
 public interface IEmployeeManagementService {
     Object addEmployee(Object object);
 
-    Object deleteEmployee(Long id);
+    Object setEmployeeAccountLock(Long id, boolean accountLocked);
 
     Object getEmployee(Long id);
 

@@ -29,11 +29,12 @@ public class TeacherManagementController {
                 .body(service.addTeacher(request));
     }
 
-    @DeleteMapping(value = "{teacherId}")
-    public ResponseEntity<?> deleteTeacher(
-            @Min(value = 1) @PathVariable(value = "teacherId") Long id) {
+    @PutMapping(value = "account-lock/{teacherId}")
+    public ResponseEntity<?> setTeacherAccountLock(
+            @Min(value = 1) @PathVariable(value = "teacherId") Long id,
+            @RequestParam(value = "locked", defaultValue = "true") boolean accountLocked) {
 
-        return ResponseEntity.accepted().body(service.deleteTeacher(id));
+        return ResponseEntity.accepted().body(service.setTeacherAccountLock(id, accountLocked));
     }
 
     @GetMapping(value = "{teacherId}")
