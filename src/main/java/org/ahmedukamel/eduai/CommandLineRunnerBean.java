@@ -1,21 +1,16 @@
 package org.ahmedukamel.eduai;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.model.City;
-import org.ahmedukamel.eduai.model.Country;
-import org.ahmedukamel.eduai.model.Region;
-import org.ahmedukamel.eduai.model.School;
+import org.ahmedukamel.eduai.model.*;
 import org.ahmedukamel.eduai.model.embeddable.Location;
-import org.ahmedukamel.eduai.model.enumeration.Language;
-import org.ahmedukamel.eduai.repository.CityRepository;
-import org.ahmedukamel.eduai.repository.CountryRepository;
-import org.ahmedukamel.eduai.repository.RegionRepository;
-import org.ahmedukamel.eduai.repository.SchoolRepository;
+import org.ahmedukamel.eduai.model.enumeration.*;
+import org.ahmedukamel.eduai.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +19,8 @@ public class CommandLineRunnerBean {
     private final RegionRepository regionRepository;
     private final SchoolRepository schoolRepository;
     private final CityRepository cityRepository;
+    private final UserRepository userRepository;
+
 
     void insertRegion() {
         if (regionRepository.count() == 0) {
@@ -64,11 +61,34 @@ public class CommandLineRunnerBean {
         }
     }
 
+    void insertUser(){
+        if(userRepository.count() == 0){
+            User user = new User();
+            user.setUsername("admin");
+            user.setEmail("mostafa@mostafa");
+            user.setPassword("admin");
+            user.setNid("123565449");
+            user.setAbout("About");
+            user.setPicture("picture");
+            user.setAccountNonLocked(true);
+            user.setEnabled(true);
+            user.setGender(Gender.MALE);
+            user.setRole(Role.TEACHER);
+            user.setNationality(Nationality.EGYPTIAN);
+            user.setReligion(Religion.MUSLIM);
+            user.setCreatedAt(LocalDateTime.now());
+            user.setUpdatedAt(LocalDateTime.now());
+            user.setRegion(regionRepository.findById(1).get());
+            user.setBirthDate(LocalDate.now());
+            userRepository.save(user);
+        }
+    }
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
             insertRegion();
             insertSchool();
+            insertUser();
         };
     }
 }

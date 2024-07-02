@@ -6,10 +6,11 @@ import org.ahmedukamel.eduai.model.ParentDetail;
 import org.ahmedukamel.eduai.model.TrainingProgram;
 import org.ahmedukamel.eduai.model.TrainingProgramDetails;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
-
+@Component
 public class TrainingProgramResponseMapper implements Function<TrainingProgram, TrainingProgramResponse> {
     @Override
     public TrainingProgramResponse apply(TrainingProgram trainingProgram) {
