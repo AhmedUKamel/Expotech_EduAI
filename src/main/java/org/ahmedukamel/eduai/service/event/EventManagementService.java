@@ -9,6 +9,7 @@ import org.ahmedukamel.eduai.dto.event.EventResponse;
 import org.ahmedukamel.eduai.dto.event.UpdateEventRequest;
 import org.ahmedukamel.eduai.mapper.event.EventResponseMapper;
 import org.ahmedukamel.eduai.model.Event;
+import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.repository.EventRepository;
 import org.ahmedukamel.eduai.repository.UserRepository;
@@ -16,6 +17,7 @@ import org.ahmedukamel.eduai.saver.event.EventSaver;
 import org.ahmedukamel.eduai.saver.file.FileSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.updater.event.EventUpdater;
+import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -163,10 +165,11 @@ public class EventManagementService implements IEventManagementService {
     }
 
     @Override
-    public Object getAllEventsForSchool(Integer schoolId, int pageSize, int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+    public Object getAllEventsForSchool(int pageSize, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        School school = ContextHolderUtils.getEmployee().getSchool();
         Page<Event> events = eventRepository
-                .findAllBySchoolIdOrderByEventStartTimeDesc(schoolId , pageable);
+                .findAllBySchoolIdOrderByEventStartTimeDesc(school.getId(), pageable);
 
         Page<EventResponse> response = events
                 .map(eventResponseMapper);

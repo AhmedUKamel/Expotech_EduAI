@@ -9,9 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record CreateEventRequest(
-        @NotNull
-        @ExistSchool
-        Integer schoolId,
 
         @NotNull
         @ExistUser

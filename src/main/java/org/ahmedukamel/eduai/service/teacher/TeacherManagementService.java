@@ -32,6 +32,7 @@ public class TeacherManagementService implements ITeacherManagementService {
         Teacher teacher = iTeacherRegistrationRequestSaver.apply(request, school);
 
         TeacherProfileResponse response = teacherProfileResponseMapper.apply(teacher);
+
         String message = "Teacher added successfully.";
 
         return new ApiResponse(true, message, response);

@@ -7,10 +7,12 @@ import org.ahmedukamel.eduai.dto.bus.CreateBusRequest;
 import org.ahmedukamel.eduai.dto.bus.UpdateBusRequest;
 import org.ahmedukamel.eduai.mapper.bus.BusResponseMapper;
 import org.ahmedukamel.eduai.model.Bus;
+import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.repository.BusRepository;
 import org.ahmedukamel.eduai.saver.bus.BusSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.updater.bus.BusUpdater;
+import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -71,10 +73,12 @@ public class BusManagementService implements IBusManagementService {
     }
 
     @Override
-    public Object getAllBuses(Integer schoolId, int pageSize, int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+    public Object getAllBuses(int pageSize, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Page<Bus> buses = busRepository.findAllBySchoolId(schoolId, pageable);
+        School school = ContextHolderUtils.getEmployee().getSchool();
+
+        Page<Bus> buses = busRepository.findAllBySchoolId(school.getId(), pageable);
 
         Page<BusResponse> response = buses.map(busResponseMapper);
         String message = "Buses retrieved successfully.";

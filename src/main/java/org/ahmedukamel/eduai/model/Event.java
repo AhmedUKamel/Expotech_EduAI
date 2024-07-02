@@ -42,7 +42,7 @@ public class Event {
     @JoinColumn(nullable = false, updatable = false)
     private User creator;
 
-    @Column(nullable = false)
+    @Column
     private String file;
 
     @Transient
