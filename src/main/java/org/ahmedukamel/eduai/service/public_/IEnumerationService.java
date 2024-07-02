@@ -21,5 +21,13 @@ public interface IEnumerationService {
 
     Object getStudyStages();
 
-    Object getAttendanceStatus();
+    Object getAttendanceStatuses();
+
+    Object getExamResultStatuses();
+
+    Object getAssociationTypes();
+
+    Object getQualifications();
+
+    Object getRoles();
 }

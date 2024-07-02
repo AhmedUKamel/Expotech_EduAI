@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.net.URI;
 
 @RestController
-@PreAuthorize(value = "hasAnyAuthority(['ADMIN' ,'EVENT_MANAGER'])")
+@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'EVENT_MANAGER')")
 @RequestMapping(value = "api/v1/event")
 public class EventManagementController {
     private final IEventManagementService service;

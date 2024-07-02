@@ -21,23 +21,13 @@ public interface IUserRegistrationRequest {
 
     Integer regionId();
 
-    String firstName_en();
+    String name_en();
 
-    String firstName_ar();
+    String name_ar();
 
-    String firstName_fr();
+    String name_fr();
 
-    String lastName_en();
-
-    String lastName_ar();
-
-    String lastName_fr();
-
-    String about_en();
-
-    String about_ar();
-
-    String about_fr();
+    String about();
 
     LocalDate birthDate();
 

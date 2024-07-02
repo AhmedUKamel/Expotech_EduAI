@@ -5,7 +5,6 @@ import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.Region;
 import org.ahmedukamel.eduai.model.User;
 import org.ahmedukamel.eduai.model.UserDetail;
-import org.ahmedukamel.eduai.model.embeddable.Name;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.repository.RegionRepository;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
@@ -35,6 +34,7 @@ public class UserRegistrationRequestMapper<T extends User>
             user.setEmail(request.email().strip().toLowerCase());
             user.setNid(request.nid().strip());
             user.setBirthDate(request.birthDate());
+            user.setAbout(request.about().strip());
 
             user.setPassword(password);
             user.setRegion(region);
@@ -44,24 +44,22 @@ public class UserRegistrationRequestMapper<T extends User>
             user.setReligion(request.religion());
 
             user.setAccountNonLocked(true);
+            user.setEnabled(true); // TODO: Will be automated
 
             UserDetail userDetail_en = UserDetail.builder()
-                    .name(new Name(request.firstName_en(), request.lastName_en()))
-                    .about(request.about_en())
+                    .name(request.name_en())
                     .user(user)
                     .language(Language.ENGLISH)
                     .build();
 
             UserDetail userDetail_ar = UserDetail.builder()
-                    .name(new Name(request.firstName_ar(), request.lastName_ar()))
-                    .about(request.about_ar())
+                    .name(request.name_ar())
                     .user(user)
                     .language(Language.ARABIC)
                     .build();
 
             UserDetail userDetail_fr = UserDetail.builder()
-                    .name(new Name(request.firstName_fr(), request.lastName_fr()))
-                    .about(request.about_fr())
+                    .name(request.name_fr())
                     .user(user)
                     .language(Language.FRENCH)
                     .build();

@@ -13,6 +13,7 @@ import org.ahmedukamel.eduai.annotation.enumeration.UniquePhoneConstraint;
 import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
+import org.ahmedukamel.eduai.model.enumeration.Qualification;
 import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
@@ -56,40 +57,19 @@ public record TeacherRegistrationRequest(
         String number,
 
         @NotBlank
-        String firstName_en,
+        String name_en,
 
         @NotBlank
-        String firstName_ar,
+        String name_ar,
 
         @NotBlank
-        String firstName_fr,
+        String name_fr,
 
         @NotBlank
-        String lastName_en,
+        String about,
 
-        @NotBlank
-        String lastName_ar,
-
-        @NotBlank
-        String lastName_fr,
-
-        @NotBlank
-        String about_en,
-
-        @NotBlank
-        String about_ar,
-
-        @NotBlank
-        String about_fr,
-
-        @NotBlank
-        String qualification_en,
-
-        @NotBlank
-        String qualification_ar,
-
-        @NotBlank
-        String qualification_fr,
+        @NotNull
+        Qualification qualification,
 
         @NotNull
         @ExistSchool

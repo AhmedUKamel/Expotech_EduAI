@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@PreAuthorize(value = "hasAuthority('SEMESTER_MANAGER')")
+@PreAuthorize(value = "hasAnyAuthority('ADMIN', 'SEMESTER_MANAGER')")
 @RequestMapping(value = "api/v1/semester")
 public class SemesterManagementController {
     private final ISemesterManagementService service;

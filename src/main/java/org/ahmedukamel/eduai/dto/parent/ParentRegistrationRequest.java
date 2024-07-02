@@ -56,31 +56,16 @@ public record ParentRegistrationRequest(
         String number,
 
         @NotBlank
-        String firstName_en,
+        String name_en,
 
         @NotBlank
-        String firstName_ar,
+        String name_ar,
 
         @NotBlank
-        String firstName_fr,
+        String name_fr,
 
         @NotBlank
-        String lastName_en,
-
-        @NotBlank
-        String lastName_ar,
-
-        @NotBlank
-        String lastName_fr,
-
-        @NotBlank
-        String about_en,
-
-        @NotBlank
-        String about_ar,
-
-        @NotBlank
-        String about_fr,
+        String about,
 
         @NotBlank
         String occupation_en,

@@ -1,10 +1,12 @@
 package org.ahmedukamel.eduai.mapper.profile;
 
+import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.profile.ParentProfileResponse;
 import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.model.ParentDetail;
 import org.ahmedukamel.eduai.model.UserDetail;
-import org.springframework.context.MessageSource;
+import org.ahmedukamel.eduai.service.message.MessageSourceService;
+import org.ahmedukamel.eduai.util.user.UserUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -13,16 +15,15 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 @Component
-public class ParentProfileResponseMapper extends UserProfileResponseMapper
+@RequiredArgsConstructor
+public class ParentProfileResponseMapper
         implements Function<Parent, ParentProfileResponse> {
 
-    public ParentProfileResponseMapper(MessageSource messageSource) {
-        super(messageSource);
-    }
+    private final MessageSourceService messageSourceService;
 
     @Override
     public ParentProfileResponse apply(Parent parent) {
-        UserDetail userDetail = super.getDetails(parent);
+        UserDetail userDetail = UserUtils.getUserDetail(parent);
         ParentDetail teacherDetail = this.getDetails(parent);
 
         return new ParentProfileResponse(
@@ -32,16 +33,15 @@ public class ParentProfileResponseMapper extends UserProfileResponseMapper
                 parent.getPicture(),
                 StringUtils.hasLength(parent.getPicture()),
                 parent.getNid(),
-                super.getGender(parent),
-                super.getRole(parent),
-                super.getNationality(parent),
-                super.getReligion(parent),
+                messageSourceService.getGender(parent.getGender()),
+                messageSourceService.getRole(parent.getRole()),
+                messageSourceService.getNationality(parent.getNationality()),
+                messageSourceService.getReligion(parent.getReligion()),
                 parent.getRegion().getId(),
                 parent.getBirthDate(),
                 parent.getPhoneNumber().toString(),
-                userDetail.getName().getFirst(),
-                userDetail.getName().getLast(),
-                userDetail.getAbout(),
+                userDetail.getName(),
+                parent.getAbout(),
                 parent.getPhoneNumber().toString(),
                 teacherDetail.getOccupation()
         );

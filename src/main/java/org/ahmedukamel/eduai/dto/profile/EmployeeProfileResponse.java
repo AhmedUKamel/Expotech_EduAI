@@ -29,9 +29,7 @@ public record EmployeeProfileResponse(
 
         String number,
 
-        String firstName,
-
-        String lastName,
+        String name,
 
         String about,
 
