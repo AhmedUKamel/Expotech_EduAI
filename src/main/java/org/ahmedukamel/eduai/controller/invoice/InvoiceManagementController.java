@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@PreAuthorize(value = "hasAnyAuthority(['ADMIN' ,'INVOICE_MANAGER'])")
+@PreAuthorize(value = "hasAnyAuthority('ADMIN' ,'INVOICE_MANAGER')")
 @RequestMapping(value = "api/v1/invoice")
 public class InvoiceManagementController {
     

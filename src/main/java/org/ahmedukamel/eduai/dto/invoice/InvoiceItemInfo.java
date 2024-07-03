@@ -1,13 +1,14 @@
 package org.ahmedukamel.eduai.dto.invoice;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record InvoiceItemInfo(
 
-        @NotBlank
+        @NotNull
         double rate,
 
-        @NotBlank
+        @NotNull
         int qty,
 
         @NotBlank

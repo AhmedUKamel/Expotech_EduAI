@@ -1,16 +1,21 @@
 package org.ahmedukamel.eduai.dto.invoice;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record InvoiceItemForUpdate(
 
-        @NotBlank
+        @NotNull
+        @Min(value = 0)
         Long id,
 
-        @NotBlank
+        @NotNull
+        @Min(value = 0)
         double rate,
 
-        @NotBlank
+        @NotNull
+        @Min(value = 1)
         int qty,
 
         @NotBlank

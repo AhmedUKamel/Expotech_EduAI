@@ -1,6 +1,6 @@
 package org.ahmedukamel.eduai.dto.invoice;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -8,16 +8,19 @@ import java.util.List;
 
 public record CreateInvoiceRequest(
 
-        @NotBlank
+        @NotNull
         LocalDate dueDate,
 
-        @NotBlank
+        @NotNull
+        @Min(value = 0)
         double paidAmount,
 
-        @NotBlank
+        @NotNull
+        @Min(value = 0)
         double discountAmount,
 
-        @NotBlank
+        @NotNull
+        @Min(value = 1)
         Long billedToId,
 
         @NotNull
