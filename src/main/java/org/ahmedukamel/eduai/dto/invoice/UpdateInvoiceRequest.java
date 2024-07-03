@@ -21,6 +21,28 @@ public record UpdateInvoiceRequest(
         double discountAmount,
 
         @NotNull
+        @Min(value = 0)
+        double taxAmount,
+
+        @NotBlank
+        String discountDescription_en,
+
+        @NotBlank
+        String taxDescription_en,
+
+        @NotBlank
+        String discountDescription_ar,
+
+        @NotBlank
+        String taxDescription_ar,
+
+        @NotBlank
+        String discountDescription_fr,
+
+        @NotBlank
+        String taxDescription_fr,
+
+        @NotNull
         List<InvoiceItemForUpdate> invoiceItems
 ) {
 }

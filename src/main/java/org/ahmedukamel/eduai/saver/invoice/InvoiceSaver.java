@@ -9,6 +9,7 @@ import org.ahmedukamel.eduai.repository.InvoiceRepository;
 import org.ahmedukamel.eduai.repository.UserRepository;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
+import org.ahmedukamel.eduai.util.invoice.InvoiceUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -30,7 +31,20 @@ public class InvoiceSaver implements Function<CreateInvoiceRequest, Invoice> {
                 .billedTo(user)
                 .school(school)
                 .discountAmount(request.discountAmount())
+                .taxAmount(request.taxAmount())
                 .build();
+
+        InvoiceDetail invoiceDetail_en = InvoiceUtils.getInvoiceDetail(invoice, Language.ENGLISH);
+        invoiceDetail_en.setDiscountDescription(request.discountDescription_en());
+        invoiceDetail_en.setTaxDescription(request.taxDescription_en());
+
+        InvoiceDetail invoiceDetail_ar = InvoiceUtils.getInvoiceDetail(invoice, Language.ARABIC);
+        invoiceDetail_ar.setDiscountDescription(request.discountDescription_ar());
+        invoiceDetail_ar.setTaxDescription(request.taxDescription_ar());
+
+        InvoiceDetail invoiceDetail_fr = InvoiceUtils.getInvoiceDetail(invoice, Language.FRENCH);
+        invoiceDetail_fr.setDiscountDescription(request.discountDescription_fr());
+        invoiceDetail_fr.setTaxDescription(request.taxDescription_fr());
 
         for (InvoiceItemInfo itemInfo :
                 request.invoiceItems()) {
@@ -40,7 +54,7 @@ public class InvoiceSaver implements Function<CreateInvoiceRequest, Invoice> {
                     .rate(itemInfo.rate())
                     .invoice(invoice)
                     .build();
-            InvoiceItemDetail invoiceDetail_en = InvoiceItemDetail
+            InvoiceItemDetail invoiceItemDetail_en = InvoiceItemDetail
                     .builder()
                     .title(itemInfo.title_en().strip())
                     .description(itemInfo.description_en().strip())
@@ -48,7 +62,7 @@ public class InvoiceSaver implements Function<CreateInvoiceRequest, Invoice> {
                     .invoiceItem(invoiceItem)
                     .build(),
 
-                    invoiceDetail_ar = InvoiceItemDetail
+                    invoiceItemDetail_ar = InvoiceItemDetail
                             .builder()
                             .title(itemInfo.title_ar().strip())
                             .description(itemInfo.description_ar().strip())
@@ -56,7 +70,7 @@ public class InvoiceSaver implements Function<CreateInvoiceRequest, Invoice> {
                             .invoiceItem(invoiceItem)
                             .build(),
 
-                    invoiceDetail_fr = InvoiceItemDetail
+                    invoiceItemDetail_fr = InvoiceItemDetail
                             .builder()
                             .title(itemInfo.title_fr().strip())
                             .description(itemInfo.description_fr().strip())
@@ -64,7 +78,7 @@ public class InvoiceSaver implements Function<CreateInvoiceRequest, Invoice> {
                             .invoiceItem(invoiceItem)
                             .build();
 
-            Set<InvoiceItemDetail> details = Set.of(invoiceDetail_en, invoiceDetail_ar, invoiceDetail_fr);
+            Set<InvoiceItemDetail> details = Set.of(invoiceItemDetail_en, invoiceItemDetail_ar, invoiceItemDetail_fr);
             invoiceItem.setDetails(details);
             invoice.getInvoiceItems().add(invoiceItem);
         }

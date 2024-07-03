@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.invoice.InvoiceItemForUpdate;
 import org.ahmedukamel.eduai.dto.invoice.UpdateInvoiceRequest;
 import org.ahmedukamel.eduai.model.Invoice;
+import org.ahmedukamel.eduai.model.InvoiceDetail;
 import org.ahmedukamel.eduai.model.InvoiceItem;
 import org.ahmedukamel.eduai.model.InvoiceItemDetail;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.repository.InvoiceRepository;
 import org.ahmedukamel.eduai.util.invoice.InvoiceItemUtils;
+import org.ahmedukamel.eduai.util.invoice.InvoiceUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,6 +28,19 @@ public class InvoiceUpdater implements BiFunction<Invoice, UpdateInvoiceRequest,
         invoice.setDueDate(request.dueDate());
         invoice.setPaidAmount(request.paidAmount());
         invoice.setDiscountAmount(request.discountAmount());
+        invoice.setTaxAmount(request.taxAmount());
+
+        InvoiceDetail invoiceDetail_en = InvoiceUtils.getInvoiceDetail(invoice, Language.ENGLISH);
+        invoiceDetail_en.setDiscountDescription(request.discountDescription_en());
+        invoiceDetail_en.setTaxDescription(request.taxDescription_en());
+
+        InvoiceDetail invoiceDetail_ar = InvoiceUtils.getInvoiceDetail(invoice, Language.ARABIC);
+        invoiceDetail_ar.setDiscountDescription(request.discountDescription_ar());
+        invoiceDetail_ar.setTaxDescription(request.taxDescription_ar());
+
+        InvoiceDetail invoiceDetail_fr = InvoiceUtils.getInvoiceDetail(invoice, Language.FRENCH);
+        invoiceDetail_fr.setDiscountDescription(request.discountDescription_fr());
+        invoiceDetail_fr.setTaxDescription(request.taxDescription_fr());
 
         for (InvoiceItem itemInfo :
                 invoice.getInvoiceItems()) {

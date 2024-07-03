@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -43,6 +44,12 @@ public class Invoice {
 
     @Column(nullable = false)
     private double discountAmount;
+
+    @Column(nullable = false)
+    private double taxAmount;
+
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Collection<InvoiceDetail> invoiceDetails = new ArrayList<>();
 
     private boolean deleted = false;
 
