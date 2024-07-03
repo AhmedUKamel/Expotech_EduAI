@@ -89,4 +89,19 @@ public class EnumerationController {
     public ResponseEntity<?> getRoles() {
         return ResponseEntity.ok().body(service.getRoles());
     }
+
+    @GetMapping(value = "employee-type")
+    public ResponseEntity<?> getEmployeeTypes() {
+        return ResponseEntity.ok().body(service.getEmployeeTypes());
+    }
+
+    @GetMapping(value = "employee-status")
+    public ResponseEntity<?> getEmployeeStatuses() {
+        return ResponseEntity.ok().body(service.getEmployeeStatuses());
+    }
+
+    @GetMapping(value = "subject")
+    public ResponseEntity<?> getSubjects() {
+        return ResponseEntity.ok().body(service.getSubjects());
+    }
 }

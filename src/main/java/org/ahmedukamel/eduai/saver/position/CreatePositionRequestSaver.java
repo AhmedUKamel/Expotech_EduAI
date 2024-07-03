@@ -16,7 +16,9 @@ import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
-public class PositionSaver implements Function<CreatePositionRequest, Position> {
+public class CreatePositionRequestSaver
+        implements Function<CreatePositionRequest, Position> {
+
     private final DepartmentRepository departmentRepository;
     private final PositionRepository positionRepository;
 

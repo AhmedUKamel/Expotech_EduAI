@@ -9,6 +9,7 @@ import org.ahmedukamel.eduai.mapper.profile.EmployeeProfileResponseMapper;
 import org.ahmedukamel.eduai.model.Employee;
 import org.ahmedukamel.eduai.model.Position;
 import org.ahmedukamel.eduai.model.School;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeType;
 import org.ahmedukamel.eduai.repository.EmployeeRepository;
 import org.ahmedukamel.eduai.repository.PositionRepository;
 import org.ahmedukamel.eduai.saver.employee.AddEmployeeRequestSaver;
@@ -79,7 +80,7 @@ public class TempEmployeeService implements ITempEmployeeService {
         AddEmployeeRequest request = (AddEmployeeRequest) object;
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        Employee savedEmployee = addEmployeeRequestSaver.apply(request, school);
+        Employee savedEmployee = addEmployeeRequestSaver.apply(request, school, EmployeeType.EMPLOYEE);
 
         EmployeeProfileResponse response = employeeProfileResponseMapper.apply(savedEmployee);
         String message = "Employee added successfully";

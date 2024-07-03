@@ -31,6 +31,7 @@ public class ITeacherRegistrationRequestSaver
         teacher.setQualification(request.qualification());
         teacher.setPhoneNumber(phoneNumber);
         teacher.setRole(Role.TEACHER);
+        teacher.setSubject(request.subject());
         teacher.setSchool(school);
 
         return teacherRepository.save(teacher);

@@ -9,7 +9,5 @@ public interface IPositionManagementService {
 
     Object getPosition(Integer id);
 
-    Object getAllPositions(long pageSize, long pageNumber);
-
-    Object getPositionsByDepartment(Integer departmentId, long pageSize, long pageNumber);
+    Object getAllPositions(int pageSize, int pageNumber);
 }

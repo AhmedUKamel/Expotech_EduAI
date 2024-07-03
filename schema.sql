@@ -265,6 +265,8 @@ DROP TABLE IF EXISTS `department_details`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `department_details` (
   `language` enum('ENGLISH','ARABIC','FRENCH') NOT NULL,
+  `abbreviation` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `department_id` int NOT NULL,
   PRIMARY KEY (`department_id`,`language`),
@@ -302,9 +304,31 @@ DROP TABLE IF EXISTS `employee_roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee_roles` (
   `employee_id` bigint NOT NULL,
-  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER','TEACHER_MANAGER','STUDENT_MANAGER','PARENT_MANAGER','BUS_MANAGER','EVENT_MANAGER') DEFAULT NULL,
+  `employee_roles` enum('ADMIN','SEMESTER_MANAGER','EMPLOYEE_MANAGER','TEACHER_MANAGER','STUDENT_MANAGER','PARENT_MANAGER','BUS_MANAGER','EVENT_MANAGER','DEPARTMENT_MANAGER','POSITION_MANAGER','TRAINING_PROGRAM_MANAGER','INVOICE_MANAGER') DEFAULT NULL,
   KEY `FK3uwwaxeiucvfixgd45etkjgmg` (`employee_id`),
   CONSTRAINT `FK3uwwaxeiucvfixgd45etkjgmg` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `employee_training_attendances`
+--
+
+DROP TABLE IF EXISTS `employee_training_attendances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employee_training_attendances` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `absence_reason` enum('PATIENT','EMERGENCY','NORMAL','OTHER') DEFAULT NULL,
+  `date` date NOT NULL,
+  `status` enum('PRESENT','ABSENT') NOT NULL,
+  `employee_id` bigint DEFAULT NULL,
+  `training_program_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKgbhfnhunpajo5ya810iu9s8db` (`employee_id`),
+  KEY `FK4sb89glde3gobs93c8j4sd6wr` (`training_program_id`),
+  CONSTRAINT `FK4sb89glde3gobs93c8j4sd6wr` FOREIGN KEY (`training_program_id`) REFERENCES `training_programs` (`id`),
+  CONSTRAINT `FKgbhfnhunpajo5ya810iu9s8db` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -317,9 +341,12 @@ DROP TABLE IF EXISTS `employees`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employees` (
   `created_date` datetime(6) NOT NULL,
+  `employee_status` enum('ACTIVE','ON_BREAK','STAY_OUT') NOT NULL,
+  `employee_type` enum('EMPLOYEE','WORKER','DRIVER') NOT NULL,
   `hire_date` date DEFAULT NULL,
   `code` int NOT NULL,
   `number` bigint NOT NULL,
+  `qualification` enum('HIGH_SCHOOL_DIPLOMA','BACHELOR_DEGREE','MASTER_DEGREE','DOCTORATE_DEGREE') NOT NULL,
   `salary` double DEFAULT NULL,
   `updated_date` datetime(6) NOT NULL,
   `id` bigint NOT NULL,
@@ -488,6 +515,82 @@ CREATE TABLE `interactions` (
   CONSTRAINT `FK78qna6l6lg8klt6k1k8tno511` FOREIGN KEY (`parent_id`) REFERENCES `parents` (`id`),
   CONSTRAINT `FKc8b3n09byo7kg4g1vo6gptht0` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`),
   CONSTRAINT `FKe32svh7xdgyojahqkaa92fgp5` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `invoice-items`
+--
+
+DROP TABLE IF EXISTS `invoice-items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice-items` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `qty` int NOT NULL,
+  `rate` double NOT NULL,
+  `invoice_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK1ijhpq1umr0f1uytncy36a4v1` (`invoice_id`),
+  CONSTRAINT `FK1ijhpq1umr0f1uytncy36a4v1` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `invoice_details`
+--
+
+DROP TABLE IF EXISTS `invoice_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice_details` (
+  `language` enum('ENGLISH','ARABIC','FRENCH') NOT NULL,
+  `discount_description` varchar(255) NOT NULL,
+  `tax_description` varchar(255) NOT NULL,
+  `invoice_id` bigint NOT NULL,
+  PRIMARY KEY (`invoice_id`,`language`),
+  CONSTRAINT `FK439lfpbc6j1k0cn26wtp8f96r` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `invoice_item_details`
+--
+
+DROP TABLE IF EXISTS `invoice_item_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoice_item_details` (
+  `language` enum('ENGLISH','ARABIC','FRENCH') NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `invoice_item_id` bigint NOT NULL,
+  PRIMARY KEY (`invoice_item_id`,`language`),
+  CONSTRAINT `FK25jwnyp4696ormh84gwgcuu13` FOREIGN KEY (`invoice_item_id`) REFERENCES `invoice-items` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `invoices`
+--
+
+DROP TABLE IF EXISTS `invoices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invoices` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billed_to` varbinary(255) NOT NULL,
+  `creation_date` datetime(6) NOT NULL,
+  `deleted` bit(1) NOT NULL,
+  `discount_amount` double NOT NULL,
+  `due_date` date NOT NULL,
+  `paid_amount` double NOT NULL,
+  `tax_amount` double NOT NULL,
+  `update_date` datetime(6) NOT NULL,
+  `school_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK22jdven9yg05dv069dlxecq47` (`school_id`),
+  CONSTRAINT `FK22jdven9yg05dv069dlxecq47` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -911,6 +1014,28 @@ CREATE TABLE `students` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `teacher_training_attendances`
+--
+
+DROP TABLE IF EXISTS `teacher_training_attendances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `teacher_training_attendances` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `absence_reason` enum('PATIENT','EMERGENCY','NORMAL','OTHER') DEFAULT NULL,
+  `date` date NOT NULL,
+  `status` enum('PRESENT','ABSENT') NOT NULL,
+  `teacher_id` bigint DEFAULT NULL,
+  `training_program_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKrqusl860w185ub2rte6igtfrq` (`teacher_id`),
+  KEY `FKliho0s38t5x0furke2q3acoip` (`training_program_id`),
+  CONSTRAINT `FKliho0s38t5x0furke2q3acoip` FOREIGN KEY (`training_program_id`) REFERENCES `training_programs` (`id`),
+  CONSTRAINT `FKrqusl860w185ub2rte6igtfrq` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `teachers`
 --
 
@@ -922,6 +1047,7 @@ CREATE TABLE `teachers` (
   `code` int NOT NULL,
   `number` bigint NOT NULL,
   `qualification` enum('HIGH_SCHOOL_DIPLOMA','BACHELOR_DEGREE','MASTER_DEGREE','DOCTORATE_DEGREE') NOT NULL,
+  `subject` enum('MATHEMATICS','SCIENCE','CHEMISTRY','PHYSICS','GEOGRAPHY','SOCIAL_STUDIES','HISTORY','ECONOMICS','FOREIGN_LANGUAGE','ENGLISH','ARABIC','FRENCH','COMPUTER_SCIENCE','ART','MUSIC') NOT NULL,
   `updated_date` datetime(6) NOT NULL,
   `id` bigint NOT NULL,
   `school_id` int NOT NULL,
@@ -930,6 +1056,44 @@ CREATE TABLE `teachers` (
   KEY `FK25tvrvw3ww2p7mbt62abrbwev` (`school_id`),
   CONSTRAINT `FK25tvrvw3ww2p7mbt62abrbwev` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`),
   CONSTRAINT `FKpavufmal5lbtc60csriy8sx3` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `training_program_details`
+--
+
+DROP TABLE IF EXISTS `training_program_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `training_program_details` (
+  `language` enum('ENGLISH','ARABIC','FRENCH') NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `training_program_id` bigint NOT NULL,
+  PRIMARY KEY (`language`,`training_program_id`),
+  KEY `FKa7l6mxhkyfklbhdk2di6wst8u` (`training_program_id`),
+  CONSTRAINT `FKa7l6mxhkyfklbhdk2di6wst8u` FOREIGN KEY (`training_program_id`) REFERENCES `training_programs` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `training_programs`
+--
+
+DROP TABLE IF EXISTS `training_programs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `training_programs` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) NOT NULL,
+  `end_date` datetime(6) NOT NULL,
+  `start_date` datetime(6) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `school_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKsvn69fq5r1u2reotjotnl568g` (`school_id`),
+  CONSTRAINT `FKsvn69fq5r1u2reotjotnl568g` FOREIGN KEY (`school_id`) REFERENCES `schools` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1039,7 +1203,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `USER_PICTURE_UNIQUE_CONSTRAINT` (`picture`),
   KEY `FK4muym4ujsr1xfh4qc3wsmmrhe` (`region_id`),
   CONSTRAINT `FK4muym4ujsr1xfh4qc3wsmmrhe` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -1051,4 +1215,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2024-07-02 19:16:40
+-- Dump completed on 2024-07-03 19:11:45

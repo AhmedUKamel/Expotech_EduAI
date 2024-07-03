@@ -30,4 +30,10 @@ public interface IEnumerationService {
     Object getQualifications();
 
     Object getRoles();
+
+    Object getEmployeeTypes();
+
+    Object getEmployeeStatuses();
+
+    Object getSubjects();
 }

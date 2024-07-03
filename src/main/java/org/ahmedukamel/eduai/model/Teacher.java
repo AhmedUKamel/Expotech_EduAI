@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.Qualification;
+import org.ahmedukamel.eduai.model.enumeration.Subject;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -36,6 +37,10 @@ public class Teacher extends User {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Qualification qualification;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Subject subject;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

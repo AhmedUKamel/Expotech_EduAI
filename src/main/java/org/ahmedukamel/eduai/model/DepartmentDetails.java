@@ -28,6 +28,12 @@ public class DepartmentDetails {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String abbreviation;
+
+    @Column(nullable = false)
+    private String description;
+
     @Getter
     @Setter
     @NoArgsConstructor

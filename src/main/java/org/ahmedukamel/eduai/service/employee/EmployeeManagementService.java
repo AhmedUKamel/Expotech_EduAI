@@ -7,7 +7,7 @@ import org.ahmedukamel.eduai.dto.profile.EmployeeProfileResponse;
 import org.ahmedukamel.eduai.mapper.profile.EmployeeProfileResponseMapper;
 import org.ahmedukamel.eduai.model.Employee;
 import org.ahmedukamel.eduai.model.School;
-import org.ahmedukamel.eduai.model.Teacher;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeType;
 import org.ahmedukamel.eduai.repository.EmployeeRepository;
 import org.ahmedukamel.eduai.saver.employee.AddEmployeeRequestSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
@@ -25,11 +25,11 @@ public class EmployeeManagementService implements IEmployeeManagementService {
     private final EmployeeRepository employeeRepository;
 
     @Override
-    public Object addEmployee(Object object) {
+    public Object addEmployee(Object object, EmployeeType employeeType) {
         AddEmployeeRequest request = (AddEmployeeRequest) object;
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        Employee employee = addEmployeeRequestSaver.apply(request, school);
+        Employee employee = addEmployeeRequestSaver.apply(request, school, employeeType);
 
         EmployeeProfileResponse response = employeeProfileResponseMapper.apply(employee);
         String message = "Employee added successfully.";
@@ -41,7 +41,7 @@ public class EmployeeManagementService implements IEmployeeManagementService {
     public Object setEmployeeAccountLock(Long id, boolean accountLocked) {
         School school = ContextHolderUtils.getEmployee().getSchool();
         Employee employee = DatabaseService.get(employeeRepository::findByIdAndSchool_Id,
-                id, school.getId(), Teacher.class);
+                id, school.getId(), Employee.class);
 
         employee.setAccountNonLocked(!accountLocked);
         employeeRepository.save(employee);
@@ -56,7 +56,7 @@ public class EmployeeManagementService implements IEmployeeManagementService {
         School school = ContextHolderUtils.getEmployee().getSchool();
 
         Employee employee = DatabaseService.get(employeeRepository::findByIdAndSchool_Id,
-                id, school.getId(), Teacher.class);
+                id, school.getId(), Employee.class);
 
         EmployeeProfileResponse response = employeeProfileResponseMapper.apply(employee);
         String message = "Employee retrieved successfully.";
@@ -65,11 +65,12 @@ public class EmployeeManagementService implements IEmployeeManagementService {
     }
 
     @Override
-    public Object getAllEmployees(int pageSize, int pageNumber) {
+    public Object getAllEmployees(int pageSize, int pageNumber, EmployeeType employeeType) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        Page<Employee> employees = employeeRepository.findAllBySchool_Id(school.getId(), pageable);
+        Page<Employee> employees = employeeRepository.findAllBySchool_IdAndEmployeeType(
+                school.getId(), employeeType, pageable);
 
         Page<EmployeeProfileResponse> response = employees.map(employeeProfileResponseMapper);
         String message = "All employees retrieved successfully.";

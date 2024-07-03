@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.repository;
 
 import org.ahmedukamel.eduai.model.Employee;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Page<Employee> findAllByPositionIsNullAndSchool_Id(Integer schoolId, Pageable pageable);
 
     Page<Employee> findAllBySchool_Id(Integer schoolId, Pageable pageable);
+
+    Page<Employee> findAllBySchool_IdAndEmployeeType(Integer schoolId, EmployeeType employeeType, Pageable pageable);
 
     Optional<Employee> findByIdAndSchool_Id(Long id, Integer schoolId);
 }

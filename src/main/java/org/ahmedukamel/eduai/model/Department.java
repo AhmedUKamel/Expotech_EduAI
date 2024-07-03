@@ -6,8 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,8 +38,8 @@ public class Department {
     private School school;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Collection<DepartmentDetails> details = new ArrayList<>();
+    private Set<DepartmentDetails> details = new HashSet<>();
 
     @OneToMany(mappedBy = "department", orphanRemoval = true)
-    private Collection<Position> positions = new ArrayList<>();
+    private Set<Position> positions = new HashSet<>();
 }

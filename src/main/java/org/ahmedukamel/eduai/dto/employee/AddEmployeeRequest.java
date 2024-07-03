@@ -1,13 +1,17 @@
 package org.ahmedukamel.eduai.dto.employee;
 
 import jakarta.validation.constraints.*;
-import org.ahmedukamel.eduai.annotation.*;
+import org.ahmedukamel.eduai.annotation.ExistPosition;
+import org.ahmedukamel.eduai.annotation.ExistRegion;
+import org.ahmedukamel.eduai.annotation.UniquePhone;
+import org.ahmedukamel.eduai.annotation.UserUnique;
 import org.ahmedukamel.eduai.annotation.enumeration.UniquePhoneConstraint;
 import org.ahmedukamel.eduai.annotation.enumeration.UserUniqueConstraint;
 import org.ahmedukamel.eduai.constant.RegexConstants;
 import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
+import org.ahmedukamel.eduai.model.enumeration.Qualification;
 import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
@@ -71,6 +75,9 @@ public record AddEmployeeRequest(
         Double salary,
 
         @NotNull
-        LocalDate hireDate
+        LocalDate hireDate,
+
+        @NotNull
+        Qualification qualification
 ) implements IUserRegistrationRequest {
 }

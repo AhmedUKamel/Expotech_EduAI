@@ -9,7 +9,5 @@ public interface IDepartmentManagementService {
 
     Object getDepartment(Integer id);
 
-    Object getAllDepartments(long pageSize, long pageNumber);
-
-    Object getSchoolDepartments(Integer schoolId, long pageSize, long pageNumber);
+    Object getAllDepartments(int pageSize, int pageNumber);
 }
