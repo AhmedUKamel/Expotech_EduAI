@@ -1,10 +1,14 @@
 package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.EmployeeRole;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeStatus;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -48,6 +52,14 @@ public class Employee extends User {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedDate;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private EmployeeStatus employeeStatus;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private EmployeeType employeeType;
 
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)

@@ -8,6 +8,7 @@ import org.ahmedukamel.eduai.model.Employee;
 import org.ahmedukamel.eduai.model.Position;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeStatus;
 import org.ahmedukamel.eduai.model.enumeration.Role;
 import org.ahmedukamel.eduai.repository.EmployeeRepository;
 import org.ahmedukamel.eduai.repository.PositionRepository;
@@ -40,8 +41,8 @@ public class AddEmployeeRequestSaver
         employee.setSalary(request.salary());
         employee.setHireDate(request.hireDate());
         employee.setPosition(position);
-        employee.setEnabled(true);
-        employee.setAccountNonLocked(true);
+        employee.setEmployeeType(request.employeeType());
+        employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
 
         return employeeRepository.save(employee);
     }

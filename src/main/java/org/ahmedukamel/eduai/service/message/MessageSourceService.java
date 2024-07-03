@@ -101,4 +101,16 @@ public class MessageSourceService {
                 MessageSourceConstants.ENUMERATION_NATIONALITY.formatted(nationality),
                 null, LocaleContextHolder.getLocale());
     }
+
+    public String getEmployeeType(EmployeeType employeeType) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_EMPLOYEE_TYPE.formatted(employeeType),
+                null, LocaleContextHolder.getLocale());
+    }
+
+    public String getEmployeeStatus(EmployeeStatus employeeStatus) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_EMPLOYEE_STATUS.formatted(employeeStatus),
+                null, LocaleContextHolder.getLocale());
+    }
 }

@@ -149,4 +149,22 @@ public class EnumerationService implements IEnumerationService {
 
         return new ApiResponse(true, message, response);
     }
+
+    @Override
+    public Object getEmployeeTypes() {
+        Map<String, String> response = Arrays.stream(EmployeeType.values())
+                .collect(Collectors.toMap(EmployeeType::name, messageSourceService::getEmployeeType));
+        String message = "Successful get all employee types.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object getEmployeeStatuses() {
+        Map<String, String> response = Arrays.stream(EmployeeStatus.values())
+                .collect(Collectors.toMap(EmployeeStatus::name, messageSourceService::getEmployeeStatus));
+        String message = "Successful get all employee statues.";
+
+        return new ApiResponse(true, message, response);
+    }
 }
