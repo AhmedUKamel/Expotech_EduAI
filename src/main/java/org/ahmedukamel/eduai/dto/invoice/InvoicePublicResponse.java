@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public record InvoicePublicResponse(
 
-        Long id,
+        Long billedToId,
 
         LocalDateTime creationDate,
 

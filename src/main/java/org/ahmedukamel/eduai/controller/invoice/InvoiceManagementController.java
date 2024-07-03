@@ -47,7 +47,7 @@ public class InvoiceManagementController {
 
     @GetMapping(value = "all")
     public ResponseEntity<?> getAllInvoices(@Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-                                         @Min(value = 1) @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
+                                         @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
         return ResponseEntity.ok().body(service.getInvoicesForSchool(pageSize, pageNumber));
     }
 }

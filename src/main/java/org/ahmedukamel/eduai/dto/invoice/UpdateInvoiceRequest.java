@@ -43,6 +43,6 @@ public record UpdateInvoiceRequest(
         String taxDescription_fr,
 
         @NotNull
-        List<InvoiceItemForUpdate> invoiceItems
+        List<InvoiceItemResponse> invoiceItems
 ) {
 }

@@ -6,9 +6,7 @@ import org.ahmedukamel.eduai.dto.invoice.InvoiceResponse;
 import org.ahmedukamel.eduai.model.Invoice;
 import org.ahmedukamel.eduai.model.InvoiceDetail;
 import org.ahmedukamel.eduai.model.InvoiceItem;
-import org.ahmedukamel.eduai.model.InvoiceItemDetail;
 import org.ahmedukamel.eduai.model.enumeration.Language;
-import org.ahmedukamel.eduai.util.invoice.InvoiceItemUtils;
 import org.ahmedukamel.eduai.util.invoice.InvoiceUtils;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +35,7 @@ public class InvoiceResponseMapper implements Function<Invoice, InvoiceResponse>
         InvoiceDetail details_fr = InvoiceUtils.getInvoiceDetail(invoice, Language.FRENCH);
 
         return new InvoiceResponse(
-                invoice.getId(),
+                invoice.getBilledTo().getId(),
                 invoice.getCreationDate(),
                 invoice.getUpdateDate(),
                 invoice.getDueDate(),

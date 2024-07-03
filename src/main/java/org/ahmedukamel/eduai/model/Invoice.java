@@ -36,8 +36,9 @@ public class Invoice {
     @Column(nullable = false)
     private LocalDate dueDate;
 
-    @Column(nullable = false)
-    private User billedTo;
+    @ManyToOne
+    @JoinColumn(name = "billed_to_id", nullable = false, updatable = false)
+    private Student billedTo;
 
     @Column(nullable = false)
     private double paidAmount;
@@ -53,7 +54,7 @@ public class Invoice {
 
     private boolean deleted = false;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<InvoiceItem> invoiceItems = new ArrayList<>();
 
     @ManyToOne

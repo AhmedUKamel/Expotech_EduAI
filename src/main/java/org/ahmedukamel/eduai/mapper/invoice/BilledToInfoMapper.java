@@ -1,20 +1,21 @@
 package org.ahmedukamel.eduai.mapper.invoice;
 
-import org.ahmedukamel.eduai.dto.invoice.BilledToInfo;
-import org.ahmedukamel.eduai.model.User;
+import org.ahmedukamel.eduai.dto.invoice.StudentBasicInfo;
+import org.ahmedukamel.eduai.model.Student;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
 @Component
-public class BilledToInfoMapper implements Function<User, BilledToInfo> {
+public class BilledToInfoMapper implements Function<Student, StudentBasicInfo> {
 
     @Override
-    public BilledToInfo apply(User user) {
-        return new BilledToInfo(
-                user.getId(),
-                user.getEmail(),
-                user.getPicture()
+    public StudentBasicInfo apply(Student student) {
+        return new StudentBasicInfo(
+                student.getId(),
+                student.getUsername(),
+                student.getEmail(),
+                student.getPicture()
         );
     }
 }

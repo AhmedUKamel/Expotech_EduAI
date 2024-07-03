@@ -6,12 +6,13 @@ import org.ahmedukamel.eduai.dto.invoice.InvoiceItemInfo;
 import org.ahmedukamel.eduai.model.*;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.repository.InvoiceRepository;
-import org.ahmedukamel.eduai.repository.UserRepository;
+import org.ahmedukamel.eduai.repository.StudentRepository;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.ahmedukamel.eduai.util.invoice.InvoiceUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -19,32 +20,49 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class InvoiceSaver implements Function<CreateInvoiceRequest, Invoice> {
     private final InvoiceRepository invoiceRepository;
-    private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
 
     @Override
     public Invoice apply(CreateInvoiceRequest request) {
-        User user = DatabaseService.get(userRepository::findById, request.billedToId(), User.class);
+        Student student = DatabaseService.get(studentRepository::findById, request.billedToId(), Student.class);
         School school = ContextHolderUtils.getEmployee().getSchool();
 
         Invoice invoice = Invoice
                 .builder()
-                .billedTo(user)
+                .billedTo(student)
+                .dueDate(request.dueDate())
                 .school(school)
                 .discountAmount(request.discountAmount())
                 .taxAmount(request.taxAmount())
                 .build();
 
-        InvoiceDetail invoiceDetail_en = InvoiceUtils.getInvoiceDetail(invoice, Language.ENGLISH);
-        invoiceDetail_en.setDiscountDescription(request.discountDescription_en());
-        invoiceDetail_en.setTaxDescription(request.taxDescription_en());
 
-        InvoiceDetail invoiceDetail_ar = InvoiceUtils.getInvoiceDetail(invoice, Language.ARABIC);
-        invoiceDetail_ar.setDiscountDescription(request.discountDescription_ar());
-        invoiceDetail_ar.setTaxDescription(request.taxDescription_ar());
+        invoice.setInvoiceDetails(new ArrayList<>());
 
-        InvoiceDetail invoiceDetail_fr = InvoiceUtils.getInvoiceDetail(invoice, Language.FRENCH);
-        invoiceDetail_fr.setDiscountDescription(request.discountDescription_fr());
-        invoiceDetail_fr.setTaxDescription(request.taxDescription_fr());
+        InvoiceDetail invoiceDetail_en = InvoiceDetail.builder()
+                .invoice(invoice)
+                .language(Language.ENGLISH)
+                .discountDescription(request.discountDescription_en())
+                .taxDescription(request.taxDescription_en())
+                .build();
+
+        InvoiceDetail invoiceDetail_ar = InvoiceDetail.builder()
+                .invoice(invoice)
+                .language(Language.ARABIC)
+                .discountDescription(request.discountDescription_ar())
+                .taxDescription(request.taxDescription_ar())
+                .build();
+
+        InvoiceDetail invoiceDetail_fr = InvoiceDetail.builder()
+                .invoice(invoice)
+                .language(Language.FRENCH)
+                .discountDescription(request.discountDescription_fr())
+                .taxDescription(request.taxDescription_fr())
+                .build();
+
+        invoice.setInvoiceDetails(Set.of(invoiceDetail_en, invoiceDetail_ar, invoiceDetail_fr));
+
+        invoice.setInvoiceItems(new ArrayList<>());
 
         for (InvoiceItemInfo itemInfo :
                 request.invoiceItems()) {

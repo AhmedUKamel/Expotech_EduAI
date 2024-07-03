@@ -1,7 +1,7 @@
 package org.ahmedukamel.eduai.updater.invoice;
 
 import lombok.RequiredArgsConstructor;
-import org.ahmedukamel.eduai.dto.invoice.InvoiceItemForUpdate;
+import org.ahmedukamel.eduai.dto.invoice.InvoiceItemResponse;
 import org.ahmedukamel.eduai.dto.invoice.UpdateInvoiceRequest;
 import org.ahmedukamel.eduai.model.Invoice;
 import org.ahmedukamel.eduai.model.InvoiceDetail;
@@ -44,9 +44,9 @@ public class InvoiceUpdater implements BiFunction<Invoice, UpdateInvoiceRequest,
 
         for (InvoiceItem itemInfo :
                 invoice.getInvoiceItems()) {
-            List<InvoiceItemForUpdate> itemsFromRequest= request.invoiceItems();
+            List<InvoiceItemResponse> itemsFromRequest= request.invoiceItems();
 
-            for (InvoiceItemForUpdate itemFromRequest:
+            for (InvoiceItemResponse itemFromRequest:
                  itemsFromRequest) {
                 if(itemFromRequest.id().equals(itemInfo.getId())){
                     InvoiceItemDetail invoiceItemDetail_en = InvoiceItemUtils.getInvoiceItemDetail(itemInfo, Language.ENGLISH);

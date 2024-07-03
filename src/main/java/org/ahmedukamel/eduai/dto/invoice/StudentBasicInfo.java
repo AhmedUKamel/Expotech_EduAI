@@ -1,10 +1,10 @@
 package org.ahmedukamel.eduai.dto.invoice;
 
-import jakarta.validation.constraints.NotBlank;
-
-public record BilledToInfo(
+public record StudentBasicInfo(
 
         Long id,
+
+        String name,
 
         String email,
 

@@ -20,13 +20,14 @@ public class InvoicePublicResponseMapper implements Function<Invoice, InvoicePub
         }
 
         totalFeesAmount -= discount;
+        totalFeesAmount += invoice.getTaxAmount();
 
         if(totalFeesAmount<0){
             totalFeesAmount = 0;
         }
 
         return new InvoicePublicResponse(
-                invoice.getId(),
+                invoice.getBilledTo().getId(),
                 invoice.getCreationDate(),
                 invoice.getUpdateDate(),
                 invoice.getDueDate(),

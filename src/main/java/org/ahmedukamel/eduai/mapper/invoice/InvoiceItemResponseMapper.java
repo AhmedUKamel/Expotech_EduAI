@@ -2,8 +2,6 @@ package org.ahmedukamel.eduai.mapper.invoice;
 
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.invoice.InvoiceItemResponse;
-import org.ahmedukamel.eduai.dto.invoice.InvoiceResponse;
-import org.ahmedukamel.eduai.model.Invoice;
 import org.ahmedukamel.eduai.model.InvoiceItem;
 import org.ahmedukamel.eduai.model.InvoiceItemDetail;
 import org.ahmedukamel.eduai.model.enumeration.Language;
@@ -25,6 +23,7 @@ public class InvoiceItemResponseMapper implements Function<InvoiceItem, InvoiceI
         InvoiceItemDetail details_fr = InvoiceItemUtils.getInvoiceItemDetail(invoiceItem, Language.FRENCH);
 
         return new InvoiceItemResponse(
+                invoiceItem.getId(),
                 invoiceItem.getRate(),
                 invoiceItem.getQty(),
                 details_en.getTitle(),
