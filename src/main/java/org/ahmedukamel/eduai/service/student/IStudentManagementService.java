@@ -1,6 +1,7 @@
 package org.ahmedukamel.eduai.service.student;
 
 public interface IStudentManagementService {
+
     Object addStudent(Object object);
 
     Object setStudentAccountLock(Long id, boolean accountLocked);

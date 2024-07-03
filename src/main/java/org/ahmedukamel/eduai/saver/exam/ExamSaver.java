@@ -12,7 +12,6 @@ import org.ahmedukamel.eduai.repository.SemesterRepository;
 import org.ahmedukamel.eduai.repository.UserRepository;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.springframework.stereotype.Component;
-
 import java.util.function.Function;
 
 @Component
@@ -22,7 +21,6 @@ public class ExamSaver implements Function<CreateExamRequest, Exam> {
     private final SchoolRepository schoolRepository;
     private final UserRepository userRepository;
     private final ExamRepository repository;
-
     @Override
     public Exam apply(CreateExamRequest request) {
         Exam exam = Exam
@@ -36,7 +34,6 @@ public class ExamSaver implements Function<CreateExamRequest, Exam> {
                 .school(DatabaseService.get(schoolRepository::findById, request.schoolId(), School.class))
                 .semester(DatabaseService.get(semesterRepository::findById, request.semesterId(), Semester.class))
                 .build();
-
         return repository.save(exam);
     }
 }
