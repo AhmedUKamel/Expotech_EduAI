@@ -18,4 +18,5 @@ public interface MessageSourceConstants {
     String ENUMERATION_QUALIFICATION = "enumeration.Qualification.%s";
     String ENUMERATION_EMPLOYEE_TYPE = "enumeration.EmployeeType.%s";
     String ENUMERATION_EMPLOYEE_STATUS = "enumeration.EmployeeStatus.%s";
+    String ENUMERATION_SUBJECT = "enumeration.Subject.%s";
 }

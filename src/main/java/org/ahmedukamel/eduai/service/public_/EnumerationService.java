@@ -167,4 +167,13 @@ public class EnumerationService implements IEnumerationService {
 
         return new ApiResponse(true, message, response);
     }
+
+    @Override
+    public Object getSubjects() {
+        Map<String, String> response = Arrays.stream(Subject.values())
+                .collect(Collectors.toMap(Subject::name, messageSourceService::getSubject));
+        String message = "Successful get all subjects.";
+
+        return new ApiResponse(true, message, response);
+    }
 }

@@ -113,4 +113,10 @@ public class MessageSourceService {
                 MessageSourceConstants.ENUMERATION_EMPLOYEE_STATUS.formatted(employeeStatus),
                 null, LocaleContextHolder.getLocale());
     }
+
+    public String getSubject(Subject subject) {
+        return messageSource.getMessage(
+                MessageSourceConstants.ENUMERATION_SUBJECT.formatted(subject),
+                null, LocaleContextHolder.getLocale());
+    }
 }
