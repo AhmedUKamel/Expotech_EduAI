@@ -9,6 +9,7 @@ import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.EmployeeRole;
 import org.ahmedukamel.eduai.model.enumeration.EmployeeStatus;
 import org.ahmedukamel.eduai.model.enumeration.EmployeeType;
+import org.ahmedukamel.eduai.model.enumeration.Qualification;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -60,6 +61,10 @@ public class Employee extends User {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private EmployeeType employeeType;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Qualification qualification;
 
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
