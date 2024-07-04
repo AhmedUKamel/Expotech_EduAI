@@ -22,7 +22,7 @@ public class TrainingProgramController {
     }
 
     @PostMapping(value = "new")
-    public ResponseEntity<?> addTeacher(
+    public ResponseEntity<?> addTrainingProgram(
             @Valid @RequestBody CreateTrainingProgramRequest request) {
 
         return ResponseEntity.created(URI.create("api/v1/training_program/new"))
@@ -31,7 +31,7 @@ public class TrainingProgramController {
     @GetMapping(value = "{trainingProgramId}")
     public ResponseEntity<?> getTrainingProgram(
             @Min(value = 1) @PathVariable(value = "trainingProgramId") Long id) {
-        return ResponseEntity.accepted().body(service.getTrainingProgram(id));
+        return ResponseEntity.ok().body(service.getTrainingProgram(id));
     }
     @DeleteMapping(value = "{trainingProgramId}")
     public ResponseEntity<?> deleteTrainingProgram(

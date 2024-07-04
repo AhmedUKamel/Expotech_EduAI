@@ -12,6 +12,7 @@ import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -62,8 +63,8 @@ public class TrainingProgramService implements ITrainingProgramService {
     @Override
     public Object getTrainingProgram(Long id) {
         School school = ContextHolderUtils.getEmployee().getSchool();
-        TrainingProgram trainingProgram = DatabaseService.get(trainingProgramRepository::findByIdAndSchool_Id,
-                id, school.getId(), TrainingProgram.class);
+        TrainingProgram trainingProgram = trainingProgramRepository.findByIdAndSchool_Id(
+                id, school.getId()).orElseThrow( () -> new RuntimeException("Training program not found."));
         TrainingProgramResponse response = trainingProgramResponseMapper.apply(trainingProgram);
 
         String message = "Training program retrieved successfully.";
@@ -73,7 +74,7 @@ public class TrainingProgramService implements ITrainingProgramService {
 
     @Override
     public Object getAllTrainingProgram(int pageSize, int pageNumber) {
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(pageNumber);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
         School school = ContextHolderUtils.getEmployee().getSchool();
 
         Page<TrainingProgram> trainingPrograms = trainingProgramRepository.findAllBySchool_Id(school.getId(), pageable);
