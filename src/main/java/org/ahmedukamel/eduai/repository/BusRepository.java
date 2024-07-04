@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface BusRepository extends JpaRepository<Bus, Long> {
     boolean existsBySchool_IdAndBusNumberIgnoreCase(Integer id, String busNumber);
 
-    Page<Bus> findAllBySchoolId(Integer schoolId, Pageable pageable);
+    Page<Bus> findAllBySchoolIdAndDeleted(Integer schoolId, boolean deleted, Pageable pageable);
 }

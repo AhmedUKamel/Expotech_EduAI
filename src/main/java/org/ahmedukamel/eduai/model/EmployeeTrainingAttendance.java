@@ -37,4 +37,7 @@ public class EmployeeTrainingAttendance {
     @Temporal(value = TemporalType.DATE)
     @Column(nullable = false, updatable = false)
     private LocalDate date;
+
+    @Column(nullable = false, columnDefinition = "boolean default false" )
+    private boolean deleted;
 }

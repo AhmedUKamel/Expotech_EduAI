@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.util.invoice;
 
 import org.ahmedukamel.eduai.model.Invoice;
 import org.ahmedukamel.eduai.model.InvoiceDetail;
+import org.ahmedukamel.eduai.model.InvoiceItem;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.springframework.context.i18n.LocaleContextHolder;
 
@@ -22,5 +23,14 @@ public class InvoiceUtils {
                         .equalsIgnoreCase(languageCode.strip()))
                 .findFirst()
                 .orElseThrow();
+    }
+
+    public static double getTotalItemsFeesAmount(Invoice invoice) {
+        double totalItemsFeesAmount = 0;
+        for (InvoiceItem invoiceItem :
+                invoice.getInvoiceItems()) {
+            totalItemsFeesAmount += invoiceItem.getRate() * invoiceItem.getQty();
+        }
+        return totalItemsFeesAmount;
     }
 }

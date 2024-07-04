@@ -13,6 +13,7 @@ public enum EmployeeRole implements GrantedAuthority {
     BUS_MANAGER,
     EVENT_MANAGER,
     DEPARTMENT_MANAGER,
+    POSITION_MANAGER,
     TRAINING_PROGRAM_MANAGER,
     INVOICE_MANAGER;
 

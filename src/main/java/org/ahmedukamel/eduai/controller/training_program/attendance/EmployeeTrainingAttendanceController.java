@@ -3,6 +3,7 @@ package org.ahmedukamel.eduai.controller.training_program.attendance;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.ahmedukamel.eduai.dto.employee_training_attendance.CreateEmployeeTrainingAttendanceRequest;
+import org.ahmedukamel.eduai.dto.employee_training_attendance.UpdateEmployeeTrainingAttendanceRequest;
 import org.ahmedukamel.eduai.service.employee_training_attendance.EmployeeTrainingAttendanceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,7 +34,7 @@ public class EmployeeTrainingAttendanceController {
     @PutMapping(value = "{employeeTrainingAttendanceId}")
     public ResponseEntity<?> updateEmployeeTrainingAttendance(
             @Min(value = 1) @PathVariable(value = "employeeTrainingAttendanceId") Long id,
-            @Valid @RequestBody CreateEmployeeTrainingAttendanceRequest request) {
+            @Valid @RequestBody UpdateEmployeeTrainingAttendanceRequest request) {
         return ResponseEntity.accepted().body(service.updateEmployeeTrainingAttendance(id, request));
     }
     @DeleteMapping(value = "{employeeTrainingAttendanceId}")

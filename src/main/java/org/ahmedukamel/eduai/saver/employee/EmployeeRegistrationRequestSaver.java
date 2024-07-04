@@ -7,6 +7,7 @@ import org.ahmedukamel.eduai.mapper.user.UserRegistrationRequestMapper;
 import org.ahmedukamel.eduai.model.Employee;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeRole;
 import org.ahmedukamel.eduai.model.enumeration.EmployeeStatus;
 import org.ahmedukamel.eduai.model.enumeration.Role;
 import org.ahmedukamel.eduai.repository.EmployeeRepository;
@@ -14,6 +15,7 @@ import org.ahmedukamel.eduai.repository.SchoolRepository;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.function.Function;
 
 @Component
@@ -35,9 +37,12 @@ public class EmployeeRegistrationRequestSaver
 
         employee.setPhoneNumber(phoneNumber);
         employee.setRole(Role.EMPLOYEE);
+        employee.setQualification(request.qualification());
         employee.setEmployeeType(request.employeeType());
         employee.setEmployeeStatus(EmployeeStatus.ACTIVE);
         employee.setSchool(school);
+
+        employee.setEmployeeRoles(Set.of(EmployeeRole.ADMIN)); // TODO: Will be deleted
 
         return employeeRepository.save(employee);
     }

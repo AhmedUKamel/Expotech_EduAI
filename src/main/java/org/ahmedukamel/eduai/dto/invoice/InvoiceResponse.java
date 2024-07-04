@@ -1,8 +1,6 @@
 package org.ahmedukamel.eduai.dto.invoice;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import org.ahmedukamel.eduai.model.enumeration.PaymentStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,11 +16,15 @@ public record InvoiceResponse(
 
         LocalDate dueDate,
 
-        double paid_amount,
+        double totalAmount,
+
+        double paidAmount,
 
         double discountAmount,
 
         double taxAmount,
+
+        double dueAmount,
 
         String discountDescription_en,
 
@@ -36,7 +38,9 @@ public record InvoiceResponse(
 
         String taxDescription_fr,
 
-        BilledToInfo billedToInfo,
+        StudentBasicInfo studentBasicInfo,
+
+        PaymentStatus paymentStatus,
 
         List<InvoiceItemResponse> invoiceItems
 ) {

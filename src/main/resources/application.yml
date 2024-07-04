@@ -6,6 +6,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+#      format_sql: true
   datasource:
     url: ${application.datasource.url}
     username: ${application.datasource.username}
@@ -17,3 +18,10 @@ spring:
       max-file-size: 2MB
   profiles:
     active: dev
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type: TRACE

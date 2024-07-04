@@ -7,7 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface TrainingProgramRepository extends JpaRepository<TrainingProgram,Long> {
-    Optional<TrainingProgram> findByIdAndSchool_Id(Long aLong, Integer integer);
-    Page<TrainingProgram> findAllBySchool_Id(Integer id, Pageable pageable);
-}
+public interface TrainingProgramRepository extends JpaRepository<TrainingProgram,Long>{}

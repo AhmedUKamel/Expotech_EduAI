@@ -17,11 +17,11 @@ public class TrainingProgramResponseMapper implements Function<TrainingProgram, 
         TrainingProgramDetails trainingProgramDetails = this.getDetails(trainingProgram);
         return new TrainingProgramResponse(
           trainingProgram.getId(),
-          trainingProgram.getTitle(),
-          trainingProgram.getDescription(),
+          trainingProgramDetails.getTitle(),
+          trainingProgramDetails.getDescription(),
           trainingProgram.getStartDate(),
           trainingProgram.getEndDate(),
-          trainingProgram.getSchool().getId()
+          trainingProgram.isDeleted()
         );
     }
 

@@ -2,37 +2,41 @@ package org.ahmedukamel.eduai.service.position;
 
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
+import org.ahmedukamel.eduai.dto.position.AllLanguagesPositionResponse;
 import org.ahmedukamel.eduai.dto.position.CreatePositionRequest;
-import org.ahmedukamel.eduai.dto.position.PositionResponse;
+import org.ahmedukamel.eduai.dto.position.SingleLanguagePositionResponse;
 import org.ahmedukamel.eduai.dto.position.UpdatePositionRequest;
-import org.ahmedukamel.eduai.mapper.position.PositionResponseMapper;
-import org.ahmedukamel.eduai.model.Department;
+import org.ahmedukamel.eduai.mapper.position.AllLanguagesPositionResponseMapper;
+import org.ahmedukamel.eduai.mapper.position.SingleLanguagePositionResponseMapper;
 import org.ahmedukamel.eduai.model.Position;
-import org.ahmedukamel.eduai.repository.DepartmentRepository;
+import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.repository.PositionRepository;
-import org.ahmedukamel.eduai.saver.position.PositionSaver;
+import org.ahmedukamel.eduai.saver.position.CreatePositionRequestSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
-import org.ahmedukamel.eduai.updater.position.PositionUpdater;
+import org.ahmedukamel.eduai.updater.position.UpdatePositionRequestUpdater;
+import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PositionManagementService implements IPositionManagementService {
-    private final PositionResponseMapper positionResponseMapper;
-    private final DepartmentRepository departmentRepository;
+    private final SingleLanguagePositionResponseMapper singleLanguagePositionResponseMapper;
+    private final AllLanguagesPositionResponseMapper allLanguagesPositionResponseMapper;
+    private final UpdatePositionRequestUpdater updatePositionRequestUpdater;
+    private final CreatePositionRequestSaver createPositionRequestSaver;
     private final PositionRepository positionRepository;
-    private final PositionUpdater positionUpdater;
-    private final PositionSaver positionSaver;
 
     @Override
     public Object createPosition(Object object) {
         CreatePositionRequest request = (CreatePositionRequest) object;
 
-        Position savedPosition = positionSaver.apply(request);
+        Position savedPosition = createPositionRequestSaver.apply(request);
 
-        PositionResponse response = positionResponseMapper.apply(savedPosition);
+        AllLanguagesPositionResponse response = allLanguagesPositionResponseMapper.apply(savedPosition);
         String message = "Position created successfully.";
 
         return new ApiResponse(true, message, response);
@@ -43,9 +47,9 @@ public class PositionManagementService implements IPositionManagementService {
         Position position = DatabaseService.get(positionRepository::findById, id, Position.class);
         UpdatePositionRequest request = (UpdatePositionRequest) object;
 
-        Position updatedPosition = positionUpdater.apply(position, request);
+        Position updatedPosition = updatePositionRequestUpdater.apply(position, request);
 
-        PositionResponse response = positionResponseMapper.apply(updatedPosition);
+        AllLanguagesPositionResponse response = allLanguagesPositionResponseMapper.apply(updatedPosition);
         String message = "Position updated successfully.";
 
         return new ApiResponse(true, message, response);
@@ -53,9 +57,14 @@ public class PositionManagementService implements IPositionManagementService {
 
     @Override
     public Object deletePosition(Integer id) {
-        Position position = DatabaseService.get(positionRepository::findById, id, Position.class);
-
-        positionRepository.delete(position);
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Position position = DatabaseService.get(positionRepository::findByIdAndDepartment_School_Id,
+                id, school.getId(), Position.class);
+        try {
+            positionRepository.delete(position);
+        } catch (DataIntegrityViolationException exception) {
+            throw new RuntimeException("This position is associated with other records and can't be deleted.", exception);
+        }
 
         String message = "Position deleted successfully.";
 
@@ -64,40 +73,25 @@ public class PositionManagementService implements IPositionManagementService {
 
     @Override
     public Object getPosition(Integer id) {
-        Position position = DatabaseService.get(positionRepository::findById, id, Position.class);
+        School school = ContextHolderUtils.getEmployee().getSchool();
+        Position position = DatabaseService.get(positionRepository::findByIdAndDepartment_School_Id,
+                id, school.getId(), Position.class);
 
-        PositionResponse response = positionResponseMapper.apply(position);
+        AllLanguagesPositionResponse response = allLanguagesPositionResponseMapper.apply(position);
         String message = "Position retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }
 
     @Override
-    public Object getAllPositions(long pageSize, long pageNumber) {
-        List<Position> positions = positionRepository
-                .selectPositionsWithPagination(pageSize, pageSize * (pageNumber - 1));
+    public Object getAllPositions(int pageSize, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        School school = ContextHolderUtils.getEmployee().getSchool();
 
-        List<PositionResponse> response = positions
-                .stream()
-                .map(positionResponseMapper)
-                .toList();
-        String message = "Positions retrieved successfully.";
+        Page<Position> positions = positionRepository.findAllByDepartment_School_Id(school.getId(), pageable);
 
-        return new ApiResponse(true, message, response);
-    }
-
-    @Override
-    public Object getPositionsByDepartment(Integer departmentId, long pageSize, long pageNumber) {
-        Department department = DatabaseService.get(departmentRepository::findById, departmentId, Department.class);
-
-        List<Position> positions = positionRepository
-                .selectPositionsByDepartmentWithPagination(department, pageSize, pageSize * (pageNumber - 1));
-
-        List<PositionResponse> response = positions
-                .stream()
-                .map(positionResponseMapper)
-                .toList();
-        String message = "Positions retrieved successfully.";
+        Page<SingleLanguagePositionResponse> response = positions.map(singleLanguagePositionResponseMapper);
+        String message = "All positions retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }

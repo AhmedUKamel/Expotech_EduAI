@@ -3,8 +3,10 @@ package org.ahmedukamel.eduai.service.invoice;
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.dto.invoice.CreateInvoiceRequest;
+import org.ahmedukamel.eduai.dto.invoice.InvoicePublicResponse;
 import org.ahmedukamel.eduai.dto.invoice.InvoiceResponse;
 import org.ahmedukamel.eduai.dto.invoice.UpdateInvoiceRequest;
+import org.ahmedukamel.eduai.mapper.invoice.InvoicePublicResponseMapper;
 import org.ahmedukamel.eduai.mapper.invoice.InvoiceResponseMapper;
 import org.ahmedukamel.eduai.model.Invoice;
 import org.ahmedukamel.eduai.model.School;
@@ -26,6 +28,7 @@ public class InvoiceManagementService implements IInvoiceManagementService {
     private final InvoiceSaver invoiceSaver;
     private final InvoiceUpdater invoiceUpdater;
     private final InvoiceResponseMapper invoiceResponseMapper;
+    private final InvoicePublicResponseMapper invoicePublicResponseMapper;
 
 
     @Override
@@ -78,15 +81,17 @@ public class InvoiceManagementService implements IInvoiceManagementService {
     }
 
     @Override
-    public Object getInvoicesForSchool(int pageSize, int pageNumber) {
+    public Object getInvoicesForSchool(boolean getActive, int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         School school = ContextHolderUtils.getEmployee().getSchool();
         Page<Invoice> invoices = invoiceRepository
-                .findAllBySchoolIdOrderByUpdateDate(school.getId(), pageable);
+                .findAllBySchoolIdAndDeletedOrderByUpdateDate(school.getId(), !getActive, pageable);
 
-        Page<InvoiceResponse> response = invoices
-                .map(invoiceResponseMapper);
-        String message = "Invoices retrieved successfully.";
+        Page<InvoicePublicResponse> response = invoices
+                .map(invoicePublicResponseMapper);
+
+        String status = getActive? "Active":"Deleted";
+        String message = status + " Invoices retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }

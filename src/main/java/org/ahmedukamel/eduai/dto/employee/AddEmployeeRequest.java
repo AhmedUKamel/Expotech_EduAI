@@ -11,6 +11,7 @@ import org.ahmedukamel.eduai.constant.RegexConstants;
 import org.ahmedukamel.eduai.dto.user.IUserRegistrationRequest;
 import org.ahmedukamel.eduai.model.enumeration.Gender;
 import org.ahmedukamel.eduai.model.enumeration.Nationality;
+import org.ahmedukamel.eduai.model.enumeration.Qualification;
 import org.ahmedukamel.eduai.model.enumeration.Religion;
 
 import java.time.LocalDate;
@@ -74,6 +75,9 @@ public record AddEmployeeRequest(
         Double salary,
 
         @NotNull
-        LocalDate hireDate
+        LocalDate hireDate,
+
+        @NotNull
+        Qualification qualification
 ) implements IUserRegistrationRequest {
 }

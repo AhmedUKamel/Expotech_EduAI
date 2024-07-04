@@ -2,14 +2,10 @@ package org.ahmedukamel.eduai.dto.position;
 
 import java.time.LocalDateTime;
 
-public record PositionResponse(
+public record SingleLanguagePositionResponse(
         Integer id,
 
-        String title_en,
-
-        String title_ar,
-
-        String title_fr,
+        String title,
 
         LocalDateTime createdAt,
 

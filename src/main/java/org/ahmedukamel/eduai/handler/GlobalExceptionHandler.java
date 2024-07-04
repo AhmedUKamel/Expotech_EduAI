@@ -53,6 +53,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = DataAccessException.class)
     protected ResponseEntity<Object> handleDataAccessException(DataAccessException exception) {
+        exception.printStackTrace();
         return ResponseEntity.status(HttpServletResponse.SC_INTERNAL_SERVER_ERROR).body(function.apply(exception));
     }
 
