@@ -65,11 +65,12 @@ public class TeacherManagementService implements ITeacherManagementService {
     }
 
     @Override
-    public Object getAllTeachers(int pageSize, int pageNumber) {
+    public Object getAllTeachers(int pageSize, int pageNumber, boolean archived) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        Page<Teacher> teachers = teacherRepository.findAllBySchool_Id(school.getId(), pageable);
+        Page<Teacher> teachers = teacherRepository.findAllBySchool_IdAndAccountNonLocked(
+                school.getId(), !archived, pageable);
 
         Page<TeacherProfileResponse> response = teachers.map(teacherProfileResponseMapper);
         String message = "All teachers retrieved successfully.";

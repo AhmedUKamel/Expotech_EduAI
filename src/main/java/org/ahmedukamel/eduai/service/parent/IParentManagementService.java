@@ -7,5 +7,5 @@ public interface IParentManagementService {
 
     Object getParent(Long id);
 
-    Object getAllParents(int pageSize, int pageNumber);
+    Object getAllParents(int pageSize, int pageNumber, boolean archived);
 }

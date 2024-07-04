@@ -64,11 +64,12 @@ public class ParentManagementService implements IParentManagementService {
     }
 
     @Override
-    public Object getAllParents(int pageSize, int pageNumber) {
+    public Object getAllParents(int pageSize, int pageNumber, boolean archived) {
         School school = ContextHolderUtils.getEmployee().getSchool();
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Page<Parent> parents = parentRepository.findAllBySchool_Id(school.getId(), pageable);
+        Page<Parent> parents = parentRepository.findAllBySchool_IdAndAccountNonLocked(
+                school.getId(), !archived, pageable);
 
         Page<ParentProfileResponse> response = parents.map(parentProfileResponseMapper);
         String message = "All parents retrieved successfully.";

@@ -15,5 +15,5 @@ public interface ParentRepository extends JpaRepository<Parent, Long> {
 
     Optional<Parent> findByIdAndSchool_Id(Long id, Integer schoolId);
 
-    Page<Parent> findAllBySchool_Id(Integer schoolId, Pageable pageable);
+    Page<Parent> findAllBySchool_IdAndAccountNonLocked(Integer schoolId, boolean accountNonLocked, Pageable pageable);
 }

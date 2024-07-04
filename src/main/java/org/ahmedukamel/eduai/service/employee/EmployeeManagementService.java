@@ -65,12 +65,12 @@ public class EmployeeManagementService implements IEmployeeManagementService {
     }
 
     @Override
-    public Object getAllEmployees(int pageSize, int pageNumber, EmployeeType employeeType) {
+    public Object getAllEmployees(int pageSize, int pageNumber, EmployeeType employeeType, boolean archived) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        Page<Employee> employees = employeeRepository.findAllBySchool_IdAndEmployeeType(
-                school.getId(), employeeType, pageable);
+        Page<Employee> employees = employeeRepository.findAllBySchool_IdAndEmployeeTypeAndAccountNonLocked(
+                school.getId(), employeeType, !archived, pageable);
 
         Page<EmployeeProfileResponse> response = employees.map(employeeProfileResponseMapper);
         String message = "All employees retrieved successfully.";

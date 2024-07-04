@@ -18,7 +18,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Page<Employee> findAllBySchool_Id(Integer schoolId, Pageable pageable);
 
-    Page<Employee> findAllBySchool_IdAndEmployeeType(Integer schoolId, EmployeeType employeeType, Pageable pageable);
+    Page<Employee> findAllBySchool_IdAndEmployeeTypeAndAccountNonLocked
+            (Integer schoolId, EmployeeType employeeType, boolean andAccountNonLocked, Pageable pageable);
 
     Optional<Employee> findByIdAndSchool_Id(Long id, Integer schoolId);
 }

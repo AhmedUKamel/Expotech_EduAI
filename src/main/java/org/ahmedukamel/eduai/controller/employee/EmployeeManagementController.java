@@ -50,8 +50,9 @@ public class EmployeeManagementController {
     public ResponseEntity<?> getAllEmployees(
             @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
             @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber,
+            @RequestParam(value = "archived", defaultValue = "false") boolean archived,
             @RequestParam(value = "type") EmployeeType employeeType) {
 
-        return ResponseEntity.ok().body(parentService.getAllEmployees(pageSize, pageNumber, employeeType));
+        return ResponseEntity.ok().body(parentService.getAllEmployees(pageSize, pageNumber, employeeType, archived));
     }
 }
