@@ -39,15 +39,14 @@ public class TrainingProgramService implements ITrainingProgramService {
         TrainingProgram trainingProgram = trainingProgramSaver.apply(request, school);
         TrainingProgramResponse response = trainingProgramResponseMapper.apply(trainingProgram);
         String message = "Training program added successfully.";
-        return new ApiResponse(true, message, trainingProgramResponseMapper.apply(trainingProgram));
+        return new ApiResponse(true, message, response);
     }
 
     @Override
-    public Object deleteTrainingProgram(Long id) {
+    public Object softDeleteTrainingProgram(Long id) {
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        TrainingProgram trainingProgram = DatabaseService.get(trainingProgramRepository::findByIdAndSchool_Id,
-                id, school.getId(), TrainingProgram.class);
+        TrainingProgram trainingProgram = trainingProgramRepository.findById(id).orElseThrow(() -> new RuntimeException("Training program not found."));
 
         try {
             trainingProgramRepository.delete(trainingProgram);
@@ -62,8 +61,7 @@ public class TrainingProgramService implements ITrainingProgramService {
     @Override
     public Object getTrainingProgram(Long id) {
         School school = ContextHolderUtils.getEmployee().getSchool();
-        TrainingProgram trainingProgram = DatabaseService.get(trainingProgramRepository::findByIdAndSchool_Id,
-                id, school.getId(), TrainingProgram.class);
+        TrainingProgram trainingProgram = trainingProgramRepository.findById(id).orElseThrow(() -> new RuntimeException("Training program not found."));
         TrainingProgramResponse response = trainingProgramResponseMapper.apply(trainingProgram);
 
         String message = "Training program retrieved successfully.";
@@ -76,7 +74,7 @@ public class TrainingProgramService implements ITrainingProgramService {
         Pageable pageable = Pageable.ofSize(pageSize).withPage(pageNumber);
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        Page<TrainingProgram> trainingPrograms = trainingProgramRepository.findAllBySchool_Id(school.getId(), pageable);
+        Page<TrainingProgram> trainingPrograms = trainingProgramRepository.findAll(pageable);
         Page<TrainingProgramResponse> response = trainingPrograms.map(trainingProgramResponseMapper);
         String message = "All training programs retrieved successfully.";
 

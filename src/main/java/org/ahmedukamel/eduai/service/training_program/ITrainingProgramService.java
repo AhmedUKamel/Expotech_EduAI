@@ -8,7 +8,7 @@ public interface ITrainingProgramService {
 
     Object addTrainingProgram(Object object);
 
-    Object deleteTrainingProgram(Long id);
+    Object softDeleteTrainingProgram(Long id);
 
     Object getTrainingProgram(Long id);
 

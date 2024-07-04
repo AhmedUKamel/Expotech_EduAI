@@ -3,7 +3,6 @@ package org.ahmedukamel.eduai.dto.training_program;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.ahmedukamel.eduai.annotation.ExistSchool;
-import org.ahmedukamel.eduai.annotation.ExistSemester;
 
 import java.util.Date;
 
@@ -34,8 +33,7 @@ public record CreateTrainingProgramRequest(
         @NotNull
         Date endDate,
         @NotNull
-        @ExistSchool
-        Integer schoolId
+        boolean deleted
 ) {
 
 }
