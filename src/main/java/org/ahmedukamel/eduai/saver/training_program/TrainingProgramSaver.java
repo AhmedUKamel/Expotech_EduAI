@@ -5,19 +5,14 @@ import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.TrainingProgram;
 import org.ahmedukamel.eduai.model.TrainingProgramDetails;
 import org.ahmedukamel.eduai.model.enumeration.Language;
-import org.ahmedukamel.eduai.repository.SemesterRepository;
 import org.ahmedukamel.eduai.repository.TrainingProgramRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 @Component
 public class TrainingProgramSaver implements BiFunction<CreateTrainingProgramRequest, School, TrainingProgram> {
-
-
     private final TrainingProgramRepository trainingProgramRepository;
-
     public TrainingProgramSaver(TrainingProgramRepository trainingProgramRepository) {
         this.trainingProgramRepository = trainingProgramRepository;
     }
@@ -28,7 +23,7 @@ public class TrainingProgramSaver implements BiFunction<CreateTrainingProgramReq
         TrainingProgram trainingProgram =  new TrainingProgram();
         trainingProgram.setStartDate(request.startDate());
         trainingProgram.setEndDate(request.endDate());
-
+        trainingProgram.setDeleted(request.deleted());
         TrainingProgramDetails trainingProgramDetails_en = new TrainingProgramDetails();
         trainingProgramDetails_en.setTrainingProgram(trainingProgram);
         trainingProgramDetails_en.setLanguage(Language.ENGLISH);
@@ -53,7 +48,6 @@ public class TrainingProgramSaver implements BiFunction<CreateTrainingProgramReq
                 trainingProgramDetails_fr
         ));
 
-        trainingProgram.setSchool(school);
         return trainingProgramRepository.save(trainingProgram);
     }
 }

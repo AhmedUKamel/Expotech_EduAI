@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.Boolean.FALSE;
+
 @Entity
 @Table(name = "TRAINING_PROGRAMS")
 @Getter
@@ -35,8 +37,7 @@ public class TrainingProgram {
 
     @OneToMany(mappedBy = "trainingProgram", cascade = CascadeType.ALL)
     private List<EmployeeTrainingAttendance> employeeAttendances;
+    @Column(nullable = false, columnDefinition = "boolean default false" )
+    private boolean deleted;
 
-    @ManyToOne
-    @JoinColumn(name = "school_id", nullable = false, updatable = false)
-    private School school;
 }
