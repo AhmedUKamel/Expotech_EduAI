@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ITrainingProgramService {
-    Object UpdateTrainingProgram(Long id);
+    Object updateTrainingProgram(Long id,Object object);
 
     Object addTrainingProgram(Object object);
 

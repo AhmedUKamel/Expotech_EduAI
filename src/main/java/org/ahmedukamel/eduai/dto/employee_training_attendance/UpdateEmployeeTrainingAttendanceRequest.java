@@ -19,7 +19,9 @@ public record UpdateEmployeeTrainingAttendanceRequest(
         @NotNull
         AbsenceReason absenceReason,
         @NotNull
-        LocalDate date
+        LocalDate date,
+        @NotNull
+        boolean deleted
 ) {
 
 }

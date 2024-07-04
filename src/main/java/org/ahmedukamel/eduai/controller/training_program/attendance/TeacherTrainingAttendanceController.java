@@ -41,7 +41,7 @@ public class TeacherTrainingAttendanceController {
     @DeleteMapping(value = "{teacherTrainingAttendanceId}")
     public ResponseEntity<?> deleteTeacherTrainingAttendance(
             @Min(value = 1) @PathVariable(value = "teacherTrainingAttendanceId") Long id) {
-        return ResponseEntity.accepted().body(service.deleteTeacherTrainingAttendance(id));
+        return ResponseEntity.accepted().body(service.softDeleteTeacherTrainingAttendance(id));
     }
     @GetMapping(value = "all")
     public ResponseEntity<?> getAllTeacherTrainingAttendance(

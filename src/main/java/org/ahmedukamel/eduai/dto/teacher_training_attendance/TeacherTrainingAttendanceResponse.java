@@ -17,6 +17,8 @@ public record TeacherTrainingAttendanceResponse(
 
         AbsenceReason absenceReason,
 
-        LocalDate date
+        LocalDate date,
+
+        boolean deleted
 ){
 }
