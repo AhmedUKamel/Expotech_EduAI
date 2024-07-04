@@ -47,6 +47,9 @@ public class Bus {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column
+    private boolean deleted= false;
+
     @ManyToOne
     @JoinColumn(name = "school_id", nullable = false, updatable = false)
     private School school;

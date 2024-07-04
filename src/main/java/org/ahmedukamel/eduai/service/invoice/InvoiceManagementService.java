@@ -81,15 +81,17 @@ public class InvoiceManagementService implements IInvoiceManagementService {
     }
 
     @Override
-    public Object getInvoicesForSchool(int pageSize, int pageNumber) {
+    public Object getInvoicesForSchool(boolean getActive, int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         School school = ContextHolderUtils.getEmployee().getSchool();
         Page<Invoice> invoices = invoiceRepository
-                .findAllBySchoolIdOrderByUpdateDate(school.getId(), pageable);
+                .findAllBySchoolIdAndDeletedOrderByUpdateDate(school.getId(), !getActive, pageable);
 
         Page<InvoicePublicResponse> response = invoices
                 .map(invoicePublicResponseMapper);
-        String message = "Invoices retrieved successfully.";
+
+        String status = getActive? "Active":"Deleted";
+        String message = status + " Invoices retrieved successfully.";
 
         return new ApiResponse(true, message, response);
     }

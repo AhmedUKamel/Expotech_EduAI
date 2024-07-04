@@ -45,6 +45,9 @@ public class Event {
     @Column
     private String file;
 
+    @Column
+    private boolean deleted = false;
+
     @Transient
     private boolean active;
     public boolean getActive(){

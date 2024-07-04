@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    Page<Event> findAllBySchoolIdOrderByEventStartTimeDesc(Integer schoolId, Pageable pageable);
+    Page<Event> findAllBySchoolIdAndDeletedOrderByEventStartTimeDesc(Integer schoolId, boolean deleted, Pageable pageable);
 
     @Modifying
     @Transactional

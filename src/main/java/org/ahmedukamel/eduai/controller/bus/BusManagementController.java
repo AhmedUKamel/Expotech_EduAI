@@ -47,7 +47,8 @@ public class BusManagementController {
     @GetMapping(value = "all")
     public ResponseEntity<?> getAllBuses(
             @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
-        return ResponseEntity.ok().body(service.getAllBuses(pageSize, pageNumber));
+            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber,
+            @RequestParam(value = "getActive", defaultValue = "1") boolean getActive) {
+        return ResponseEntity.ok().body(service.getAllBuses(getActive, pageSize, pageNumber));
     }
 }

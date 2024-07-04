@@ -46,7 +46,7 @@ public class ScheduleManagementController {
     public ResponseEntity<?> getScheduleForTeacher(@Min(value = 1) @RequestParam long teacherId,
             @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
             @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber,
-                                                   @RequestParam boolean getActive) {
+            @RequestParam(value = "getActive", defaultValue = "1") boolean getActive) {
         return ResponseEntity.ok().body(service.getScheduleForTeacher(teacherId, getActive, pageSize, pageNumber));
     }
 
@@ -54,7 +54,7 @@ public class ScheduleManagementController {
     public ResponseEntity<?> getScheduleForClassroom(@Min(value = 1) @RequestParam long classroomId,
                                                    @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
                                                    @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber,
-                                                     @RequestParam boolean getActive) {
+                                                   @RequestParam(value = "getActive", defaultValue = "1") boolean getActive) {
         return ResponseEntity.ok().body(service.getScheduleForClassroom(classroomId, getActive, pageSize, pageNumber));
     }
 }

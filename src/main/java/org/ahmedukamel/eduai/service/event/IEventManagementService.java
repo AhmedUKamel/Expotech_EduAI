@@ -16,7 +16,7 @@ public interface IEventManagementService {
 
     Object getEvent(Long id);
 
-    Object getAllEventsForSchool(int pageSize, int pageNumber);
+    Object getAllEventsForSchool(boolean getActive, int pageSize, int pageNumber);
 
     Object uploadEventFile(Long id, MultipartFile pdf);
 

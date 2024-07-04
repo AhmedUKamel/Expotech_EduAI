@@ -53,9 +53,10 @@ public class BusManagementService implements IBusManagementService {
 
     @Override
     public Object deleteBus(Long id) {
-        Bus Bus = DatabaseService.get(busRepository::findById, id, Bus.class);
+        Bus bus = DatabaseService.get(busRepository::findById, id, Bus.class);
 
-        busRepository.delete(Bus);
+        bus.setDeleted(true);
+        busRepository.save(bus);
 
         String message = "Bus deleted successfully.";
 
@@ -73,12 +74,12 @@ public class BusManagementService implements IBusManagementService {
     }
 
     @Override
-    public Object getAllBuses(int pageSize, int pageNumber) {
+    public Object getAllBuses(boolean getActive, int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        Page<Bus> buses = busRepository.findAllBySchoolId(school.getId(), pageable);
+        Page<Bus> buses = busRepository.findAllBySchoolIdAndDeleted(school.getId(), !getActive, pageable);
 
         Page<BusResponse> response = buses.map(busResponseMapper);
         String message = "Buses retrieved successfully.";

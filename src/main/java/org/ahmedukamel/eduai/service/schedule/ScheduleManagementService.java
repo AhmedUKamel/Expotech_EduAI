@@ -104,7 +104,7 @@ public class ScheduleManagementService implements IScheduleManagementService {
                 scheduleItemPage.map(scheduleItemClassResponseMapper);
 
         String status = getActive? "Active":"Deleted";
-        String message = status + "Schedule Items for class retrieved successfully.";
+        String message = status + " Schedule Items for class retrieved successfully.";
 
         return new ApiResponse(true, message, scheduleItemResponseForClassPage);
     }
