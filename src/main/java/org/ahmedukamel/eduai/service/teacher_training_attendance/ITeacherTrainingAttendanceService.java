@@ -5,7 +5,7 @@ public interface ITeacherTrainingAttendanceService {
 
     Object updateTeacherTrainingAttendance(Long id,Object object);
 
-    Object deleteTeacherTrainingAttendance(Long id);
+    Object softDeleteTeacherTrainingAttendance(Long id);
 
     Object getTeacherTrainingAttendance(Long id);
 

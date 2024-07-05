@@ -7,6 +7,7 @@ import org.ahmedukamel.eduai.model.Invoice;
 import org.ahmedukamel.eduai.model.InvoiceDetail;
 import org.ahmedukamel.eduai.model.InvoiceItem;
 import org.ahmedukamel.eduai.model.enumeration.Language;
+import org.ahmedukamel.eduai.model.enumeration.PaymentStatus;
 import org.ahmedukamel.eduai.util.invoice.InvoiceUtils;
 import org.springframework.stereotype.Component;
 
@@ -34,14 +35,36 @@ public class InvoiceResponseMapper implements Function<Invoice, InvoiceResponse>
         InvoiceDetail details_ar = InvoiceUtils.getInvoiceDetail(invoice, Language.ARABIC);
         InvoiceDetail details_fr = InvoiceUtils.getInvoiceDetail(invoice, Language.FRENCH);
 
+        double discount = invoice.getDiscountAmount();
+
+        double totalFeesAmount = InvoiceUtils.getTotalItemsFeesAmount(invoice);
+
+        totalFeesAmount += invoice.getTaxAmount();
+
+        if(totalFeesAmount<0){
+            totalFeesAmount = 0;
+        }
+
+        PaymentStatus paymentStatus = PaymentStatus.NOT_FULLY_PAID;
+
+        if(invoice.getPaidAmount() == 0){
+            paymentStatus = PaymentStatus.UNPAID;
+        } else if (invoice.getPaidAmount() + invoice.getDiscountAmount() >= totalFeesAmount) {
+            paymentStatus = PaymentStatus.PAID;
+        }
+
+        double dueAmount = totalFeesAmount - invoice.getPaidAmount();
+
         return new InvoiceResponse(
                 invoice.getBilledTo().getId(),
                 invoice.getCreationDate(),
                 invoice.getUpdateDate(),
                 invoice.getDueDate(),
+                totalFeesAmount,
                 invoice.getPaidAmount(),
-                invoice.getDiscountAmount(),
+                discount,
                 invoice.getTaxAmount(),
+                dueAmount,
                 details_en.getDiscountDescription(),
                 details_en.getTaxDescription(),
                 details_ar.getDiscountDescription(),
@@ -49,6 +72,7 @@ public class InvoiceResponseMapper implements Function<Invoice, InvoiceResponse>
                 details_fr.getDiscountDescription(),
                 details_fr.getTaxDescription(),
                 billedToInfoMapper.apply(invoice.getBilledTo()),
+                paymentStatus,
                 invoiceItemResponses
                 );
     }

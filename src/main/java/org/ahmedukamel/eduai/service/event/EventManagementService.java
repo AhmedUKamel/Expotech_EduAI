@@ -147,7 +147,8 @@ public class EventManagementService implements IEventManagementService {
     public Object deleteEvent(Long id) {
         Event event = DatabaseService.get(eventRepository::findById, id, Event.class);
 
-        eventRepository.delete(event);
+        event.setDeleted(true);
+        eventRepository.save(event);
 
         String message = "Event deleted successfully.";
 
@@ -165,11 +166,11 @@ public class EventManagementService implements IEventManagementService {
     }
 
     @Override
-    public Object getAllEventsForSchool(int pageSize, int pageNumber) {
+    public Object getAllEventsForSchool(boolean getActive, int pageSize, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         School school = ContextHolderUtils.getEmployee().getSchool();
         Page<Event> events = eventRepository
-                .findAllBySchoolIdOrderByEventStartTimeDesc(school.getId(), pageable);
+                .findAllBySchoolIdAndDeletedOrderByEventStartTimeDesc(school.getId(), !getActive, pageable);
 
         Page<EventResponse> response = events
                 .map(eventResponseMapper);

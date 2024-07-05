@@ -16,7 +16,8 @@ public class TeacherTrainingAttendanceMapper implements Function<TeacherTraining
                 teacherTrainingAttendance.getTeacher().getId(),
                 teacherTrainingAttendance.getStatus(),
                 teacherTrainingAttendance.getAbsenceReason(),
-                teacherTrainingAttendance.getDate()
+                teacherTrainingAttendance.getDate(),
+                teacherTrainingAttendance.isDeleted()
         );
     }
 }

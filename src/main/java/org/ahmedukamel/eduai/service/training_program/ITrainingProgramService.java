@@ -4,11 +4,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ITrainingProgramService {
-    Object UpdateTrainingProgram(Long id);
+    Object updateTrainingProgram(Long id,Object object);
 
     Object addTrainingProgram(Object object);
 
-    Object deleteTrainingProgram(Long id);
+    Object softDeleteTrainingProgram(Long id);
 
     Object getTrainingProgram(Long id);
 

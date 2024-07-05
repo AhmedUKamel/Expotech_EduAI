@@ -29,9 +29,7 @@ public record UpdateTrainingProgramRequest(
 
         @NotNull
         Date endDate,
-
         @NotNull
-        @ExistSchool
-        Integer schoolId
+        boolean deleted
 ) {
 }

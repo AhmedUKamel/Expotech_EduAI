@@ -31,21 +31,29 @@ public class ScheduleItem {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
     private WeekDay day;
 
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
     private LocalTime startTime;
 
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
     private LocalTime endTime;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable = false, updatable = false)
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "classroom_id")
+    @JoinColumn(name = "classroom_id", nullable = false, updatable = false)
     private Classroom classroom;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
+    @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
+
+    @Column
+    private boolean deleted = false;
 }

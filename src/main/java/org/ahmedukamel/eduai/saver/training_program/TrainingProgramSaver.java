@@ -1,59 +1,53 @@
 package org.ahmedukamel.eduai.saver.training_program;
 
 import org.ahmedukamel.eduai.dto.training_program.CreateTrainingProgramRequest;
-import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.TrainingProgram;
 import org.ahmedukamel.eduai.model.TrainingProgramDetails;
 import org.ahmedukamel.eduai.model.enumeration.Language;
-import org.ahmedukamel.eduai.repository.SemesterRepository;
 import org.ahmedukamel.eduai.repository.TrainingProgramRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.function.Function;
+
 @Component
-public class TrainingProgramSaver implements BiFunction<CreateTrainingProgramRequest, School, TrainingProgram> {
-
-
+public class TrainingProgramSaver implements Function<CreateTrainingProgramRequest, TrainingProgram> {
     private final TrainingProgramRepository trainingProgramRepository;
-
     public TrainingProgramSaver(TrainingProgramRepository trainingProgramRepository) {
         this.trainingProgramRepository = trainingProgramRepository;
     }
 
-
     @Override
-    public TrainingProgram apply(CreateTrainingProgramRequest request, School school) {
-        TrainingProgram trainingProgram =  new TrainingProgram();
-        trainingProgram.setStartDate(request.startDate());
-        trainingProgram.setEndDate(request.endDate());
+    public TrainingProgram apply(CreateTrainingProgramRequest request) {
+        TrainingProgram trainingProgram = TrainingProgram.builder()
+                .startDate(request.startDate())
+                .endDate(request.endDate())
+                .build();
 
-        TrainingProgramDetails trainingProgramDetails_en = new TrainingProgramDetails();
-        trainingProgramDetails_en.setTrainingProgram(trainingProgram);
-        trainingProgramDetails_en.setLanguage(Language.ENGLISH);
-        trainingProgramDetails_en.setDescription(request.title_en().strip());
-        trainingProgramDetails_en.setTitle(request.description_en().strip());
+        TrainingProgramDetails trainingProgramDetails_en = TrainingProgramDetails.builder()
+                .trainingProgram(trainingProgram)
+                .title(request.title_en())
+                .description(request.description_en())
+                .language(Language.ENGLISH)
+                .build();
 
-        TrainingProgramDetails trainingProgramDetails_ar = new TrainingProgramDetails();
-        trainingProgramDetails_ar.setTrainingProgram(trainingProgram);
-        trainingProgramDetails_ar.setLanguage(Language.ARABIC);
-        trainingProgramDetails_ar.setDescription(request.title_ar().strip());
-        trainingProgramDetails_ar.setTitle(request.description_ar().strip());
+        TrainingProgramDetails trainingProgramDetails_ar = TrainingProgramDetails.builder()
+                .trainingProgram(trainingProgram)
+                .title(request.title_ar())
+                .description(request.description_ar())
+                .language(Language.ARABIC)
+                .build();
 
-        TrainingProgramDetails trainingProgramDetails_fr = new TrainingProgramDetails();
-        trainingProgramDetails_fr.setTrainingProgram(trainingProgram);
-        trainingProgramDetails_fr.setLanguage(Language.FRENCH);
-        trainingProgramDetails_fr.setDescription(request.title_fr().strip());
-        trainingProgramDetails_fr.setTitle(request.description_fr().strip());
+        TrainingProgramDetails trainingProgramDetails_fr = TrainingProgramDetails.builder()
+                .trainingProgram(trainingProgram)
+                .title(request.title_fr())
+                .description(request.description_fr())
+                .language(Language.FRENCH)
+                .build();
 
-        trainingProgram.setTrainingProgramDetails(Set.of(
-                trainingProgramDetails_en,
-                trainingProgramDetails_ar,
-                trainingProgramDetails_fr
-        ));
+        trainingProgram.setTrainingProgramDetails(Set.of(trainingProgramDetails_en, trainingProgramDetails_ar, trainingProgramDetails_fr));
 
-        trainingProgram.setSchool(school);
         return trainingProgramRepository.save(trainingProgram);
+
     }
 }

@@ -3,54 +3,64 @@ package org.ahmedukamel.eduai.service.training_program;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.dto.training_program.CreateTrainingProgramRequest;
 import org.ahmedukamel.eduai.dto.training_program.TrainingProgramResponse;
+import org.ahmedukamel.eduai.dto.training_program.UpdateTrainingProgramRequest;
 import org.ahmedukamel.eduai.mapper.training_program.TrainingProgramResponseMapper;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.TrainingProgram;
 import org.ahmedukamel.eduai.repository.TrainingProgramRepository;
 import org.ahmedukamel.eduai.saver.training_program.TrainingProgramSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
+import org.ahmedukamel.eduai.updater.training_program.TrainingProgramUpdater;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TrainingProgramService implements ITrainingProgramService {
     private final TrainingProgramRepository trainingProgramRepository;
     private final TrainingProgramSaver trainingProgramSaver;
     private final TrainingProgramResponseMapper trainingProgramResponseMapper;
-    public TrainingProgramService(TrainingProgramRepository trainingProgramRepository, TrainingProgramSaver trainingProgramSaver, TrainingProgramResponseMapper trainingProgramResponseMapper) {
+    private final TrainingProgramUpdater trainingProgramUpdater;
+    public TrainingProgramService(TrainingProgramRepository trainingProgramRepository, TrainingProgramSaver trainingProgramSaver, TrainingProgramResponseMapper trainingProgramResponseMapper, TrainingProgramUpdater trainingProgramUpdater) {
         this.trainingProgramRepository = trainingProgramRepository;
         this.trainingProgramSaver = trainingProgramSaver;
         this.trainingProgramResponseMapper = trainingProgramResponseMapper;
+        this.trainingProgramUpdater = trainingProgramUpdater;
     }
     @Override
-    public Object UpdateTrainingProgram(Long id) {
-        return null;
+    public Object updateTrainingProgram(Long id,Object object) {
+        TrainingProgram trainingProgram = DatabaseService.get(trainingProgramRepository::findById, id, TrainingProgram.class);
+        UpdateTrainingProgramRequest request = (UpdateTrainingProgramRequest) object;
+        TrainingProgram updatedTrainingProgram = trainingProgramUpdater.apply(trainingProgram, request);
+        TrainingProgramResponse response = trainingProgramResponseMapper.apply(updatedTrainingProgram);
+        String message = "Training program updated successfully.";
+        return new ApiResponse(true, message, response);
     }
 
     @Override
     public Object addTrainingProgram(Object object) {
 
         CreateTrainingProgramRequest request = (CreateTrainingProgramRequest) object;
-        School school = ContextHolderUtils.getEmployee().getSchool();
-
-        TrainingProgram trainingProgram = trainingProgramSaver.apply(request, school);
+        TrainingProgram trainingProgram = trainingProgramSaver.apply(request);
         TrainingProgramResponse response = trainingProgramResponseMapper.apply(trainingProgram);
         String message = "Training program added successfully.";
-        return new ApiResponse(true, message, trainingProgramResponseMapper.apply(trainingProgram));
+        return new ApiResponse(true, message, response);
     }
 
     @Override
-    public Object deleteTrainingProgram(Long id) {
-        School school = ContextHolderUtils.getEmployee().getSchool();
-
-        TrainingProgram trainingProgram = DatabaseService.get(trainingProgramRepository::findByIdAndSchool_Id,
-                id, school.getId(), TrainingProgram.class);
+    public Object softDeleteTrainingProgram(Long id) {
+        TrainingProgram trainingProgram = trainingProgramRepository.findById(id).orElseThrow(() -> new RuntimeException("Training program not found."));
 
         try {
-            trainingProgramRepository.delete(trainingProgram);
+            trainingProgram.setDeleted(true);
+            trainingProgramRepository.save(trainingProgram);
         } catch (DataIntegrityViolationException exception) {
             throw new RuntimeException("Training program is associated with other records and can't be deleted.", exception);
         }
@@ -61,23 +71,31 @@ public class TrainingProgramService implements ITrainingProgramService {
 
     @Override
     public Object getTrainingProgram(Long id) {
-        School school = ContextHolderUtils.getEmployee().getSchool();
-        TrainingProgram trainingProgram = DatabaseService.get(trainingProgramRepository::findByIdAndSchool_Id,
-                id, school.getId(), TrainingProgram.class);
-        TrainingProgramResponse response = trainingProgramResponseMapper.apply(trainingProgram);
+        TrainingProgram trainingProgram = trainingProgramRepository.findById(id).orElseThrow(() -> new RuntimeException("Training program not found."));
+        if (!trainingProgram.isDeleted()){
 
-        String message = "Training program retrieved successfully.";
+            TrainingProgramResponse response = trainingProgramResponseMapper.apply(trainingProgram);
+            String message = "Training program retrieved successfully.";
 
-        return new ApiResponse(true, message, response);
+            return new ApiResponse(true, message, response);
+        }
+
+        String message = "Training program not found.";
+        return new ApiResponse(false, message, "");
+
     }
 
     @Override
     public Object getAllTrainingProgram(int pageSize, int pageNumber) {
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(pageNumber);
-        School school = ContextHolderUtils.getEmployee().getSchool();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Page<TrainingProgram> trainingPrograms = trainingProgramRepository.findAllBySchool_Id(school.getId(), pageable);
-        Page<TrainingProgramResponse> response = trainingPrograms.map(trainingProgramResponseMapper);
+        Page<TrainingProgram> trainingPrograms = trainingProgramRepository.findAll(pageable);
+        List<TrainingProgram> filteredList = trainingPrograms
+                .stream()
+                .filter(trainingProgram -> !trainingProgram.isDeleted())
+                .collect(Collectors.toList());
+        Page<TrainingProgram> filteredPage = new PageImpl<>(filteredList, pageable, filteredList.size());
+        Page<TrainingProgramResponse> response = filteredPage.map(trainingProgramResponseMapper);
         String message = "All training programs retrieved successfully.";
 
         return new ApiResponse(true, message, response);

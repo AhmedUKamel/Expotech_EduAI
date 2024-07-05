@@ -12,7 +12,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "INVOICE-ITEMS")
+@Table(name = "INVOICE_ITEMS")
 public class InvoiceItem {
 
     @Id

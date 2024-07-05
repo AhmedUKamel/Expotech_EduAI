@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequest;
 import org.ahmedukamel.eduai.dto.training_program.CreateTrainingProgramRequest;
+import org.ahmedukamel.eduai.dto.training_program.UpdateTrainingProgramRequest;
 import org.ahmedukamel.eduai.service.training_program.TrainingProgramService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ public class TrainingProgramController {
     }
 
     @PostMapping(value = "new")
-    public ResponseEntity<?> addTeacher(
+    public ResponseEntity<?> addTrainingProgram(
             @Valid @RequestBody CreateTrainingProgramRequest request) {
 
         return ResponseEntity.created(URI.create("api/v1/training_program/new"))
@@ -31,12 +32,19 @@ public class TrainingProgramController {
     @GetMapping(value = "{trainingProgramId}")
     public ResponseEntity<?> getTrainingProgram(
             @Min(value = 1) @PathVariable(value = "trainingProgramId") Long id) {
-        return ResponseEntity.accepted().body(service.getTrainingProgram(id));
+        return ResponseEntity.ok().body(service.getTrainingProgram(id));
     }
+
+    @PutMapping(value = "{trainingProgramId}")
+    public ResponseEntity<?> updateTrainingProgram(
+            @Min(value = 1) @PathVariable(value = "trainingProgramId") Long id,
+            @Valid @RequestBody UpdateTrainingProgramRequest request) {
+        return ResponseEntity.accepted().body(service.updateTrainingProgram(id, request));
+        }
     @DeleteMapping(value = "{trainingProgramId}")
     public ResponseEntity<?> deleteTrainingProgram(
             @Min(value = 1) @PathVariable(value = "trainingProgramId") Long id) {
-        return ResponseEntity.ok().body(service.deleteTrainingProgram(id));
+        return ResponseEntity.ok().body(service.softDeleteTrainingProgram(id));
     }
 
     @GetMapping(value = "all")

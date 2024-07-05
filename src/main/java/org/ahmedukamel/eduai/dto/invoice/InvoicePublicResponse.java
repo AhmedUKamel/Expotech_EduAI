@@ -1,5 +1,7 @@
 package org.ahmedukamel.eduai.dto.invoice;
 
+import org.ahmedukamel.eduai.model.enumeration.PaymentStatus;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -13,11 +15,13 @@ public record InvoicePublicResponse(
 
         LocalDate dueDate,
 
-        double paid_amount,
+        double paidAmount,
 
         String billedToName,
 
         double totalFeesAmount,
+
+        PaymentStatus paymentStatus,
 
         double discountAmount
 ) {
