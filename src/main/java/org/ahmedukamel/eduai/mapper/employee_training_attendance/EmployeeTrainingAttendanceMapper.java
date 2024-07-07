@@ -15,7 +15,8 @@ public class EmployeeTrainingAttendanceMapper implements Function<EmployeeTraini
                 employeeTrainingAttendance.getTrainingProgram().getId(),
                 employeeTrainingAttendance.getStatus(),
                 employeeTrainingAttendance.getAbsenceReason(),
-                employeeTrainingAttendance.getDate()
+                employeeTrainingAttendance.getDate(),
+                employeeTrainingAttendance.isDeleted()
         );
     }
 }

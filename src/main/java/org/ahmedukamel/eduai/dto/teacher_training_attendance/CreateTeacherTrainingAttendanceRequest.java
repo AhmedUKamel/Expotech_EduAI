@@ -21,7 +21,9 @@ public record CreateTeacherTrainingAttendanceRequest(
         @NotNull
         AbsenceReason absenceReason,
         @NotNull
-        LocalDate date
+        LocalDate date,
+        @NotNull
+        boolean deleted
 
 ) {
 }

@@ -34,6 +34,7 @@ public class EmployeeTrainingAttendanceSaver implements Function<CreateEmployeeT
                 .status(request.status())
                 .absenceReason(request.absenceReason())
                 .date(request.date())
+                .deleted(request.deleted())
                 .build();
         employeeTrainingAttendanceRepository.save(employeeTrainingAttendance);
         return employeeTrainingAttendance;
