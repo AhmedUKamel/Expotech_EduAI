@@ -43,8 +43,8 @@ public record CreateTrainingProgramRequest(
         Date endDate,
         @NotNull
         TargetAudience targetAudience,
-        @NotNull
-        LocalDateTime schedule,
+        @NotBlank
+        String schedule,
         @NotNull
         String duration,
         @NotNull

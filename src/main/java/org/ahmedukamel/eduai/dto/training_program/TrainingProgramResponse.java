@@ -23,7 +23,7 @@ public record TrainingProgramResponse(
         Date startDate,
         Date endDate,
         TargetAudience targetAudience,
-        LocalDateTime schedule,
+        String schedule,
         String duration,
         String location,
         TrainingStatus trainingStatus,
