@@ -45,7 +45,7 @@ public class TrainingProgram {
     private TargetAudience targetAudience;
 
     @Column(nullable = false)
-    private LocalDateTime schedule;
+    private String schedule;
 
     @Column(nullable = false)
     private String duration;
