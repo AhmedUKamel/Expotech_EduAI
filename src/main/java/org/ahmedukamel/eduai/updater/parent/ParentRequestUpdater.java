@@ -1,0 +1,70 @@
+package org.ahmedukamel.eduai.updater.parent;
+
+import lombok.RequiredArgsConstructor;
+import org.ahmedukamel.eduai.dto.parent.IParentRegistrationRequest;
+import org.ahmedukamel.eduai.dto.parent.UpdateParentRequest;
+import org.ahmedukamel.eduai.mapper.phonenumber.PhoneNumberMapper;
+import org.ahmedukamel.eduai.mapper.user.UserRegistrationRequestMapper;
+import org.ahmedukamel.eduai.model.Parent;
+import org.ahmedukamel.eduai.model.ParentDetail;
+import org.ahmedukamel.eduai.model.Region;
+import org.ahmedukamel.eduai.model.School;
+import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
+import org.ahmedukamel.eduai.model.enumeration.Language;
+import org.ahmedukamel.eduai.model.enumeration.Role;
+import org.ahmedukamel.eduai.repository.ParentRepository;
+import org.ahmedukamel.eduai.repository.RegionRepository;
+import org.ahmedukamel.eduai.service.db.DatabaseService;
+import org.ahmedukamel.eduai.util.parent.ParentUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.Set;
+import java.util.function.BiFunction;
+
+@Component
+@RequiredArgsConstructor
+public class ParentRequestUpdater
+        implements BiFunction<Parent, UpdateParentRequest, Parent> {
+
+    private final UserRegistrationRequestMapper<Parent> userRegistrationRequestMapper;
+    private final PhoneNumberMapper phoneNumberMapper;
+    private final ParentRepository parentRepository;
+    private final RegionRepository regionRepository;
+
+    @Override
+    public Parent apply(Parent parent, UpdateParentRequest request) {
+        PhoneNumber phoneNumber = phoneNumberMapper.apply(request.number());
+        if(parent.getPhoneNumber().getCountryCode() != phoneNumber.getCountryCode()||
+            parent.getPhoneNumber().getNationalNumber() != phoneNumber.getNationalNumber()){
+            parent.setPhoneNumber(phoneNumber);
+        }
+
+        if(!parent.getRegion().getId().equals(request.regionId())){
+            Region region = DatabaseService.get(regionRepository::findById, request.regionId(), Region.class);
+            parent.setRegion(region);
+        }
+
+        parent.setRole(Role.PARENT);
+        parent.setAbout(request.about());
+        parent.setBirthDate(request.birthDate());
+        parent.setEmail(request.email());
+        parent.setGender(request.gender());
+        parent.setNationality(request.nationality());
+        parent.setNid(request.nid());
+        parent.setReligion(request.religion());
+        parent.setUsername(request.username());
+
+
+        ParentDetail parentDetail_en = ParentUtils.getParentDetail(parent, Language.ENGLISH);
+        parentDetail_en.setOccupation(request.occupation_en().strip());
+
+        ParentDetail parentDetail_ar = ParentUtils.getParentDetail(parent, Language.ARABIC);
+        parentDetail_ar.setOccupation(request.occupation_ar().strip());
+
+        ParentDetail parentDetail_fr = ParentUtils.getParentDetail(parent, Language.FRENCH);
+        parentDetail_fr.setOccupation(request.occupation_fr().strip());
+
+
+        return parentRepository.save(parent);
+    }
+}

@@ -3,6 +3,7 @@ package org.ahmedukamel.eduai.service.parent;
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.dto.parent.AddParentRequest;
+import org.ahmedukamel.eduai.dto.parent.UpdateParentRequest;
 import org.ahmedukamel.eduai.dto.profile.ParentProfileResponse;
 import org.ahmedukamel.eduai.mapper.profile.ParentProfileResponseMapper;
 import org.ahmedukamel.eduai.model.Parent;
@@ -10,6 +11,7 @@ import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.repository.ParentRepository;
 import org.ahmedukamel.eduai.saver.parent.IParentRegistrationRequestSaver;
 import org.ahmedukamel.eduai.service.db.DatabaseService;
+import org.ahmedukamel.eduai.updater.parent.ParentRequestUpdater;
 import org.ahmedukamel.eduai.util.context.ContextHolderUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ParentManagementService implements IParentManagementService {
     private final IParentRegistrationRequestSaver iParentRegistrationRequestSaver;
+    private final ParentRequestUpdater parentRequestUpdater;
     private final ParentProfileResponseMapper parentProfileResponseMapper;
     private final ParentRepository parentRepository;
 
@@ -32,6 +35,19 @@ public class ParentManagementService implements IParentManagementService {
 
         ParentProfileResponse response = parentProfileResponseMapper.apply(parent);
         String message = "Parent added successfully.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object updateParent(Long id, Object object) {
+        Parent parent = DatabaseService.get(parentRepository::findById, id, Parent.class);
+        UpdateParentRequest request = (UpdateParentRequest) object;
+
+        Parent updatedParent = parentRequestUpdater.apply(parent, request);
+
+        ParentProfileResponse response = parentProfileResponseMapper.apply(updatedParent);
+        String message = "Parent updated successfully.";
 
         return new ApiResponse(true, message, response);
     }
