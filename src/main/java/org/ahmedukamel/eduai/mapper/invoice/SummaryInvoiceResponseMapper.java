@@ -1,8 +1,7 @@
 package org.ahmedukamel.eduai.mapper.invoice;
 
-import org.ahmedukamel.eduai.dto.invoice.InvoicePublicResponse;
+import org.ahmedukamel.eduai.dto.invoice.SummaryInvoiceResponse;
 import org.ahmedukamel.eduai.model.Invoice;
-import org.ahmedukamel.eduai.model.InvoiceItem;
 import org.ahmedukamel.eduai.model.enumeration.PaymentStatus;
 import org.ahmedukamel.eduai.util.invoice.InvoiceUtils;
 import org.springframework.stereotype.Component;
@@ -10,10 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Component
-public class InvoicePublicResponseMapper implements Function<Invoice, InvoicePublicResponse> {
+public class SummaryInvoiceResponseMapper implements Function<Invoice, SummaryInvoiceResponse> {
 
     @Override
-    public InvoicePublicResponse apply(Invoice invoice) {
+    public SummaryInvoiceResponse apply(Invoice invoice) {
         double discount = invoice.getDiscountAmount();
 
         double totalFeesAmount = InvoiceUtils.getTotalItemsFeesAmount(invoice);
@@ -32,7 +31,7 @@ public class InvoicePublicResponseMapper implements Function<Invoice, InvoicePub
             paymentStatus = PaymentStatus.PAID;
         }
 
-        return new InvoicePublicResponse(
+        return new SummaryInvoiceResponse(
                 invoice.getBilledTo().getId(),
                 invoice.getCreationDate(),
                 invoice.getUpdateDate(),

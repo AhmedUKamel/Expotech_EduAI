@@ -5,7 +5,7 @@ import org.ahmedukamel.eduai.model.enumeration.PaymentStatus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public record InvoicePublicResponse(
+public record SummaryInvoiceResponse(
 
         Long billedToId,
 

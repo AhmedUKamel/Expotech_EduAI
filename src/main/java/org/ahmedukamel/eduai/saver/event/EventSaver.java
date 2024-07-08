@@ -38,7 +38,7 @@ public class EventSaver implements BiFunction<CreateEventRequest, MultipartFile,
             throw new RuntimeException("Failed save file.", exception);
         }
 
-        User user = DatabaseService.get(userRepository::findById, request.creatorId(), User.class);
+        User user = ContextHolderUtils.getUser();
         School school = ContextHolderUtils.getEmployee().getSchool();
 
         Event event = Event
