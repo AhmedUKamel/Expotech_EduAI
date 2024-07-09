@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeRole;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -36,6 +37,11 @@ public class Department {
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
     private School school;
+
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = EmployeeRole.class)
+    @CollectionTable(name = "DEPARTMENT_ROLES")
+    @Enumerated(value = EnumType.STRING)
+    private Set<EmployeeRole> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<DepartmentDetails> details = new HashSet<>();

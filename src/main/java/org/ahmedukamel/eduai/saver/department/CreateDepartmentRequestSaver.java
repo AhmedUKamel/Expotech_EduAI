@@ -65,6 +65,8 @@ public class CreateDepartmentRequestSaver implements
                 departmentDetails_en, departmentDetails_ar, departmentDetails_fr)
         );
 
+        department.setRoles(request.roles());
+
         return departmentRepository.save(department);
     }
 }

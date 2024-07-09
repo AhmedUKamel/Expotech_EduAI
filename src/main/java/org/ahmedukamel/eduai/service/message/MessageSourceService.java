@@ -119,4 +119,8 @@ public class MessageSourceService {
                 MessageSourceConstants.ENUMERATION_SUBJECT.formatted(subject),
                 null, LocaleContextHolder.getLocale());
     }
+
+    public String getEmployeeRole(EmployeeRole employeeRole) {
+        return employeeRole.name(); // TODO: To be translated after completion of enum values
+    }
 }

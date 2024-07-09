@@ -176,4 +176,13 @@ public class EnumerationService implements IEnumerationService {
 
         return new ApiResponse(true, message, response);
     }
+
+    @Override
+    public Object getEmployeeRoles() {
+        Map<String, String> response = Arrays.stream(EmployeeRole.values())
+                .collect(Collectors.toMap(EmployeeRole::name, messageSourceService::getEmployeeRole));
+        String message = "Successful get all employee roles.";
+
+        return new ApiResponse(true, message, response);
+    }
 }
