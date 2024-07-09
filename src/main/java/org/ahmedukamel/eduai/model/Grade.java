@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
@@ -26,9 +24,9 @@ public class Grade {
 //    @JoinColumn(nullable = false, updatable = false)
 //    private List<Student> students;
 
-    @OneToMany
-    @JoinColumn(nullable = false, updatable = false)
-    private List<Course> courses;
+//    @OneToMany
+//    @JoinColumn(nullable = false, updatable = false)
+//    private List<Course> courses;
 
     @ManyToOne
     @JoinColumn(nullable = false)
