@@ -71,7 +71,6 @@ public class AuthService implements IAuthService {
 
         return new ApiResponse(true, message, response);
     }
-
     @Override
     public Object registerTeacher(Object object) {
         TeacherRegistrationRequest request = (TeacherRegistrationRequest) object;
@@ -84,7 +83,6 @@ public class AuthService implements IAuthService {
 
         return new ApiResponse(true, message, response);
     }
-
     @Override
     public Object registerEmployee(Object object) {
         EmployeeRegistrationRequest request = (EmployeeRegistrationRequest) object;
@@ -95,14 +93,12 @@ public class AuthService implements IAuthService {
 
         return new ApiResponse(true, message, response);
     }
-
     @Override
     public Object loginUser(Object object) {
         LoginRequest request = (LoginRequest) object;
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password())
         );
-
         if (Objects.nonNull(authentication) &&
             authentication.isAuthenticated() &&
             authentication.getPrincipal() instanceof User user) {
@@ -114,7 +110,6 @@ public class AuthService implements IAuthService {
 
             return new ApiResponse(true, message, response);
         }
-
         throw new UsernameNotFoundException("Invalid username or password");
     }
 
