@@ -1,5 +1,7 @@
 package org.ahmedukamel.eduai.dto.department;
 
+import java.util.Set;
+
 public record AllLanguagesDepartmentResponse(
         Integer id,
 
@@ -19,6 +21,8 @@ public record AllLanguagesDepartmentResponse(
 
         String abbreviation_ar,
 
-        String abbreviation_fr
+        String abbreviation_fr,
+
+        Set<String> roles
 ) {
 }

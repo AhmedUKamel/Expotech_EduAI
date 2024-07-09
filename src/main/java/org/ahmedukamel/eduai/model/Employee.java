@@ -16,10 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -77,9 +74,14 @@ public class Employee extends User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(this.getRole());
         authorities.addAll(this.employeeRoles);
+
+        if (Objects.nonNull(this.position)) {
+            authorities.addAll(this.position.getDepartment().getRoles());
+        }
+
         return authorities;
     }
 }

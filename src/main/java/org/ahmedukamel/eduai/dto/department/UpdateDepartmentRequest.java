@@ -3,6 +3,9 @@ package org.ahmedukamel.eduai.dto.department;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.ahmedukamel.eduai.annotation.ExistEmployee;
+import org.ahmedukamel.eduai.model.enumeration.EmployeeRole;
+
+import java.util.Set;
 
 public record UpdateDepartmentRequest(
         @NotBlank
@@ -34,6 +37,9 @@ public record UpdateDepartmentRequest(
 
         @NotNull
         @ExistEmployee
-        Long headId
+        Long headId,
+
+        @NotNull
+        Set<EmployeeRole> roles
 ) {
 }

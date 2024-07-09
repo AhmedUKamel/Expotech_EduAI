@@ -45,6 +45,8 @@ public class UpdateDepartmentRequestUpdater
         departmentDetails_ar.setAbbreviation(request.abbreviation_ar().strip().toUpperCase());
         departmentDetails_fr.setAbbreviation(request.abbreviation_fr().strip().toUpperCase());
 
+        department.setRoles(request.roles());
+
         return departmentRepository.save(department);
     }
 }
