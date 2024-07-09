@@ -3,7 +3,7 @@ package org.ahmedukamel.eduai.service.parent;
 public interface IParentManagementService {
     Object addParent(Object object);
 
-    Object updateParent(Long id, Object object);
+    Object updateParent(Object object);
 
     Object setParentAccountLock(Long id, boolean accountLocked);
 
