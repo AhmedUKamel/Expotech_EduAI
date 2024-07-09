@@ -40,8 +40,8 @@ public class ParentManagementService implements IParentManagementService {
     }
 
     @Override
-    public Object updateParent(Long id, Object object) {
-        Parent parent = DatabaseService.get(parentRepository::findById, id, Parent.class);
+    public Object updateParent(Object object) {
+        Parent parent = ContextHolderUtils.getParent();
         UpdateParentRequest request = (UpdateParentRequest) object;
 
         Parent updatedParent = parentRequestUpdater.apply(parent, request);

@@ -1,6 +1,7 @@
 package org.ahmedukamel.eduai.util.context;
 
 import org.ahmedukamel.eduai.model.Employee;
+import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.User;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -32,6 +33,13 @@ public class ContextHolderUtils {
             return employee;
         }
         throw new IllegalArgumentException("User is not employee");
+    }
+
+    public static Parent getParent() {
+        if (getUser() instanceof Parent parent) {
+            return parent;
+        }
+        throw new IllegalArgumentException("User is not parent");
     }
 
     public static School getSchool() {

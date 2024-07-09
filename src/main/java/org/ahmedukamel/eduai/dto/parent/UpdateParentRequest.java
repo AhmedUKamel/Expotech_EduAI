@@ -16,16 +16,13 @@ import java.time.LocalDate;
 
 public record UpdateParentRequest(
         @NotBlank
-        @UserUnique(constraint = UserUniqueConstraint.USERNAME)
         String username,
 
         @Email
         @NotBlank
-        @UserUnique(constraint = UserUniqueConstraint.EMAIL)
         String email,
 
         @NotBlank
-        @UserUnique(constraint = UserUniqueConstraint.NID)
         String nid,
 
         @NotNull
@@ -45,7 +42,6 @@ public record UpdateParentRequest(
         LocalDate birthDate,
 
         @NotBlank
-        @UniquePhone(entity = UniquePhoneConstraint.PARENT)
         String number,
 
         @NotBlank
