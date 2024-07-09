@@ -15,5 +15,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     Optional<Teacher> findByIdAndSchool_Id(Long aLong, Integer integer);
 
-    Page<Teacher> findAllBySchool_Id(Integer id, Pageable pageable);
+    Page<Teacher> findAllBySchool_IdAndAccountNonLocked(Integer id, boolean accountNonLocked, Pageable pageable);
 }

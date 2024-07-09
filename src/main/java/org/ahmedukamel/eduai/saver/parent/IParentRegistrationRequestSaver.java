@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.parent.IParentRegistrationRequest;
 import org.ahmedukamel.eduai.mapper.phonenumber.PhoneNumberMapper;
 import org.ahmedukamel.eduai.mapper.user.UserRegistrationRequestMapper;
+import org.ahmedukamel.eduai.model.Employee;
 import org.ahmedukamel.eduai.model.Parent;
 import org.ahmedukamel.eduai.model.ParentDetail;
 import org.ahmedukamel.eduai.model.School;
@@ -11,6 +12,7 @@ import org.ahmedukamel.eduai.model.embeddable.PhoneNumber;
 import org.ahmedukamel.eduai.model.enumeration.Language;
 import org.ahmedukamel.eduai.model.enumeration.Role;
 import org.ahmedukamel.eduai.repository.ParentRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;

@@ -47,8 +47,9 @@ public class StudentManagementController {
     @GetMapping(value = "all")
     public ResponseEntity<?> getAllStudents(
             @Min(value = 1) @RequestParam(value = "size", defaultValue = "10") int pageSize,
-            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber) {
+            @Min(value = 0) @RequestParam(value = "page", defaultValue = "0") int pageNumber,
+            @RequestParam(value = "archived", defaultValue = "false") boolean archived) {
 
-        return ResponseEntity.ok().body(service.getAllStudents(pageSize, pageNumber));
+        return ResponseEntity.ok().body(service.getAllStudents(pageSize, pageNumber, archived));
     }
 }

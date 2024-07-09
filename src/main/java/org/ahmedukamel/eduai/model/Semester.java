@@ -8,6 +8,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -34,14 +36,17 @@ public class Semester {
     private LocalDate endDate;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, insertable = false)
     private LocalDateTime creationDate;
 
     @UpdateTimestamp
-    @Column(nullable = false)
+    @Column(nullable = false, insertable = false)
     private LocalDateTime updateDate;
 
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
     private School school;
+
+    @OneToMany(mappedBy = "semester", fetch = FetchType.EAGER)
+    private Set<CourseRegistration> courseRegistrations = new HashSet<>();
 }

@@ -2,7 +2,6 @@ package org.ahmedukamel.eduai.util.context;
 
 import org.ahmedukamel.eduai.model.Employee;
 import org.ahmedukamel.eduai.model.User;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -31,9 +30,5 @@ public class ContextHolderUtils {
             return employee;
         }
         throw new IllegalArgumentException("User is not employee");
-    }
-    public static String getLanguage() {
-        return LocaleContextHolder.getLocale().getLanguage();
-
     }
 }

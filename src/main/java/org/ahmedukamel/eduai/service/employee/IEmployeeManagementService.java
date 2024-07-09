@@ -9,5 +9,5 @@ public interface IEmployeeManagementService {
 
     Object getEmployee(Long id);
 
-    Object getAllEmployees(int pageSize, int pageNumber, EmployeeType employeeType);
+    Object getAllEmployees(int pageSize, int pageNumber, EmployeeType employeeType, boolean archived);
 }

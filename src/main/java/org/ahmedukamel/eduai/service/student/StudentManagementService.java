@@ -64,11 +64,12 @@ public class StudentManagementService implements IStudentManagementService {
     }
 
     @Override
-    public Object getAllStudents(int pageSize, int pageNumber) {
+    public Object getAllStudents(int pageSize, int pageNumber, boolean archived) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         School school = ContextHolderUtils.getEmployee().getSchool();
 
-        Page<Student> students = studentRepository.findAllBySchool_Id(school.getId(), pageable);
+        Page<Student> students = studentRepository.findAllBySchool_IdAndAccountNonLocked(
+                school.getId(), !archived, pageable);
 
         Page<StudentProfileResponse> response = students.map(studentProfileResponseMapper);
         String message = "All students retrieved successfully.";

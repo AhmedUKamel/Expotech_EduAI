@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    Page<Student> findAllBySchool_Id(Integer schoolId, Pageable pageable);
+    Page<Student> findAllBySchool_IdAndAccountNonLocked(Integer schoolId, boolean accountNonLocked, Pageable pageable);
 
     Optional<Student> findByIdAndSchool_Id(Long id, Integer schoolId);
 }

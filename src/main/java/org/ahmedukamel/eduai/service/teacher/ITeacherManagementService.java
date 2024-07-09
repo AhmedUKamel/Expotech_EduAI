@@ -7,5 +7,5 @@ public interface ITeacherManagementService {
 
     Object getTeacher(Long id);
 
-    Object getAllTeachers(int pageSize, int pageNumber);
+    Object getAllTeachers(int pageSize, int pageNumber, boolean archived);
 }
