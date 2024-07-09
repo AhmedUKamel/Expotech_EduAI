@@ -1,17 +1,13 @@
 package org.ahmedukamel.eduai.dto.news;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import org.ahmedukamel.eduai.annotation.ExistSchool;
-import org.springframework.stereotype.Component;
+import org.ahmedukamel.eduai.annotation.ExistEmployee;
+import org.ahmedukamel.eduai.annotation.ExistTeacher;
 
-@Component
+
 public record UpdateNewsRequest (
         @NotBlank
-        String content,
-        @NotNull
-        @ExistSchool
-        Long userId
+        String content
 ){
 
 }

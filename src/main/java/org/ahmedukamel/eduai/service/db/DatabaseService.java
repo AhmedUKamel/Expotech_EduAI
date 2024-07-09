@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.service.db;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import org.ahmedukamel.eduai.model.News;
 
 import java.util.Optional;
 import java.util.function.BiFunction;

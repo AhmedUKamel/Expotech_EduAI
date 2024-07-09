@@ -3,6 +3,7 @@ package org.ahmedukamel.eduai.controller.teacher;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequest;
+import org.ahmedukamel.eduai.dto.teacher.UpdateTeacherRequest;
 import org.ahmedukamel.eduai.service.teacher.ITeacherManagementService;
 import org.ahmedukamel.eduai.service.teacher.TeacherManagementService;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,11 @@ public class TeacherManagementController {
             @RequestParam(value = "locked", defaultValue = "true") boolean accountLocked) {
 
         return ResponseEntity.accepted().body(service.setTeacherAccountLock(id, accountLocked));
+    }
+    @PreAuthorize(value = "hasAnyAuthority('ADMIN', 'TEACHER_MANAGER','TEACHER')")
+    @PutMapping(value = "{teacherId}")
+    public ResponseEntity<?> updateTeacher(@Valid @RequestBody UpdateTeacherRequest request) {
+        return ResponseEntity.accepted().body(service.updateTeacher(request));
     }
 
     @GetMapping(value = "{teacherId}")

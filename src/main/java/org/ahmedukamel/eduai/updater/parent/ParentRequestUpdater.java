@@ -59,7 +59,6 @@ public class ParentRequestUpdater
             }
             parent.setUsername(request.username());
         }
-
         if(!parent.getRegion().getId().equals(request.regionId())){
             Region region = DatabaseService.get(regionRepository::findById, request.regionId(), Region.class);
             parent.setRegion(region);

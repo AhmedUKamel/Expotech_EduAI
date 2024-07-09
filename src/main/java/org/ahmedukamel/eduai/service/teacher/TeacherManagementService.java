@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.dto.profile.TeacherProfileResponse;
 import org.ahmedukamel.eduai.dto.teacher.AddTeacherRequest;
+import org.ahmedukamel.eduai.dto.teacher.UpdateTeacherRequest;
 import org.ahmedukamel.eduai.mapper.profile.TeacherProfileResponseMapper;
 import org.ahmedukamel.eduai.model.School;
 import org.ahmedukamel.eduai.model.Teacher;
@@ -33,6 +34,16 @@ public class TeacherManagementService implements ITeacherManagementService {
         TeacherProfileResponse response = teacherProfileResponseMapper.apply(teacher);
 
         String message = "Teacher added successfully.";
+
+        return new ApiResponse(true, message, response);
+    }
+
+    @Override
+    public Object updateTeacher(Object object) {
+        Teacher teacher = ContextHolderUtils.getTeacher();
+        UpdateTeacherRequest request = (UpdateTeacherRequest) object;
+        TeacherProfileResponse response = teacherProfileResponseMapper.apply(teacher);
+        String message = "Teacher updated successfully.";
 
         return new ApiResponse(true, message, response);
     }

@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     boolean existsByPhoneNumber(PhoneNumber phoneNumber);
 
-    Optional<Teacher> findByIdAndSchool_Id(Long aLong, Integer integer);
+    Optional<Teacher> findByIdAndSchool_Id(Long aLong, Integer schoolId);
 
-    Page<Teacher> findAllBySchool_IdAndAccountNonLocked(Integer id, boolean accountNonLocked, Pageable pageable);
+    Page<Teacher> findAllBySchool_IdAndAccountNonLocked(Integer schoolId, boolean accountNonLocked, Pageable pageable);
 }

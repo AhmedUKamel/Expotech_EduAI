@@ -1,16 +1,15 @@
-package org.ahmedukamel.eduai.dto.parent;
+package org.ahmedukamel.eduai.dto.teacher;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.ahmedukamel.eduai.annotation.ExistRegion;
-import org.ahmedukamel.eduai.model.enumeration.Gender;
-import org.ahmedukamel.eduai.model.enumeration.Nationality;
-import org.ahmedukamel.eduai.model.enumeration.Religion;
+import org.ahmedukamel.eduai.model.enumeration.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public record UpdateParentRequest(
+public record UpdateTeacherRequest(
         @NotBlank
         String username,
 
@@ -52,13 +51,15 @@ public record UpdateParentRequest(
         @NotBlank
         String about,
 
-        @NotBlank
-        String occupation_en,
+        @NotNull
+        Qualification qualification,
+        @NotNull
+        LocalDateTime createdDate,
 
-        @NotBlank
-        String occupation_ar,
+        @NotNull
+        LocalDateTime updatedDate,
 
-        @NotBlank
-        String occupation_fr
+        @NotNull
+        Subject subject
 ) {
 }

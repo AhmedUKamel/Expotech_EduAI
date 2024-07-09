@@ -4,11 +4,11 @@ public interface INewsService {
 
     Object addNews(Object object);
 
-    Object updateNews(Long id, Object object);
+    Object updateNews(Integer id, Object object);
 
-    Object deleteNews(Long id);
+    Object deleteNews(Integer id);
 
-    Object getNews(Long id);
+    Object getNews(Integer id);
 
-    Object getAllNews(long pageSize, long pageNumber);
+    Object getAllNews(Integer pageSize, Integer pageNumber);
 }
