@@ -36,4 +36,6 @@ public interface IEnumerationService {
     Object getEmployeeStatuses();
 
     Object getSubjects();
+
+    Object getEmployeeRoles();
 }
