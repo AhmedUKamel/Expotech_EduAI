@@ -113,8 +113,6 @@ public class EventManagementService implements IEventManagementService {
 
     @Override
     public Object removeAttendeeFromEvent(Long eventId, Long attendeeId) {
-        Event event = DatabaseService.get(eventRepository::findById, eventId, Event.class);
-
         eventRepository.deleteAttendeeForEvent(eventId, attendeeId);
 
         Event eventAfterDelete = DatabaseService.get(eventRepository::findById, eventId, Event.class);

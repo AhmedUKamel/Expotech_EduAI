@@ -2,6 +2,7 @@ package org.ahmedukamel.eduai.controller.parent;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import org.ahmedukamel.eduai.dto.exam.UpdateExamRequest;
 import org.ahmedukamel.eduai.dto.parent.AddParentRequest;
 import org.ahmedukamel.eduai.service.parent.IParentManagementService;
 import org.ahmedukamel.eduai.service.parent.ParentManagementService;
@@ -27,6 +28,12 @@ public class ParentManagementController {
 
         return ResponseEntity.created(URI.create("api/v1/management/parent/new"))
                 .body(service.addParent(request));
+    }
+
+    @PutMapping(value = "{parentId}")
+    public ResponseEntity<?> updateExam(@Min(value = 1) @PathVariable(value = "parentId") Long id,
+                                        @Valid @RequestBody UpdateExamRequest request) {
+        return ResponseEntity.accepted().body(service.updateParent(id, request));
     }
 
     @PutMapping(value = "account-lock/{parentId}")

@@ -22,18 +22,27 @@ public class TrainingProgramUpdater implements BiFunction<TrainingProgram,Update
         trainingProgram.setStartDate(request.startDate());
         trainingProgram.setEndDate(request.endDate());
         trainingProgram.setDeleted(request.deleted());
+        trainingProgram.setTargetAudience(request.targetAudience());
+        trainingProgram.setDuration(request.duration());
+        trainingProgram.setSchedule(request.schedule());
+        trainingProgram.setLocation(request.location());
+        trainingProgram.setTrainingStatus(request.trainingStatus());
+        trainingProgram.setCost(request.Cost());
 
         TrainingProgramDetails details_en = TrainingProgramUtils.getTrainingProgramDetails(trainingProgram, Language.ENGLISH);
         details_en.setTitle(request.title_en());
         details_en.setDescription(request.description_en());
+        details_en.setObjectives(request.objective_en());
 
         TrainingProgramDetails details_ar = TrainingProgramUtils.getTrainingProgramDetails(trainingProgram, Language.ARABIC);
         details_ar.setTitle(request.title_ar());
         details_ar.setDescription(request.description_ar());
+        details_ar.setObjectives(request.objective_ar());
 
         TrainingProgramDetails details_fr = TrainingProgramUtils.getTrainingProgramDetails(trainingProgram, Language.FRENCH);
         details_fr.setTitle(request.title_fr());
         details_fr.setDescription(request.description_fr());
+        details_fr.setObjectives(request.objective_fr());
 
         return trainingProgramRepository.save(trainingProgram);
     }

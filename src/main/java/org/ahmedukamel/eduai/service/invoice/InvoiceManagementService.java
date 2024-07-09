@@ -3,10 +3,10 @@ package org.ahmedukamel.eduai.service.invoice;
 import lombok.RequiredArgsConstructor;
 import org.ahmedukamel.eduai.dto.api.ApiResponse;
 import org.ahmedukamel.eduai.dto.invoice.CreateInvoiceRequest;
-import org.ahmedukamel.eduai.dto.invoice.InvoicePublicResponse;
+import org.ahmedukamel.eduai.dto.invoice.SummaryInvoiceResponse;
 import org.ahmedukamel.eduai.dto.invoice.InvoiceResponse;
 import org.ahmedukamel.eduai.dto.invoice.UpdateInvoiceRequest;
-import org.ahmedukamel.eduai.mapper.invoice.InvoicePublicResponseMapper;
+import org.ahmedukamel.eduai.mapper.invoice.SummaryInvoiceResponseMapper;
 import org.ahmedukamel.eduai.mapper.invoice.InvoiceResponseMapper;
 import org.ahmedukamel.eduai.model.Invoice;
 import org.ahmedukamel.eduai.model.School;
@@ -28,7 +28,7 @@ public class InvoiceManagementService implements IInvoiceManagementService {
     private final InvoiceSaver invoiceSaver;
     private final InvoiceUpdater invoiceUpdater;
     private final InvoiceResponseMapper invoiceResponseMapper;
-    private final InvoicePublicResponseMapper invoicePublicResponseMapper;
+    private final SummaryInvoiceResponseMapper summaryInvoiceResponseMapper;
 
 
     @Override
@@ -87,8 +87,8 @@ public class InvoiceManagementService implements IInvoiceManagementService {
         Page<Invoice> invoices = invoiceRepository
                 .findAllBySchoolIdAndDeletedOrderByUpdateDate(school.getId(), !getActive, pageable);
 
-        Page<InvoicePublicResponse> response = invoices
-                .map(invoicePublicResponseMapper);
+        Page<SummaryInvoiceResponse> response = invoices
+                .map(summaryInvoiceResponseMapper);
 
         String status = getActive? "Active":"Deleted";
         String message = status + " Invoices retrieved successfully.";

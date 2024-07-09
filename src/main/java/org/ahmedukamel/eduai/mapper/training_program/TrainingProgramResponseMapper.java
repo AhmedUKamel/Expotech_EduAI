@@ -25,8 +25,17 @@ public class TrainingProgramResponseMapper implements Function<TrainingProgram, 
           details_ar.getDescription(),
           details_en.getDescription(),
           details_fr.getDescription(),
+          details_en.getObjectives(),
+          details_ar.getObjectives(),
+          details_fr.getObjectives(),
           trainingProgram.getStartDate(),
           trainingProgram.getEndDate(),
+          trainingProgram.getTargetAudience(),
+          trainingProgram.getSchedule(),
+          trainingProgram.getDuration(),
+          trainingProgram.getLocation(),
+          trainingProgram.getTrainingStatus(),
+          trainingProgram.getCost(),
           trainingProgram.isDeleted()
         );
     }
